@@ -1,3 +1,21 @@
 page-time-scan-result {
+  .image_centered {
+    display: block;
+    margin: 30px auto 15px auto;
+    width: 35%;
+  }
+  .figcaption {
+    text-align: center;
+    font-size: 2.5rem;
+  }
+  ion-row {
+    margin-left: 10px;
+    margin-top: 20px;
+    font-size: 1.8rem
+  }
 
+  ion-col:first-child {
+    background-color: #f2f2f2;
+    border-bottom: 1px dotted #003300;
+  }
 }
