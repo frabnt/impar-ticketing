@@ -6,6 +6,7 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import {LoginPage} from "../pages/login/login";
+import {ModifyAccessCodePage} from "../pages/modify-access-code/modify-access-code";
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import {LoginPage} from "../pages/login/login";
     ContactPage,
     HomePage,
     TabsPage,
-    LoginPage
+    LoginPage,
+    ModifyAccessCodePage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -26,7 +28,8 @@ import {LoginPage} from "../pages/login/login";
     ContactPage,
     HomePage,
     TabsPage,
-    LoginPage
+    LoginPage,
+    ModifyAccessCodePage
   ],
   providers: []
 })

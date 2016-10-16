@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import {NavController, ModalController} from 'ionic-angular';
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {ModifyAccessCodePage} from "../modify-access-code/modify-access-code";
 
 /*
   Generated class for the Login page.
@@ -18,7 +19,8 @@ export class LoginPage {
   loginForm: FormGroup;
 
   constructor(public navCtrl: NavController,
-              private builder: FormBuilder) {
+              private builder: FormBuilder,
+              private modalCtrl: ModalController) {
     this.accessCodesList = ['ac1', 'ac2', 'ac3'];
     this.loginForm = builder.group({
       'accessCode': ['', Validators.required]
@@ -34,7 +36,11 @@ export class LoginPage {
   }
 
   modifyAccessCode(code: string, index: number) {
-
+    let addModal = this.modalCtrl.create(ModifyAccessCodePage, {code: code});
+    addModal.onDidDismiss( newCode => {
+      this.accessCodesList[index] = newCode;
+    });
+    addModal.present();
   }
 
 }
