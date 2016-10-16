@@ -13,6 +13,8 @@ import { SearchInfoComponent } from "../pages/search-info/search-info";
 import { TimeScanResultPage } from "../pages/time-scan-result/time-scan-result";
 import { TicketScanResultPage } from "../pages/ticket-scan-result/ticket-scan-result";
 import { ManifestScanResultPage } from "../pages/manifest-scan-result/manifest-scan-result";
+import { PopoverMenu } from "../pages/popover-menu/popover-menu";
+import { PopoverComponent } from "../pages/popover-component/popover-component";
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { ManifestScanResultPage } from "../pages/manifest-scan-result/manifest-s
     ManifestScanResultPage,
     LogoComponent,
     LogoutComponent,
-    SearchInfoComponent
+    SearchInfoComponent,
+    PopoverComponent,
+    PopoverMenu
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -45,7 +49,8 @@ import { ManifestScanResultPage } from "../pages/manifest-scan-result/manifest-s
     TimeScanResultPage,
     TicketScanResultPage,
     ManifestScanResultPage,
-    LogoutComponent
+    LogoutComponent,
+    PopoverMenu
   ],
   providers: []
 })
