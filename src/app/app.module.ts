@@ -6,6 +6,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import {LoginPage} from "../pages/login/login";
 import {ModifyAccessCodePage} from "../pages/modify-access-code/modify-access-code";
 import {LogoComponent} from "../pages/logo-component/logo-component";
+import {ScanPage} from "../pages/scan/scan";
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import {LogoComponent} from "../pages/logo-component/logo-component";
     TabsPage,
     LoginPage,
     ModifyAccessCodePage,
+    ScanPage,
     LogoComponent
   ],
   imports: [
@@ -25,6 +27,7 @@ import {LogoComponent} from "../pages/logo-component/logo-component";
     ReportPage,
     TabsPage,
     LoginPage,
+    ScanPage,
     ModifyAccessCodePage
   ],
   providers: []
