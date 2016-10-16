@@ -11,7 +11,7 @@ import { NavController } from 'ionic-angular';
   selector: 'page-login',
   templateUrl: 'login.html'
 })
-export class Login {
+export class LoginPage {
   accessCodesList: string[];
 
   constructor(public navCtrl: NavController) {
