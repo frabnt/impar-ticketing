@@ -7,6 +7,7 @@ import {LoginPage} from "../pages/login/login";
 import {ModifyAccessCodePage} from "../pages/modify-access-code/modify-access-code";
 import {LogoComponent} from "../pages/logo-component/logo-component";
 import {ScanPage} from "../pages/scan/scan";
+import {LogoutComponent} from "../pages/logout-component/logout-component";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {ScanPage} from "../pages/scan/scan";
     LoginPage,
     ModifyAccessCodePage,
     ScanPage,
-    LogoComponent
+    LogoComponent,
+    LogoutComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -28,7 +30,8 @@ import {ScanPage} from "../pages/scan/scan";
     TabsPage,
     LoginPage,
     ScanPage,
-    ModifyAccessCodePage
+    ModifyAccessCodePage,
+    LogoutComponent
   ],
   providers: []
 })

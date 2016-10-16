@@ -9,12 +9,11 @@
   <ion-navbar>
     <logo menuToggle left></logo>
     <ion-title>Modify Access Code</ion-title>
-    <ion-buttons end>
-      <button ion-button clear
-              (click)="close()">
-        <ion-icon class="icon-larger" name="close"></ion-icon>
-      </button>
-    </ion-buttons>
+    <button ion-button clear
+            menuToggle end
+            (click)="close()">
+      <ion-icon class="icon-larger" name="close"></ion-icon>
+    </button>
   </ion-navbar>
 
 </ion-header>

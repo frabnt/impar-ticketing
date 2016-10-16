@@ -23,12 +23,12 @@ $background-color:  #fff;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #a8a8a8,
-  secondary:  #32db64,
-  danger:     #f53d3d,
-  light:      #f4f4f4,
-  dark:       #222,
-  favorite:   #69BB7B,
+  primary:           #a8a8a8,
+  secondary:         #32db64,
+  danger:            #f53d3d,
+  light:             #f4f4f4,
+  dark:                 #222,
+  favorite:          #69BB7B,
   secondary_custom:   #449D44
 );
 
@@ -72,4 +72,6 @@ $colors: (
 $ionicons-font-path: "../assets/fonts";
 @import "ionicons";
 
-$tabs-md-tab-color-active: #449D44;
+$tabs-md-tab-color-active:  #449D44;
+$alert-md-button-text-color:  black;
+$alert-ios-button-text-color: black;
