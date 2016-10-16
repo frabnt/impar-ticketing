@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import {NavController, ModalController} from 'ionic-angular';
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
-import {ModifyAccessCodePage} from "../modify-access-code/modify-access-code";
-import {TabsPage} from "../tabs/tabs";
+import { NavController, ModalController } from 'ionic-angular';
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { ModifyAccessCodePage } from "../modify-access-code/modify-access-code";
+import { HomeTabs } from "../home-tabs/tabs";
 
 /*
   Generated class for the Login page.
@@ -34,7 +34,7 @@ export class LoginPage {
 
   login(accessCode: string) {
     let token = "token";
-    this.navCtrl.setRoot(TabsPage,
+    this.navCtrl.setRoot(HomeTabs,
       {token},
       {animate: true, direction: 'forward'});
   }

@@ -2,18 +2,18 @@ import { NgModule } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { ReportPage } from '../pages/report/report';
-import { TabsPage } from '../pages/tabs/tabs';
-import {LoginPage} from "../pages/login/login";
-import {ModifyAccessCodePage} from "../pages/modify-access-code/modify-access-code";
-import {LogoComponent} from "../pages/logo-component/logo-component";
-import {ScanPage} from "../pages/scan/scan";
-import {LogoutComponent} from "../pages/logout-component/logout-component";
+import { HomeTabs } from '../pages/home-tabs/tabs';
+import { LoginPage } from "../pages/login/login";
+import { ModifyAccessCodePage } from "../pages/modify-access-code/modify-access-code";
+import { LogoComponent } from "../pages/logo-component/logo-component";
+import { ScanPage } from "../pages/scan/scan";
+import { LogoutComponent } from "../pages/logout-component/logout-component";
 
 @NgModule({
   declarations: [
     MyApp,
     ReportPage,
-    TabsPage,
+    HomeTabs,
     LoginPage,
     ModifyAccessCodePage,
     ScanPage,
@@ -27,7 +27,7 @@ import {LogoutComponent} from "../pages/logout-component/logout-component";
   entryComponents: [
     MyApp,
     ReportPage,
-    TabsPage,
+    HomeTabs,
     LoginPage,
     ScanPage,
     ModifyAccessCodePage,
