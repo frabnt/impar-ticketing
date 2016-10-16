@@ -1,0 +1,32 @@
+<!--
+  Generated template for the Login page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>
+      Login
+    </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <p class="paragraph-info">
+    Login using available <span class="italic">access code</span> or try to insert your custom one.
+  </p>
+  <hr>
+  <ion-row *ngFor="let code of accessCodesList; let i=index">
+    <button id="accessCodeBtn" ion-button
+            outline round (click)="login(code)">
+      Access Code {{i+1}}
+    </button>
+    <button ion-button (click)="modifyAccessCode(code, i)">
+      <ion-icon name="settings"></ion-icon>
+    </button>
+  </ion-row>
+</ion-content>
