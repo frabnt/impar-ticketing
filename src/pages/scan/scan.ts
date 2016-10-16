@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {App} from "ionic-angular";
 
 /*
   Generated class for the Scan page.
@@ -13,10 +15,17 @@ import { Component } from '@angular/core';
 export class ScanPage {
   randomCredentials: string[];
   randomTickets: string[];
+  searchForm: FormGroup;
+  searchedDBString: string;
 
-  constructor() {
+  constructor(private builder: FormBuilder,
+              private app: App) {
     this.randomCredentials = ['c1', 'c2'];
     this.randomTickets = ['t1', 't2'];
+
+    this.searchForm = builder.group({
+      'searchedDBString': ['', Validators.required]
+    });
   }
 
   search(dbString: string, type?: string) {

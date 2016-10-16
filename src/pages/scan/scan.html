@@ -15,6 +15,24 @@
 
 
 <ion-content padding>
+  <p class="paragraph-info">
+    Search using available <span class="italic">tickets/credentials</span> or try to input your custom one.
+  </p>
+  <form [formGroup]="searchForm"
+        (ngSubmit)="search(searchedDBString)"
+        novalidate>
+    <ion-item>
+      <ion-label floating>Credential or ticket...</ion-label>
+      <ion-input type="text" formControlName="searchedDBString"
+                 [(ngModel)]="searchedDBString"></ion-input>
+    </ion-item>
+    <button ion-button class='margin-top mx-width-60'
+            outline color='secondary_custom'
+            [disabled]="!searchForm.controls.searchedDBString.valid">
+      Search
+    </button>
+  </form>
+  <hr>
   <ion-row *ngFor = "let credential of randomCredentials; let i=index">
     <button ion-button color='secondary_custom'
             outline round class="mx-width-60"
