@@ -1,17 +1,38 @@
 <ion-header>
   <ion-navbar>
+    <logo menuToggle left></logo>
     <ion-title>Home - Report</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+  <ion-grid id="report-table">
+    <ion-row>
+      <ion-col id="table-header">Report Info</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Total entities</ion-col>
+      <ion-col>120000</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Total manifest</ion-col>
+      <ion-col>{{totalManifest}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Total tickets</ion-col>
+      <ion-col>35500</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Import time</ion-col>
+      <ion-col>3,26 minutes</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Import manifest</ion-col>
+      <ion-col>1 minutes</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Import tickets</ion-col>
+      <ion-col>2,26 minutes</ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
