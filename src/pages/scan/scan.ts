@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
-import {App} from "ionic-angular";
-import {ScanResultPage} from "../scan-result-tabs/scan-result-tabs";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { App } from "ionic-angular";
+import { ScanResultPage } from "../scan-result-tabs/scan-result-tabs";
 
 /*
   Generated class for the Scan page.

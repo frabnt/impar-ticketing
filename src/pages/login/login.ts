@@ -28,10 +28,6 @@ export class LoginPage {
     });
   }
 
-  ionViewDidLoad() {
-    console.log('Hello Login Page');
-  }
-
   login(accessCode: string) {
     let token = "token";
     this.navCtrl.setRoot(HomeTabs,

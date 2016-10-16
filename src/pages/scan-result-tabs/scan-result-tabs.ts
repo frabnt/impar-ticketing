@@ -4,9 +4,9 @@
 import { Component } from '@angular/core';
 
 import { NavParams } from "ionic-angular";
-import { TimeScanResult } from "../time-scan-result/time-scan-result";
-import { ManifestScanResult } from "../manifest-scan-result/manifest-scan-result";
-import { TicketScanResult } from "../ticket-scan-result/ticket-scan-result";
+import { TimeScanResultPage } from "../time-scan-result/time-scan-result";
+import { ManifestScanResultPage } from "../manifest-scan-result/manifest-scan-result";
+import { TicketScanResultPage } from "../ticket-scan-result/ticket-scan-result";
 
 @Component({
   templateUrl: 'scan-result-tabs.html'
@@ -14,9 +14,9 @@ import { TicketScanResult } from "../ticket-scan-result/ticket-scan-result";
 export class ScanResultPage {
   // this tells the tabs component which Pages
   // should be each tab's root Page
-  tab1Root: any = TimeScanResult;
-  tab2Root: any = ManifestScanResult;
-  tab3Root: any = TicketScanResult;
+  tab1Root: any = TimeScanResultPage;
+  tab2Root: any = ManifestScanResultPage;
+  tab3Root: any = TicketScanResultPage;
   dbString: string;
   type: string;
 

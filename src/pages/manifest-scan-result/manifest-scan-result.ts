@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
 
 /*
   Generated class for the ManifestScanResult page.
@@ -11,12 +10,8 @@ import { NavController } from 'ionic-angular';
   selector: 'page-manifest-scan-result',
   templateUrl: 'manifest-scan-result.html'
 })
-export class ManifestScanResult {
+export class ManifestScanResultPage {
 
-  constructor(public navCtrl: NavController) {}
-
-  ionViewDidLoad() {
-    console.log('Hello ManifestScanResult Page');
-  }
+  constructor() { }
 
 }

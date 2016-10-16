@@ -8,7 +8,11 @@ import { ModifyAccessCodePage } from "../pages/modify-access-code/modify-access-
 import { LogoComponent } from "../pages/logo-component/logo-component";
 import { ScanPage } from "../pages/scan/scan";
 import { LogoutComponent } from "../pages/logout-component/logout-component";
-import {ScanResultPage} from "../pages/scan-result-tabs/scan-result-tabs";
+import { ScanResultPage } from "../pages/scan-result-tabs/scan-result-tabs";
+import { SearchInfoComponent } from "../pages/search-info/search-info";
+import { TimeScanResultPage } from "../pages/time-scan-result/time-scan-result";
+import { TicketScanResultPage } from "../pages/ticket-scan-result/ticket-scan-result";
+import { ManifestScanResultPage } from "../pages/manifest-scan-result/manifest-scan-result";
 
 @NgModule({
   declarations: [
@@ -19,8 +23,12 @@ import {ScanResultPage} from "../pages/scan-result-tabs/scan-result-tabs";
     ModifyAccessCodePage,
     ScanPage,
     ScanResultPage,
+    TimeScanResultPage,
+    TicketScanResultPage,
+    ManifestScanResultPage,
     LogoComponent,
-    LogoutComponent
+    LogoutComponent,
+    SearchInfoComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -34,6 +42,9 @@ import {ScanResultPage} from "../pages/scan-result-tabs/scan-result-tabs";
     ScanPage,
     ScanResultPage,
     ModifyAccessCodePage,
+    TimeScanResultPage,
+    TicketScanResultPage,
+    ManifestScanResultPage,
     LogoutComponent
   ],
   providers: []

@@ -11,12 +11,9 @@ import { NavController } from 'ionic-angular';
   selector: 'page-ticket-scan-result',
   templateUrl: 'ticket-scan-result.html'
 })
-export class TicketScanResult {
+export class TicketScanResultPage {
 
-  constructor(public navCtrl: NavController) {}
-
-  ionViewDidLoad() {
-    console.log('Hello TicketScanResult Page');
+  constructor() {
   }
 
 }

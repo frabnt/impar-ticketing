@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {NavController, NavParams, ViewController} from 'ionic-angular';
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import { NavParams, ViewController } from 'ionic-angular';
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 /*
   Generated class for the ModifyAccessCode page.

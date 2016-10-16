@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
 
 /*
   Generated class for the TimeScanResult page.
@@ -11,12 +10,9 @@ import { NavController } from 'ionic-angular';
   selector: 'page-time-scan-result',
   templateUrl: 'time-scan-result.html'
 })
-export class TimeScanResult {
+export class TimeScanResultPage {
 
-  constructor(public navCtrl: NavController) {}
-
-  ionViewDidLoad() {
-    console.log('Hello TimeScanResult Page');
+  constructor() {
   }
 
 }

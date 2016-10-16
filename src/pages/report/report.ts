@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import {NavController, LoadingController} from 'ionic-angular';
+import { LoadingController } from 'ionic-angular';
 
 @Component({
   selector: 'page-report',
