@@ -8,6 +8,7 @@ import { ModifyAccessCodePage } from "../pages/modify-access-code/modify-access-
 import { LogoComponent } from "../pages/logo-component/logo-component";
 import { ScanPage } from "../pages/scan/scan";
 import { LogoutComponent } from "../pages/logout-component/logout-component";
+import {ScanResultPage} from "../pages/scan-result-tabs/scan-result-tabs";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { LogoutComponent } from "../pages/logout-component/logout-component";
     LoginPage,
     ModifyAccessCodePage,
     ScanPage,
+    ScanResultPage,
     LogoComponent,
     LogoutComponent
   ],
@@ -30,6 +32,7 @@ import { LogoutComponent } from "../pages/logout-component/logout-component";
     HomeTabs,
     LoginPage,
     ScanPage,
+    ScanResultPage,
     ModifyAccessCodePage,
     LogoutComponent
   ],
