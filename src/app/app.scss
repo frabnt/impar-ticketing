@@ -14,3 +14,27 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+.paragraph-info {
+  font-size: 1.7rem;
+  padding-left: 10px;
+  padding-right: 5px;
+}
+
+.italic {
+  font-style: italic;
+}
+
+hr {
+  width: 95%;
+  height: 2px;
+}
+
+.mx-width-60 {
+  width: 60%;
+  margin-left: 20%;
+}
+
+.margin-top {
+  margin-top: 10px;
+}
