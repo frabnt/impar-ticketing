@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 /*
   Generated class for the Login page.
@@ -12,10 +13,16 @@ import { NavController } from 'ionic-angular';
   templateUrl: 'login.html'
 })
 export class LoginPage {
+  accessCode: string;
   accessCodesList: string[];
+  loginForm: FormGroup;
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController,
+              private builder: FormBuilder) {
     this.accessCodesList = ['ac1', 'ac2', 'ac3'];
+    this.loginForm = builder.group({
+      'accessCode': ['', Validators.required]
+    });
   }
 
   ionViewDidLoad() {

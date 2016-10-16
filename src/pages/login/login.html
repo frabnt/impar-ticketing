@@ -31,4 +31,19 @@
       <ion-icon name="settings"></ion-icon>
     </button>
   </ion-row>
+
+  <form [formGroup]='loginForm'
+        (ngSubmit)="login(accessCode)" novalidate>
+    <ion-item>
+      <ion-label floating>Access code...</ion-label>
+      <ion-input type='text' formControlName='accessCode'
+                 name='accessCode' [(ngModel)]='accessCode'></ion-input>
+    </ion-item>
+
+    <button ion-button class="mx-width-60 margin-top"
+            outline color='secondary_custom'
+            [disabled]="!loginForm.controls.accessCode.valid">
+      Sign in
+    </button>
+  </form>
 </ion-content>
