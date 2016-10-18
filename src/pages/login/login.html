@@ -18,11 +18,11 @@
 
 <ion-content padding>
   <p class="paragraph-info">
-    Login using stored <span class="italic">access code</span> or try to insert your custom one.
+    Login using stored <span class="italic">access codes</span> or try to insert your custom one.
   </p>
   <hr>
   <ion-row *ngFor="let code of accessCodesList; let i=index">
-    <button id="accessCodeBtn" ion-button
+    <button class="accessCodeBtn" ion-button
             color="secondary_custom" outline
             round (click)="login(code)">
       Access Code {{i+1}}
