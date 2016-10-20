@@ -5,35 +5,51 @@
     <logout menuToggle end></logout>
   </ion-navbar>
 </ion-header>
-
 <ion-content padding>
-  <ion-grid>
-    <ion-row>
-      <ion-col>Report Info</ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>Total entities</ion-col>
-      <ion-col>120000</ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>Total manifest</ion-col>
-      <ion-col>{{totalManifest}}</ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>Total tickets</ion-col>
-      <ion-col>35500</ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>Import time</ion-col>
-      <ion-col>3,26 minutes</ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>Import manifest</ion-col>
-      <ion-col>1 minutes</ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>Import tickets</ion-col>
-      <ion-col>2,26 minutes</ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-card>
+    <ion-card-header>
+      <ion-icon name="stats"></ion-icon>
+      Summary
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row></ion-row>
+        <ion-row>
+          <ion-col>Total entities</ion-col>
+          <ion-col>120000</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Total manifest</ion-col>
+          <ion-col>{{totalManifest}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Total tickets</ion-col>
+          <ion-col>35500</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-icon name="time"></ion-icon>
+      Importing Time
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row></ion-row>
+        <ion-row>
+          <ion-col>Total</ion-col>
+          <ion-col>3,26 minutes</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Manifest</ion-col>
+          <ion-col>1 minutes</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Tickets</ion-col>
+          <ion-col>2,26 minutes</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
