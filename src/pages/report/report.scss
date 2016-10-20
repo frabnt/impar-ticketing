@@ -10,14 +10,13 @@ page-report {
     background-color: #f2f2f2;
   }
 
-  ion-row:not(:first-child) ion-col:first-child{
+  ion-row ion-col:first-child{
     color: #006600;
     border-bottom: 1px dotted #003300;
   }
 
-  ion-row:first-child ion-col {
-    font-size: 2rem;
-    font-style: italic;
-    border-bottom: 1px solid #bdbdbd;
+  ion-row:first-child {
+    border-top: 1px solid grey;
   }
+
 }
