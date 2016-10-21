@@ -11,7 +11,7 @@
     <ion-title>Modify Access Code</ion-title>
     <button ion-button clear
             menuToggle end
-            (click)="close()">
+            (click)="exit()">
       <ion-icon class="icon-larger" name="close"></ion-icon>
     </button>
   </ion-navbar>
@@ -20,18 +20,47 @@
 
 
 <ion-content padding>
-  <form [formGroup]='accessCodeForm'
-        (ngSubmit)="submit()" novalidate>
+  <ion-list>
+
+    <ion-item-divider>
+      <ion-icon name="add">
+        ADD CODE
+      </ion-icon>
+    </ion-item-divider>
+
     <ion-item>
-      <ion-label floating>Access code...</ion-label>
-      <ion-input type='text' formControlName='accessCode'
-                 name='accessCode' [(ngModel)]='accessCode'></ion-input>
+      <ion-input type="text" #newCode placeholder="Access code..."></ion-input>
+      <button ion-button clear
+              item-right (click)="addCode(newCode.value)">
+        <ion-icon name="add-circle" class="x-larger-icon"
+                  color="secondary_custom"></ion-icon>
+      </button>
     </ion-item>
 
-    <button ion-button class="mx-width-60 margin-top"
-            outline color='secondary_custom'
-            [disabled]="!accessCodeForm.controls.accessCode.valid">
-      Save
-    </button>
-  </form>
+    <ion-item-divider>
+      <ion-icon name="list">
+        CODES LIST
+      </ion-icon>
+    </ion-item-divider>
+
+    <ion-item *ngFor="let number of numbers">
+      <ion-label>#{{number}}</ion-label>
+      <ion-input type="text" placeholder="Empty..."
+                 [value]="codeList[number]"
+                 (input)="updateState($event, number)"></ion-input>
+      <button ion-button clear item-right (click)="deleteCode(i)" >
+        <ion-icon name="remove-circle"
+                  class="x-larger-icon"
+                  color="danger"></ion-icon>
+      </button>
+    </ion-item>
+
+  </ion-list>
+
+  <button ion-button class="mx-width-60 margin-top"
+          outline color='secondary_custom'
+          [disabled]="!listModified || alreadySaved"
+          (click)="save()">
+    Save
+  </button>
 </ion-content>

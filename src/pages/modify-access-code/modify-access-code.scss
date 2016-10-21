@@ -1,3 +1,29 @@
 page-modify-access-code {
+  ion-item-divider {
+    background: rgba(255,255,255,1);
+    background: -moz-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 76%, rgba(237,237,237,1) 100%);
+    background: -webkit-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 76%, rgba(237,237,237,1) 100%);
+    background: -o-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 76%, rgba(237,237,237,1) 100%);
+    background: -ms-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 76%, rgba(237,237,237,1) 100%);
+    background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 76%, rgba(237,237,237,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=1 );
+    background-color: #F8F8F8;
+    color: black !important;
+  }
 
+  ion-item-divider:first-child {
+    margin-top: 10px;
+  }
+
+  ion-item-divider:not(:first-child) {
+    margin-top: 30px;
+  }
+
+  .x-larger-icon {
+    font-size: 2.8rem;
+  }
+
+  .x-larger-icon:active {
+    opacity: 0.5;
+  }
 }

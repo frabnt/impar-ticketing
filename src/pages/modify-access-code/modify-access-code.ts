@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, ViewController } from 'ionic-angular';
+import {NavParams, ViewController, AlertController} from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 /*
@@ -13,24 +13,103 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
   templateUrl: 'modify-access-code.html'
 })
 export class ModifyAccessCodePage {
-  accessCode: string;
-  accessCodeForm: FormGroup;
+  codeList: string[];
+  numbers: number[];
+  listModified: boolean;
+  alreadySaved: boolean;
 
   constructor(private navParams: NavParams,
-              private builder: FormBuilder,
-              private view: ViewController) {
-    this.accessCode = this.navParams.get('code');
-    this.accessCodeForm = builder.group({
-      'accessCode': ['', Validators.required]
-    });
+              private view: ViewController,
+              private alertCtrl: AlertController) {
+    this.codeList = this.navParams.get('codeList').slice(0);
+    this.numbers = Array.from(
+      Array(this.codeList.length),
+      (x,i) => i );
   }
 
-  close() {
-    this.view.dismiss();
+  save() {
+    this.alreadySaved = true;
   }
 
-  submit() {
-    this.view.dismiss(this.accessCode);
+  showSavingConfirmation() {
+    this.alertCtrl.create({
+      title: 'Save',
+      message: "Do you want to save?",
+      buttons: [
+        {
+          text: 'Save',
+          handler: () => {
+            this.save();
+            this.view.dismiss(this.codeList);
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            this.view.dismiss();
+          }
+        }
+      ]
+    }).present();
+  }
+
+  showEmptyFieldMessage() {
+    this.alertCtrl.create({
+      title: 'Error',
+      message: "Input field cannot be empty",
+      buttons: [
+        {
+          text: 'Got it!'
+        }
+      ]
+    }).present();
+  }
+
+  exit() {
+    if(this.alreadySaved) {
+      this.view.dismiss(this.codeList);
+    }
+    else if(this.listModified) {
+      this.showSavingConfirmation();
+    }
+    else {
+      this.view.dismiss();
+    }
+
+  }
+
+  updateState(event, i) {
+    this.codeList[i] = event.target.value;
+    this.setModified();
+    this.resetAlreadySaved();
+  }
+
+  setModified() {
+    if(!this.listModified)
+      this.listModified = true;
+  }
+
+  resetAlreadySaved() {
+    if(this.alreadySaved)
+      this.alreadySaved = false;
+  }
+
+  deleteCode(index) {
+    this.codeList.splice(index,1);
+    this.numbers.pop();
+    this.setModified();
+    this.resetAlreadySaved();
+  }
+
+  addCode(newCode) {
+    if(newCode) {
+      this.codeList.push(newCode);
+      this.numbers.push(this.numbers.length);
+      this.setModified();
+      this.resetAlreadySaved();
+      return;
+    }
+    this.showEmptyFieldMessage();
   }
 
 }
