@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { Slides } from "ionic-angular";
 
 /*
   Generated class for the TicketScanResult page.
@@ -11,8 +12,17 @@ import { Component } from '@angular/core';
   templateUrl: 'ticket-scan-result.html'
 })
 export class TicketScanResultPage {
+  @ViewChild('mySlider') slider: Slides;
 
   constructor() {
+  }
+
+  nextSlide() {
+    this.slider.slideNext(500);
+  }
+
+  prevSlide() {
+    this.slider.slidePrev(500);
   }
 
 }

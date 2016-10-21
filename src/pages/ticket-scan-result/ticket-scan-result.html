@@ -17,4 +17,72 @@
 
 <ion-content padding>
   <search-info></search-info>
+  <ion-slides #mySlider pager>
+    <ion-slide>
+      <ion-grid class="table">
+        <ion-row>
+          <ion-col>Activated</ion-col>
+          <ion-col>12/04/2016</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Credential type</ion-col>
+          <ion-col>Parking</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Deactivated</ion-col>
+          <ion-col>3/05/2016</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Deactivated reson</ion-col>
+          <ion-col>Whatever reason related to manifest deactivation</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Deleted</ion-col>
+          <ion-col>3/05/2016</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Modified</ion-col>
+          <ion-col>3/05/2016</ion-col>
+        </ion-row>
+        <ion-row class="navigationRow">
+          <button ion-button clear (click)="nextSlide()">
+            <ion-icon name="arrow-forward"></ion-icon>
+          </button>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+    <ion-slide>
+      <ion-grid class="table">
+        <ion-row>
+          <ion-col>One day</ion-col>
+          <ion-col>true</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Scan status</ion-col>
+          <ion-col>0</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Tokens granted</ion-col>
+          <ion-col>-1</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Token used</ion-col>
+          <ion-col>0</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Transaction type</ion-col>
+          <ion-col>Ticket</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Voided</ion-col>
+          <ion-col>3/05/2016</ion-col>
+        </ion-row>
+        <ion-row class="navigationRow">
+          <button ion-button clear (click)="prevSlide()">
+            <ion-icon name="arrow-back"></ion-icon>
+          </button>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+  </ion-slides>
 </ion-content>
