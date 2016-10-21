@@ -22,7 +22,7 @@ export class LoginPage {
   constructor(public navCtrl: NavController,
               private builder: FormBuilder,
               private modalCtrl: ModalController) {
-    this.accessCodesList = ['ac1', 'ac2', 'ac3'];
+    this.accessCodesList = [];
     this.loginForm = builder.group({
       'accessCode': ['', Validators.required]
     });
@@ -35,10 +35,12 @@ export class LoginPage {
       {animate: true, direction: 'forward'});
   }
 
-  modifyAccessCode(code: string, index: number) {
-    let addModal = this.modalCtrl.create(ModifyAccessCodePage, {code: code});
-    addModal.onDidDismiss( newCode => {
-      this.accessCodesList[index] = newCode;
+  manageAccessCodes() {
+    let addModal = this.modalCtrl.create(ModifyAccessCodePage, {codeList: this.accessCodesList});
+    addModal.onDidDismiss( (codeList?) => {
+      if(codeList) {
+        this.accessCodesList = codeList;
+      }
     });
     addModal.present();
   }
