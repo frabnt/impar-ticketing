@@ -12,7 +12,8 @@ import { PopoverMenu } from "../popover-menu/popover-menu";
               (click)="presentPopover($event)">
         <ion-icon name="more" class="larger-icon"></ion-icon>
       </button>
-    `
+    `,
+  styles: ["ion-icon {color: #424242}"]
 })
 export class PopoverComponent {
 
