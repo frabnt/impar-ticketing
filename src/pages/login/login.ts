@@ -32,7 +32,9 @@ export class LoginPage implements OnInit {
 
   ngOnInit(): void {
     this.settingsService.getAccessCodesList().then(list => {
-      this.accessCodesList = list;
+      if(list) {
+        this.accessCodesList = list;
+      }
     });
   }
 
