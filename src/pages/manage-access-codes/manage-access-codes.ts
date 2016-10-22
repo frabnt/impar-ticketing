@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {NavParams, ViewController, AlertController} from 'ionic-angular';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import {SettingsService} from "../../providers/settings-service";
 
 /*
