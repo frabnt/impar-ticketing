@@ -30,10 +30,13 @@
       Search
     </button>
   </form>
+
   <hr>
+
   <p>
     Search using available <span class="italic">credentials</span>
   </p>
+
   <ion-row *ngFor = "let credential of randomCredentials; let i=index">
     <button ion-button color='secondary_custom'
             outline round class="mx-width-60"
@@ -41,10 +44,13 @@
       Credential {{i+1}}
     </button>
   </ion-row>
+
   <hr>
+
   <p>
     Search using available <span class="italic">tickets</span>
   </p>
+
   <ion-row *ngFor = "let ticket of randomTickets; let i=index">
     <button ion-button color='secondary_custom'
             round class="mx-width-60"
