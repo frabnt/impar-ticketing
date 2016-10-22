@@ -15,7 +15,8 @@ import { TicketScanResultPage } from "../pages/ticket-scan-result/ticket-scan-re
 import { ManifestScanResultPage } from "../pages/manifest-scan-result/manifest-scan-result";
 import { PopoverMenu } from "../pages/popover-menu/popover-menu";
 import { PopoverComponent } from "../pages/pages-components/popover-component/popover-component";
-import {RegistrantScanResultPage} from "../pages/registrant-scan-result/registrant-scan-result";
+import { RegistrantScanResultPage } from "../pages/registrant-scan-result/registrant-scan-result";
+import { SettingsService } from "../providers/settings-service";
 
 @NgModule({
   declarations: [
@@ -55,6 +56,6 @@ import {RegistrantScanResultPage} from "../pages/registrant-scan-result/registra
     LogoutComponent,
     PopoverMenu
   ],
-  providers: []
+  providers: [SettingsService]
 })
 export class AppModule {}
