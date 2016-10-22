@@ -3,7 +3,7 @@
  */
 import { Component } from '@angular/core';
 import { App, AlertController } from "ionic-angular";
-import { LoginPage } from "../login/login";
+import { LoginPage } from "../../login/login";
 
 @Component({
   selector: 'logout',

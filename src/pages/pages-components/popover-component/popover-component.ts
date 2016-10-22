@@ -3,7 +3,7 @@
  */
 import { Component } from '@angular/core';
 import { PopoverController } from "ionic-angular";
-import { PopoverMenu } from "../popover-menu/popover-menu";
+import { PopoverMenu } from "../../popover-menu/popover-menu";
 
 @Component({
   selector: 'popover',
