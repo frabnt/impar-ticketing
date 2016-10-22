@@ -4,7 +4,7 @@ import { MyApp } from './app.component';
 import { ReportPage } from '../pages/report/report';
 import { HomeTabs } from '../pages/home-tabs/tabs';
 import { LoginPage } from "../pages/login/login";
-import { ModifyAccessCodePage } from "../pages/modify-access-code/modify-access-code";
+import { ModifyAccessCodePage } from "../pages/manage-access-codes/manage-access-codes";
 import { LogoComponent } from "../pages/pages-components/logo-component/logo-component";
 import { ScanPage } from "../pages/scan/scan";
 import { LogoutComponent } from "../pages/pages-components/logout-component/logout-component";

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { ModifyAccessCodePage } from "../modify-access-code/modify-access-code";
+import { ModifyAccessCodePage } from "../manage-access-codes/manage-access-codes";
 import { HomeTabs } from "../home-tabs/tabs";
 import {SettingsService} from "../../providers/settings-service";
 

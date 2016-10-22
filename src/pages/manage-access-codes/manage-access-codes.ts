@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {NavParams, ViewController, AlertController} from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import {SettingsService} from "../../providers/settings-service";
 
 /*
   Generated class for the ModifyAccessCode page.
@@ -9,8 +10,8 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
   Ionic pages and navigation.
 */
 @Component({
-  selector: 'page-modify-access-code',
-  templateUrl: 'modify-access-code.html'
+  selector: 'page-manage-access-code',
+  templateUrl: 'manage-access-codes.html'
 })
 export class ModifyAccessCodePage {
   codeList: string[];
@@ -20,7 +21,8 @@ export class ModifyAccessCodePage {
 
   constructor(private navParams: NavParams,
               private view: ViewController,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private settingsService: SettingsService) {
     this.codeList = this.navParams.get('codeList').slice(0);
     this.numbers = Array.from(
       Array(this.codeList.length),
@@ -28,7 +30,10 @@ export class ModifyAccessCodePage {
   }
 
   save() {
-    this.alreadySaved = true;
+    return this.settingsService.setAccessCodesList(this.codeList)
+      .then(() => {
+        this.alreadySaved = true;
+      });
   }
 
   showSavingConfirmation() {
@@ -39,8 +44,9 @@ export class ModifyAccessCodePage {
         {
           text: 'Save',
           handler: () => {
-            this.save();
-            this.view.dismiss(this.codeList);
+            this.save().then(() => {
+              this.view.dismiss(this.codeList);
+            });
           }
         },
         {
