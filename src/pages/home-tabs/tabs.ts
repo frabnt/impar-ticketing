@@ -12,7 +12,8 @@ export class HomeTabs {
   tab1Root: any = ReportPage;
   tab2Root: any = ScanPage;
 
-  constructor() {
-
-  }
+  /**
+   * @constructor
+   */
+  constructor() { }
 }

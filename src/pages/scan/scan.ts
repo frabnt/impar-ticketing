@@ -19,6 +19,11 @@ export class ScanPage {
   searchForm: FormGroup;
   searchedDBString: string;
 
+  /**
+   * @constructor
+   * @param builder
+   * @param app
+   */
   constructor(private builder: FormBuilder,
               private app: App) {
     this.randomCredentials = ['c1', 'c2'];
@@ -29,6 +34,12 @@ export class ScanPage {
     });
   }
 
+  /**
+   * Search for credential or ticket in the database
+   * and redirect to scan result page
+   * @param dbString
+   * @param type
+   */
   search(dbString: string, type?: string) {
     this.app.getRootNav().push(
       ScanResultPage,

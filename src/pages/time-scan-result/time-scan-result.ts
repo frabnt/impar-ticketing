@@ -12,7 +12,9 @@ import { Component } from '@angular/core';
 })
 export class TimeScanResultPage {
 
-  constructor() {
-  }
+  /**
+   * @constructor
+   */
+  constructor() { }
 
 }

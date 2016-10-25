@@ -11,15 +11,28 @@ import { LoginPage } from "../login/login";
 })
 export class PopoverMenu {
 
+  /**
+   * @constructor
+   * @param view
+   * @param app
+   * @param alertCtrl
+   */
   constructor(private view: ViewController,
               private app: App,
-              private alertCtrl: AlertController) {}
+              private alertCtrl: AlertController) { }
 
+  /**
+   * Redirect to home page
+   */
   goHome() {
     this.view.dismiss();
     this.app.getRootNav().pop();
   }
 
+  /**
+   * Show a confirmation alert and accomplish or not the
+   * logout using authentication service basing on user choice
+   */
   logout() {
     this.alertCtrl.create({
       title: 'Logout',

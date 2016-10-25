@@ -7,7 +7,7 @@ import { NavParams } from "ionic-angular";
 import { TimeScanResultPage } from "../time-scan-result/time-scan-result";
 import { ManifestScanResultPage } from "../manifest-scan-result/manifest-scan-result";
 import { TicketScanResultPage } from "../ticket-scan-result/ticket-scan-result";
-import {RegistrantScanResultPage} from "../registrant-scan-result/registrant-scan-result";
+import { RegistrantScanResultPage } from "../registrant-scan-result/registrant-scan-result";
 
 @Component({
   templateUrl: 'scan-result-tabs.html'
@@ -22,6 +22,10 @@ export class ScanResultPage {
   dbString: string;
   type: string;
 
+  /**
+   * @constructor
+   * @param navParams
+   */
   constructor(private navParams: NavParams) {
     this.dbString = this.navParams.get('dbString');
     this.type = this.navParams.get('type');

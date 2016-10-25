@@ -14,13 +14,21 @@ import { Slides } from "ionic-angular";
 export class TicketScanResultPage {
   @ViewChild('mySlider') slider: Slides;
 
-  constructor() {
-  }
+  /**
+   * @constructor
+   */
+  constructor() {}
 
+  /**
+   * Navigate to next slide of slider component
+   */
   nextSlide() {
     this.slider.slideNext(500);
   }
 
+  /**
+   * Navigate to previous slide of slider component
+   */
   prevSlide() {
     this.slider.slidePrev(500);
   }

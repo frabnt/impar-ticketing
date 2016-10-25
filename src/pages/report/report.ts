@@ -9,6 +9,10 @@ import { LoadingController } from 'ionic-angular';
 export class ReportPage {
   totalManifest: number;
 
+  /**
+   * @constructor
+   * @param loadingCtrl
+   */
   constructor(private loadingCtrl: LoadingController) {
     this.totalManifest = 85000;
 

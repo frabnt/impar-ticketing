@@ -17,8 +17,15 @@ import { PopoverMenu } from "../../popover-menu/popover-menu";
 })
 export class PopoverComponent {
 
+  /**
+   * @constructor
+   * @param popoverCtrl
+   */
   constructor(private popoverCtrl: PopoverController) { }
 
+  /**
+   * Create and present popover menu
+   */
   presentPopover() {
     this.popoverCtrl.create(PopoverMenu).present({ev: event});
   }

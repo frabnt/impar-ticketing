@@ -3,7 +3,7 @@ import { NavController, ModalController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ModifyAccessCodePage } from "../manage-access-codes/manage-access-codes";
 import { HomeTabs } from "../home-tabs/tabs";
-import {SettingsService} from "../../providers/settings-service";
+import { SettingsService } from "../../providers/settings-service";
 
 /*
   Generated class for the Login page.
@@ -17,9 +17,16 @@ import {SettingsService} from "../../providers/settings-service";
 })
 export class LoginPage implements OnInit {
   accessCode: string;
-  accessCodesList: string[];
-  loginForm: FormGroup;
+  accessCodesList: string[]; //store access codes list
+  loginForm: FormGroup; //used to manage login form
 
+  /**
+   * @constructor
+   * @param navCtrl
+   * @param builder
+   * @param modalCtrl
+   * @param localSettings
+   */
   constructor(public navCtrl: NavController,
               private builder: FormBuilder,
               private modalCtrl: ModalController,
@@ -30,6 +37,10 @@ export class LoginPage implements OnInit {
     });
   }
 
+  /**
+   * Retrieve stored access codes and assign them
+   * to access code list variable
+   */
   ngOnInit(): void {
     this.settingsService.getAccessCodesList().then(list => {
       if(list) {
@@ -38,13 +49,22 @@ export class LoginPage implements OnInit {
     });
   }
 
+  /**
+   * Accomplish login using authentication service
+   * @param accessCode {string} - value used for authentication
+   */
   login(accessCode: string) {
     let token = "token";
-    this.navCtrl.setRoot(HomeTabs,
+    this.navCtrl.setRoot( //here we navigate to home page once login is successfully done
+      HomeTabs,
       {token},
-      {animate: true, direction: 'forward'});
+      {animate: true, direction: 'forward'}
+    );
   }
 
+  /**
+   * Open a modal window to manage stored access codes
+   */
   manageAccessCodes() {
     let addModal = this.modalCtrl.create(ModifyAccessCodePage, {codeList: this.accessCodesList});
     addModal.onDidDismiss( (codeList?) => {

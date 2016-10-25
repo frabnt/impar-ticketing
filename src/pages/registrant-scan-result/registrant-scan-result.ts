@@ -13,6 +13,10 @@ import { NavController } from 'ionic-angular';
 })
 export class RegistrantScanResultPage {
 
-  constructor(public navCtrl: NavController) {}
+  /**
+   * @constructor
+   * @param navCtrl
+   */
+  constructor(public navCtrl: NavController) { }
 
 }

@@ -15,8 +15,19 @@ import { LoginPage } from "../../login/login";
   styles: ["ion-icon {color: #424242}"]
 })
 export class LogoutComponent {
-  constructor(private app: App, private alertCtrl: AlertController){}
 
+  /**
+   * @constructor
+   * @param app
+   * @param alertCtrl
+   */
+  constructor(private app: App,
+              private alertCtrl: AlertController){ }
+
+  /**
+   * Show a confirmation alert and accomplish or not the
+   * logout using authentication service basing on user choice
+   */
   logout() {
     this.alertCtrl.create({
       title: 'Logout',

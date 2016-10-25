@@ -19,6 +19,10 @@ import { NavParams } from "ionic-angular";
 export class SearchInfoComponent {
   searchedDBString: string;
 
+  /**
+   * @constructor
+   * @param navParams
+   */
   constructor(private navParams: NavParams) {
     this.searchedDBString = this.navParams.get('dbString');
   }
