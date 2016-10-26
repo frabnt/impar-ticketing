@@ -73,22 +73,6 @@ export class ModifyAccessCodePage {
   }
 
   /**
-   * Show an error mesage if the user is trying to add
-   * an empty access code
-   */
-  showEmptyFieldMessage() {
-    this.alertCtrl.create({
-      title: 'Error',
-      message: "Input field cannot be empty",
-      buttons: [
-        {
-          text: 'Got it!'
-        }
-      ]
-    }).present();
-  }
-
-  /**
    * Exit from modal window
    */
   exit() {
@@ -149,14 +133,10 @@ export class ModifyAccessCodePage {
    * @param newCode {string} - code to be added
    */
   addCode(newCode: string) {
-    if(newCode) {
-      this.codeList.push(newCode);
-      this.numbers.push(this.numbers.length);
-      this.setModified();
-      this.resetAlreadySaved();
-      return;
-    }
-    this.showEmptyFieldMessage();
+    this.codeList.push(newCode);
+    this.numbers.push(this.numbers.length);
+    this.setModified();
+    this.resetAlreadySaved();
   }
 
 }
