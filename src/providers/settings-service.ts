@@ -8,8 +8,8 @@ import localforage from 'localforage';
   See https://angular.io/docs/ts/latest/guide/dependency-injection.html
   for more info on providers and Angular 2 DI.
 */
-const DB_NAME: string = 'ImParApp';
-const STORE_NAME: string = 'local_settings';
+const DB_NAME: string = '_ionicstorage';
+const STORE_NAME: string = '_ionickv';
 const ACCESS_CODES_KEY: string = 'access_codes';
 
 @Injectable()

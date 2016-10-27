@@ -18,11 +18,14 @@ export class ReportPage {
 
     let loading = this.loadingCtrl.create({
       spinner: 'bubbles',
-      content: 'Waiting for login...',
-      duration: 3000
+      content: 'Waiting for login...'
     });
 
     loading.present();
+
+    setTimeout(()=>{
+      loading.dismiss();
+    }, 2000);
   }
 
 }
