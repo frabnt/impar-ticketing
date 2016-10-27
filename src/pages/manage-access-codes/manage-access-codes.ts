@@ -32,7 +32,8 @@ export class ModifyAccessCodePage {
     this.codeList = this.navParams.get('codeList').slice(0); //assign to codeList a copy of access codes list (that's why is used slice)
     this.numbers = Array.from( //store as many integers (0,1,2,..,codeList.length-1) as the length of codeList
       Array(this.codeList.length),
-      (x,i) => i );
+      (x,i) => i
+    );
   }
 
   /**
@@ -41,9 +42,9 @@ export class ModifyAccessCodePage {
    */
   save() {
     return this.settingsService.setAccessCodesList(this.codeList)
-      .then(() => {
-        this.alreadySaved = true;
-      });
+            .then(() => {
+              this.alreadySaved = true;
+            });
   }
 
   /**

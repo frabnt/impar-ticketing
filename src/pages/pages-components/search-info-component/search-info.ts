@@ -6,7 +6,8 @@ import { NavParams } from "ionic-angular";
 
 @Component({
   selector: 'search-info',
-  template: `
+  template:
+    `
       <ion-row>
         <ion-col >
           Searched string

@@ -7,12 +7,13 @@ import { LoginPage } from "../../login/login";
 
 @Component({
   selector: 'logout',
-  template: `
-    <button ion-button clear (click)="logout()">
-      <ion-icon name="log-out" class="larger-icon"></ion-icon>
-    </button>
+  template:
+    `
+      <button ion-button clear (click)="logout()">
+        <ion-icon name="log-out" class="larger-icon"></ion-icon>
+      </button>
     `,
-  styles: ["ion-icon {color: #424242}"]
+  styles: ['ion-icon {color: #424242}']
 })
 export class LogoutComponent {
 

@@ -7,7 +7,8 @@ import { PopoverMenu } from "../../popover-menu/popover-menu";
 
 @Component({
   selector: 'popover',
-  template: `
+  template:
+    `
       <button ion-button clear
               (click)="presentPopover($event)">
         <ion-icon name="more" class="larger-icon"></ion-icon>
