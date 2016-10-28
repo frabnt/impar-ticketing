@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, ModalController } from 'ionic-angular';
+import { NavController, ModalController, LoadingController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ModifyAccessCodePage } from "../manage-access-codes/manage-access-codes";
 import { HomeTabs } from "../home-tabs/tabs";
@@ -30,7 +30,8 @@ export class LoginPage implements OnInit {
   constructor(public navCtrl: NavController,
               private builder: FormBuilder,
               private modalCtrl: ModalController,
-              private settingsService: SettingsService) {
+              private settingsService: SettingsService,
+              private loadingCtrl: LoadingController) {
     this.accessCodesList = [];
     this.loginForm = builder.group({
       'accessCode': ['', Validators.required]
@@ -55,14 +56,24 @@ export class LoginPage implements OnInit {
    */
   login(accessCode: string) {
     let token = "token";
-    this.settingsService.setLogged()
-      .then(() => {
-        this.navCtrl.setRoot( //here we navigate to home page once login is successfully done
-          HomeTabs,
-          {token},
-          {animate: true, direction: 'forward'}
-        );
-      });
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Waiting for login...'
+    });
+
+    loading.present();
+
+    setTimeout(()=>{
+      this.settingsService.setLogged()
+        .then(() => {
+          loading.dismiss();
+          this.navCtrl.setRoot( //here we navigate to home page once login is successfully done
+            HomeTabs,
+            {token},
+            {animate: true, direction: 'forward'}
+          );
+        });
+    }, 2000);
   }
 
   /**

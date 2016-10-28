@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 
-import { LoadingController } from 'ionic-angular';
-
 @Component({
   selector: 'page-report',
   templateUrl: 'report.html'
@@ -13,19 +11,8 @@ export class ReportPage {
    * @constructor
    * @param loadingCtrl
    */
-  constructor(private loadingCtrl: LoadingController) {
+  constructor() {
     this.totalManifest = 85000;
-
-    let loading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: 'Waiting for login...'
-    });
-
-    loading.present();
-
-    setTimeout(()=>{
-      loading.dismiss();
-    }, 2000);
   }
 
 }
