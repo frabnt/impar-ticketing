@@ -53,6 +53,30 @@ export class SettingsService {
   }
 
   /**
+   * Set logged to true in the storage when user is logged in
+   * @returns {Promise<boolean>}
+   */
+  setLogged(): Promise<any> {
+    return localforage.setItem('logged', true);
+  }
+
+  /**
+   * Set logged in the storage when user decide to log out
+   * @returns {Promise<boolean>}
+   */
+  resetLogged(): Promise<any> {
+    return localforage.setItem('logged', false);
+  }
+
+  /**
+   * Give back user's current state (logged in or not)
+   * @returns {Promise<T>}
+   */
+  getLogged(): Promise<any> {
+    return localforage.getItem('logged');
+  }
+
+  /**
    * Clear the storage
    * @returns {Promise<void>}
    */

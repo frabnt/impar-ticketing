@@ -55,11 +55,14 @@ export class LoginPage implements OnInit {
    */
   login(accessCode: string) {
     let token = "token";
-    this.navCtrl.setRoot( //here we navigate to home page once login is successfully done
-      HomeTabs,
-      {token},
-      {animate: true, direction: 'forward'}
-    );
+    this.settingsService.setLogged()
+      .then(() => {
+        this.navCtrl.setRoot( //here we navigate to home page once login is successfully done
+          HomeTabs,
+          {token},
+          {animate: true, direction: 'forward'}
+        );
+      });
   }
 
   /**

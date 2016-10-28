@@ -4,6 +4,7 @@
 import { Component } from '@angular/core';
 import { App, AlertController } from "ionic-angular";
 import { LoginPage } from "../../login/login";
+import { SettingsService } from "../../../providers/settings-service";
 
 @Component({
   selector: 'logout',
@@ -23,7 +24,8 @@ export class LogoutComponent {
    * @param alertCtrl
    */
   constructor(private app: App,
-              private alertCtrl: AlertController){ }
+              private alertCtrl: AlertController,
+              private settingsService: SettingsService){ }
 
   /**
    * Show a confirmation alert and accomplish or not the
@@ -40,8 +42,11 @@ export class LogoutComponent {
         {
           text: 'Yes',
           handler: () => {
-            this.app.getRootNav().setRoot(LoginPage, {},
-              {animate: true, direction: 'forward'});
+            this.settingsService.resetLogged()
+              .then(() => {
+                this.app.getRootNav().setRoot(LoginPage, {},
+                  {animate: true, direction: 'forward'});
+              });
           }
         }
       ]

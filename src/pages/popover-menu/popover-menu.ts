@@ -4,6 +4,7 @@
 import { Component } from '@angular/core';
 import { ViewController, App, AlertController } from 'ionic-angular';
 import { LoginPage } from "../login/login";
+import { SettingsService } from "../../providers/settings-service";
 
 @Component({
   selector: 'page-popover-menu',
@@ -19,7 +20,8 @@ export class PopoverMenu {
    */
   constructor(private view: ViewController,
               private app: App,
-              private alertCtrl: AlertController) { }
+              private alertCtrl: AlertController,
+              private settingsService: SettingsService) { }
 
   /**
    * Redirect to home page
@@ -44,8 +46,11 @@ export class PopoverMenu {
         {
           text: 'Yes',
           handler: () => {
-            this.app.getRootNav().setRoot(LoginPage, {},
-              {animate: true, direction: 'forward'});
+            this.settingsService.resetLogged()
+              .then(() => {
+                this.app.getRootNav().setRoot(LoginPage, {},
+                  {animate: true, direction: 'forward'});
+              });
           }
         }
       ]
