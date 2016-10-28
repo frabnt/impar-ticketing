@@ -8,10 +8,16 @@ import { Component } from '@angular/core';
   template:
     `
       <ion-buttons>
-        <img src="assets/images/logo-min.png" class="logo"/>
+        <img src="assets/images/vendini_logo.png" class="logo"/>
       </ion-buttons>
     `,
-  styles: ['img{ margin-left: 15px }']
+  styles:
+    [`
+      img { 
+        margin-left: 15px; 
+        width: 50px; 
+        }
+    `]
 })
 export class LogoComponent {
 
