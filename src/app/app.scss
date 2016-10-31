@@ -14,6 +14,19 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+@font-face {
+  font-family: "Jura";
+  src: url('../assets/fonts/Jura/Jura-Regular.eot'); /* IE9 Compat Modes */
+  src: url('../assets/fonts/Jura/Jura-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../assets/fonts/Jura/Jura-Regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../assets/fonts/Jura/Jura-Regular.woff') format('woff'), /* Pretty Modern Browsers */
+       url('../assets/fonts/Jura/Jura-Regular.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('../assets/fonts/Jura/Jura-Regular.svg') format('svg'); /* Legacy iOS */
+  font-weight: normal;
+  font-style: normal;
+}
+
 .button:active {
   opacity: 0.5;
 }
