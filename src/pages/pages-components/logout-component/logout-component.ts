@@ -2,9 +2,10 @@
  * Created by francesco on 16/10/2016.
  */
 import { Component } from '@angular/core';
-import { App, AlertController } from "ionic-angular";
+import {App, AlertController, LoadingController} from "ionic-angular";
 import { LoginPage } from "../../login/login";
 import { SettingsService } from "../../../providers/settings-service";
+import {VfsApiService} from "../../../providers/vfs-api-service";
 
 @Component({
   selector: 'logout',
@@ -25,7 +26,9 @@ export class LogoutComponent {
    */
   constructor(private app: App,
               private alertCtrl: AlertController,
-              private settingsService: SettingsService){ }
+              private loadingCtrl: LoadingController,
+              private settingsService: SettingsService,
+              private vfsApiService: VfsApiService){ }
 
   /**
    * Show a confirmation alert and accomplish or not the
@@ -42,11 +45,25 @@ export class LogoutComponent {
         {
           text: 'Yes',
           handler: () => {
-            this.settingsService.resetLogged()
+            let loading = this.loadingCtrl.create({
+              spinner: 'bubbles',
+              content: 'Waiting for logout...',
+            });
+            loading.present();
+
+            this.vfsApiService.doLogout()
               .then(() => {
+                return Promise.all([
+                  this.settingsService.resetApiToken(),
+                  this.settingsService.resetEventID()
+                ]);
+              })
+              .then(() => {
+                loading.dismiss();
                 this.app.getRootNav().setRoot(LoginPage, {},
                   {animate: true, direction: 'forward'});
-              });
+              })
+              .catch(err => console.log(err));
           }
         }
       ]
