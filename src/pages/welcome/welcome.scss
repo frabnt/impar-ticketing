@@ -1,0 +1,37 @@
+page-welcome {
+  $vendini_green: #8fd400;
+
+  ion-content {
+    background-color: #454C52 !important;
+  }
+
+  #container {
+    height: 100%;
+    border-bottom: 1px solid $vendini_green;
+    border-top: 1px solid $vendini_green;
+  }
+
+  div {
+    text-align: center;
+  }
+
+  .logo_centered {
+    position: relative;
+    display: block;
+    margin: 15rem auto 2rem auto;
+    right: -15px;
+    width: 40%;
+    max-width: 125px;
+  }
+
+  #appNameDiv {
+    display: inline-block;
+    margin: 0 auto;
+    padding: 5px 10px;
+    color: $vendini_green;
+    font-family: 'Jura', sans-serif;
+    font-size: 1.8em;
+    border: 1px solid $vendini_green;
+    border-radius: 0.25em;
+  }
+}

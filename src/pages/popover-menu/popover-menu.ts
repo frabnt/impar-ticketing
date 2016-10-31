@@ -2,8 +2,7 @@
  * Created by francesco on 16/10/2016.
  */
 import { Component } from '@angular/core';
-import { ViewController, App, AlertController } from 'ionic-angular';
-import { SettingsService } from "../../providers/settings-service";
+import { ViewController, App } from 'ionic-angular';
 
 @Component({
   selector: 'page-popover-menu',
