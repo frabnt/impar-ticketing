@@ -11,10 +11,10 @@ import { SettingsService } from "../../../providers/settings-service";
   template:
     `
       <button ion-button clear (click)="logout()">
-        <ion-icon name="log-out" class="larger-icon"></ion-icon>
+        <!-- <ion-icon name="log-out" class="larger-icon"></ion-icon> -->
+        <ng-content></ng-content>
       </button>
-    `,
-  styles: ['ion-icon {color: #424242}']
+    `
 })
 export class LogoutComponent {
 
