@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ModifyAccessCodePage } from "../manage-access-codes/manage-access-codes";
 import { HomeTabs } from "../home-tabs/tabs";
 import { SettingsService } from "../../providers/settings-service";
-import {VfsApiService} from "../../providers/vfs-api-service";
+import { VfsApiService } from "../../providers/vfs-api-service";
 
 /*
   Generated class for the Login page.
@@ -58,7 +58,6 @@ export class LoginPage implements OnInit {
    * @param accessCode {string} - value used for authentication
    */
   login(accessCode: string) {
-    let token = "token";
 
     let loading = this.loadingCtrl.create({
       spinner: 'bubbles',
@@ -68,8 +67,11 @@ export class LoginPage implements OnInit {
 
     this.vfsApiService.doLogin(accessCode)
       .then((res) => {
+        // Retrieve api token and event id after successful login
         let apiToken = res.headers.get("X-VENDINI-API-TOKEN"),
           eventID = res.headers.get("X-VENDINI-EVENT-ID");
+        // Set credentials of vfs api service and store these ones
+        // in the storage
         this.vfsApiService.setCredentials(apiToken, eventID);
         return Promise.all([
           this.settingsService.setApiToken(apiToken),
@@ -77,14 +79,18 @@ export class LoginPage implements OnInit {
         ]);
       })
       .then(() => {
+        // Once credentials have been stored, the view is dismissed
+        // and we can navigate to HomeTabs page
         loading.dismiss();
-        this.navCtrl.setRoot( //here we navigate to home page once login is successfully done
+        this.navCtrl.setRoot(
           HomeTabs,
-          {token},
+          {},
           {animate: true, direction: 'forward'}
         );
       })
       .catch(err => {
+        loading.dismiss();
+        // If login goes wrong, an error message is displayed
         this.alertCtrl.create({
           title: 'Login error',
           message: 'Error! Something goes wrong during login.',

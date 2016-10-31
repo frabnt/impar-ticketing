@@ -45,6 +45,7 @@ export class LogoutComponent {
         {
           text: 'Yes',
           handler: () => {
+            // loading spinner showed until logout procedure ends
             let loading = this.loadingCtrl.create({
               spinner: 'bubbles',
               content: 'Waiting for logout...',
@@ -52,6 +53,8 @@ export class LogoutComponent {
             loading.present();
 
             this.vfsApiService.doLogout()
+              // If logout goes well, api token and event ID
+              // are deleted from the storage
               .then(() => {
                 return Promise.all([
                   this.settingsService.resetApiToken(),
@@ -63,7 +66,19 @@ export class LogoutComponent {
                 this.app.getRootNav().setRoot(LoginPage, {},
                   {animate: true, direction: 'forward'});
               })
-              .catch(err => console.log(err));
+              .catch(err => {
+                loading.dismiss();
+                // If logout goes wrong, an error message is displayed
+                this.alertCtrl.create({
+                  title: 'Login error',
+                  message: 'Error! Something goes wrong during logout.',
+                  buttons: [
+                    {
+                      text: 'Ok'
+                    }
+                  ]
+                }).present();
+              });
           }
         }
       ]

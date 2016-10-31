@@ -42,9 +42,9 @@ export class ModifyAccessCodePage {
    */
   save() {
     return this.settingsService.setAccessCodesList(this.codeList)
-            .then(() => {
-              this.alreadySaved = true;
-            });
+      .then(() => {
+        this.alreadySaved = true;
+      });
   }
 
   /**

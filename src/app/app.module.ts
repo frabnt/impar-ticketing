@@ -18,7 +18,7 @@ import { PopoverComponent } from "../pages/pages-components/popover-component/po
 import { RegistrantScanResultPage } from "../pages/registrant-scan-result/registrant-scan-result";
 import { SettingsService } from "../providers/settings-service";
 import { WelcomePage } from "../pages/welcome/welcome";
-import {VfsApiService} from "../providers/vfs-api-service";
+import { VfsApiService } from "../providers/vfs-api-service";
 
 @NgModule({
   declarations: [
