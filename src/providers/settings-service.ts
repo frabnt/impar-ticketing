@@ -52,28 +52,55 @@ export class SettingsService {
     return localforage.removeItem(ACCESS_CODES_KEY);
   }
 
+
   /**
-   * Set logged to true in the storage when user is logged in
-   * @returns {Promise<boolean>}
+   * Store the (vfs) api token in the storage
+   * @param apiToken
+   * @returns {Promise<string>}
    */
-  setLogged(): Promise<any> {
-    return localforage.setItem('logged', true);
+  setApiToken(apiToken: string): Promise<any> {
+    return localforage.setItem('apiToken', apiToken);
   }
 
   /**
-   * Set logged in the storage when user decide to log out
-   * @returns {Promise<boolean>}
-   */
-  resetLogged(): Promise<any> {
-    return localforage.setItem('logged', false);
-  }
-
-  /**
-   * Give back user's current state (logged in or not)
+   * Give back the api token
    * @returns {Promise<T>}
    */
-  getLogged(): Promise<any> {
-    return localforage.getItem('logged');
+  getApiToken(): Promise<any> {
+    return localforage.getItem('apiToken');
+  }
+
+  /**
+   * Remove the api token from the storage
+   * @returns {Promise<void>}
+   */
+  resetApiToken(): Promise<any> {
+    return localforage.removeItem('apiToken');
+  }
+
+  /**
+   * Store the event ID in the storage
+   * @param eventID
+   * @returns {Promise<string>}
+   */
+  setEventID(eventID: string): Promise<any> {
+    return localforage.setItem('eventID', eventID);
+  }
+
+  /**
+   * Give back the event ID
+   * @returns {Promise<T>}
+   */
+  getEventID(): Promise<any> {
+    return localforage.getItem('eventID');
+  }
+
+  /**
+   * Remove the event ID from the storage
+   * @returns {Promise<void>}
+   */
+  resetEventID(): Promise<any> {
+    return localforage.removeItem('eventID');
   }
 
   /**
