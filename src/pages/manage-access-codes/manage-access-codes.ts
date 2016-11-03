@@ -40,7 +40,7 @@ export class ModifyAccessCodePage {
    * Save access codes list in the storage
    * @returns {Promise<T>}
    */
-  save() {
+  save(): Promise<any> {
     return this.settingsService.setAccessCodesList(this.codeList)
       .then(() => {
         this.alreadySaved = true;

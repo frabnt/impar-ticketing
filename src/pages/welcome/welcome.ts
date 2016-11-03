@@ -25,12 +25,18 @@ export class WelcomePage {
               private settingsService: SettingsService,
               private vfsApiService: VfsApiService) {}
 
+  /**
+   * If authenticated, the user is redirected to home page.
+   * If not, to login page
+   */
   ionViewDidLoad() {
     Promise.all([
       this.settingsService.getApiToken(),
       this.settingsService.getEventID()
     ])
       .then((res) => {
+        // If API token or event ID are set, user hasn't performed logout yet
+        // so is currently authenticated
         if(res[0]) {
           this.vfsApiService.setCredentials(res[0], res[1]);
           this.navCtrl.setRoot(HomeTabs, {}, {animate: true, direction: 'forward'});
