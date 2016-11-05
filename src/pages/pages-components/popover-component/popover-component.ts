@@ -27,7 +27,7 @@ export class PopoverComponent {
   /**
    * Create and present popover menu
    */
-  presentPopover() {
+  presentPopover(event) {
     this.popoverCtrl.create(PopoverMenu).present({ev: event});
   }
 }
