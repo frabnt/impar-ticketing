@@ -44,6 +44,7 @@ export class ModifyAccessCodePage {
     return this.settingsService.setAccessCodesList(this.codeList)
       .then(() => {
         this.alreadySaved = true;
+        this.view.dismiss();
       });
   }
 
