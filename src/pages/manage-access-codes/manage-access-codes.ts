@@ -16,7 +16,6 @@ export class ModifyAccessCodePage {
   codeList: string[]; //it store access code list
   numbers: number[]; //used to keep track of codeList length
   listModified: boolean; //it's true if access code list has been modified
-  alreadySaved: boolean; //it's true if the user has already saved
 
   /**
    * @constructor
@@ -37,18 +36,6 @@ export class ModifyAccessCodePage {
   }
 
   /**
-   * Save access codes list in the storage
-   * @returns {Promise<T>}
-   */
-  save(): Promise<any> {
-    return this.settingsService.setAccessCodesList(this.codeList)
-      .then(() => {
-        this.alreadySaved = true;
-        this.view.dismiss();
-      });
-  }
-
-  /**
    * Show saving confirmation alert
    */
   showSavingConfirmation() {
@@ -59,9 +46,7 @@ export class ModifyAccessCodePage {
         {
           text: 'Save',
           handler: () => {
-            this.save().then(() => {
-              this.view.dismiss(this.codeList);
-            });
+            this.save();
           }
         },
         {
@@ -75,19 +60,38 @@ export class ModifyAccessCodePage {
   }
 
   /**
+   * Save access codes list in the storage
+   * @returns {Promise<T>}
+   */
+  save() {
+    this.settingsService.setAccessCodesList(this.codeList)
+      .then(() => {
+        this.view.dismiss(this.codeList);
+      })
+      .catch((err) => {
+        this.alertCtrl.create({
+          title: 'Error',
+          message: 'Something goes wrong saving settings.',
+          buttons: [
+            {
+              text: 'Ok'
+            }
+          ]
+        }).present();
+        this.view.dismiss();
+      });
+  }
+
+  /**
    * Exit from modal window
    */
   exit() {
-    if(this.alreadySaved) { //if user has saved, the view is dismissed passing the new code list to parent page
-      this.view.dismiss(this.codeList);
-    }
-    else if(this.listModified) { //if user has not saved and code list has been modified, it's showed a saving confirmation message
+    if(this.listModified) { //if codes list has been modified, it's showed a saving confirmation message
       this.showSavingConfirmation();
     }
     else { //if code list has not been modified, the view is dismissed passing nothing to parent page
       this.view.dismiss();
     }
-
   }
 
   /**
@@ -99,7 +103,6 @@ export class ModifyAccessCodePage {
     this.codeList[i] = event.target.value;
     // now codes list is modified so changes need to be saved
     this.setModified();
-    this.resetAlreadySaved();
   }
 
   /**
@@ -111,14 +114,6 @@ export class ModifyAccessCodePage {
   }
 
   /**
-   * Set alreadySaved var to true
-   */
-  resetAlreadySaved() {
-    if(this.alreadySaved)
-      this.alreadySaved = false;
-  }
-
-  /**
    * Delete an access code from code list
    * @param index - index of code to be deleted from codeList array
    */
@@ -127,7 +122,6 @@ export class ModifyAccessCodePage {
     this.numbers.pop();
     // now codes list is modified so changes need to be saved
     this.setModified();
-    this.resetAlreadySaved();
   }
 
   /**
@@ -138,7 +132,6 @@ export class ModifyAccessCodePage {
     this.codeList.push(newCode);
     this.numbers.push(this.numbers.length);
     this.setModified();
-    this.resetAlreadySaved();
   }
 
 }
