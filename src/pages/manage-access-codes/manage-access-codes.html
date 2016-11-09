@@ -45,7 +45,7 @@
     </ion-item-divider>
 
     <ion-item *ngFor="let number of numbers">
-      <ion-label>#{{number}}</ion-label>
+      <ion-label>#{{number + 1}}</ion-label>
       <ion-input type="text" placeholder="Empty..."
                  [value]="codeList[number]"
                  (input)="updateState($event, number)"></ion-input>
