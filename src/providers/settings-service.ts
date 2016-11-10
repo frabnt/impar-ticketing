@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/map';
 import localforage from 'localforage';
 
 /*
@@ -37,7 +36,7 @@ export class SettingsService {
 
   /**
    * Set access codes list in the storage
-   * @param accessCodeList {string[]} - the list to be stored
+   * @param {string[]} accessCodeList - the list to be stored
    * @returns {Promise<string[]>}
    */
   setAccessCodesList(accessCodesList: string[]): Promise<any> {
@@ -55,7 +54,7 @@ export class SettingsService {
 
   /**
    * Store the (vfs) api token in the storage
-   * @param apiToken
+   * @param {string} apiToken
    * @returns {Promise<string>}
    */
   setApiToken(apiToken: string): Promise<any> {
@@ -80,7 +79,7 @@ export class SettingsService {
 
   /**
    * Store the event ID in the storage
-   * @param eventID
+   * @param {string} eventID
    * @returns {Promise<string>}
    */
   setEventID(eventID: string): Promise<any> {

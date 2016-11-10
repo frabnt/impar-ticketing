@@ -1,4 +1,3 @@
-import 'rxjs/add/operator/map';
 import { AbstractSqlStorage } from "./abstract-sql-storage";
 import { DatabaseFactory } from "./database-factory";
 import { Injectable } from "@angular/core";

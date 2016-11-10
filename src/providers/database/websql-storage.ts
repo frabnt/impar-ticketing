@@ -19,7 +19,7 @@ export class WebSQLStorage extends AbstractSqlStorage {
    * Perform multiple query in a single transaction
    * (not properly a batch query 'cause is not supported by WebSQL)
    * @param {string} query - the query to be executed multiple times
-   * @param objects - i-th item of array contains values need to be inserted in i-th query
+   * @param {Array} objects - i-th item of array contains values need to be inserted in i-th query
    * @returns {Promise<T>|Promise}
    */
   batch(query: string, objects: any[]): Promise<any> {

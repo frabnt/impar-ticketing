@@ -19,8 +19,8 @@ abstract class AbstractSqlStorage {
    * to have full control over the underlying database through SQL operations
    * like SELECT, INSERT, and UPDATE.
    *
-   * @param {string} query the query to run
-   * @param {array} params the additional params to use for query placeholders
+   * @param {string} query - the query to run
+   * @param {array} params - the additional params to use for query placeholders
    * @return {Promise} that resolves or rejects with an object of the form { tx: Transaction, res: Result (or err)}
    */
   query(query: string, params = []): Promise<any> {
@@ -37,7 +37,7 @@ abstract class AbstractSqlStorage {
   /**
    * Perform a batch query
    * @param {string} query - the query to be executed multiple times
-   * @param objects - i-th item of array contains values need to be inserted in i-th query
+   * @param {Array} objects - i-th item of array contains values need to be inserted in i-th query
    * @returns {Promise<T>|Promise}
    */
   abstract batch(query: string, objects: any[]): Promise<any>;

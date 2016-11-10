@@ -58,7 +58,7 @@ export class LoginPage implements OnInit {
 
   /**
    * Accomplish login using authentication service
-   * @param accessCode {string} - value used for authentication
+   * @param {string} accessCode - value used for authentication
    */
   login(accessCode: string) {
 

@@ -115,7 +115,7 @@ export class ModifyAccessCodePage {
 
   /**
    * Delete an access code from code list
-   * @param index - index of code to be deleted from codeList array
+   * @param {number} index - index of code to be deleted from codeList array
    */
   deleteCode(index: number) {
     this.codeList.splice(index,1);
@@ -126,7 +126,7 @@ export class ModifyAccessCodePage {
 
   /**
    * Add an access code to code list
-   * @param newCode {string} - code to be added
+   * @param {string} newCode - code to be added
    */
   addCode(newCode: string) {
     this.codeList.push(newCode);

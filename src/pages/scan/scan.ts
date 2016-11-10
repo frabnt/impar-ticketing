@@ -37,8 +37,8 @@ export class ScanPage {
   /**
    * Search for credential or ticket in the database
    * and redirect to scan result page
-   * @param dbString
-   * @param type
+   * @param {string} dbString
+   * @param {string} type
    */
   search(dbString: string, type?: string) {
     this.app.getRootNav().push(

@@ -17,7 +17,7 @@ export class SQLiteStorage extends AbstractSqlStorage {
 
   /**
    * @constructor
-   * @param {object} options
+   * @param {Object} options
    */
   constructor(options = {}) {
     super();
