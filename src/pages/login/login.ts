@@ -105,12 +105,11 @@ export class LoginPage implements OnInit {
         );
       })
       .catch(err => {
-        console.log(err);
         loading.dismiss();
         // If login goes wrong, an error message is displayed
         this.alertCtrl.create({
           title: 'Login error',
-          message: 'Error! Something goes wrong during login: '+err,
+          message: 'Error! Something goes wrong during login.',
           buttons: [
             {
               text: 'Ok'
