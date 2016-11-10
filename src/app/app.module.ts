@@ -19,6 +19,8 @@ import { RegistrantScanResultPage } from "../pages/registrant-scan-result/regist
 import { SettingsService } from "../providers/settings-service";
 import { WelcomePage } from "../pages/welcome/welcome";
 import { VfsApiService } from "../providers/vfs-api-service";
+import { SQLite } from "ionic-native";
+import { Database } from "../providers/database/database";
 
 @NgModule({
   declarations: [
@@ -62,7 +64,9 @@ import { VfsApiService } from "../providers/vfs-api-service";
   ],
   providers: [
     SettingsService,
-    VfsApiService
+    VfsApiService,
+    SQLite,
+    Database
   ]
 })
 export class AppModule {}

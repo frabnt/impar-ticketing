@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {NavController, ModalController, LoadingController, AlertController} from 'ionic-angular';
+import { NavController, ModalController, LoadingController, AlertController, Platform } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ModifyAccessCodePage } from "../manage-access-codes/manage-access-codes";
 import { HomeTabs } from "../home-tabs/tabs";
 import { SettingsService } from "../../providers/settings-service";
 import { VfsApiService } from "../../providers/vfs-api-service";
+import { Database } from "../../providers/database/database";
 
 /*
   Generated class for the Login page.
@@ -34,7 +35,9 @@ export class LoginPage implements OnInit {
               private settingsService: SettingsService,
               private vfsApiService: VfsApiService,
               private loadingCtrl: LoadingController,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private platform: Platform,
+              private database: Database) {
     this.accessCodesList = [];
     this.loginForm = builder.group({
       'accessCode': ['', Validators.required]
