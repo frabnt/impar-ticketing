@@ -2,10 +2,11 @@
  * Created by francesco on 16/10/2016.
  */
 import { Component } from '@angular/core';
-import {App, AlertController, LoadingController} from "ionic-angular";
+import { App, AlertController, LoadingController, Platform } from "ionic-angular";
 import { LoginPage } from "../../login/login";
 import { SettingsService } from "../../../providers/settings-service";
-import {VfsApiService} from "../../../providers/vfs-api-service";
+import { VfsApiService} from "../../../providers/vfs-api-service";
+import { Database } from "../../../providers/database/database";
 
 @Component({
   selector: 'logout',
@@ -28,7 +29,9 @@ export class LogoutComponent {
               private alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
               private settingsService: SettingsService,
-              private vfsApiService: VfsApiService){ }
+              private vfsApiService: VfsApiService,
+              private platform: Platform,
+              private database: Database){ }
 
   /**
    * Show a confirmation alert and accomplish or not the
@@ -53,13 +56,20 @@ export class LogoutComponent {
             loading.present();
 
             this.vfsApiService.doLogout()
-              // If logout goes well, api token and event ID
-              // are deleted from the storage
+            // If logout goes well, api token and event ID
+            // are deleted from the storage
               .then(() => {
                 return Promise.all([
                   this.settingsService.resetApiToken(),
                   this.settingsService.resetEventID()
                 ]);
+              })
+              .then(() => {
+                return this.platform.ready();
+              })
+              .then(() => {
+                this.database.openDatabase();
+                return this.database.clear();
               })
               .then(() => {
                 loading.dismiss();
