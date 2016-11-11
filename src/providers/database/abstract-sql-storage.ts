@@ -2,16 +2,7 @@
  * Created by francesco on 04/11/2016.
  */
 
-/**
- * Give back a reference of window object
- * @returns {Window}
- */
-function nativeWindow() : any {
-  // return the global native browser window object
-  return window;
-}
-
-abstract class AbstractSqlStorage {
+export abstract class AbstractSqlStorage {
   protected _db: any;
 
   /**
@@ -47,5 +38,3 @@ abstract class AbstractSqlStorage {
    */
   abstract clear(): Promise<any>;
 }
-
-export { AbstractSqlStorage, nativeWindow };

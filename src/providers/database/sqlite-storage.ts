@@ -1,4 +1,5 @@
-import { AbstractSqlStorage, nativeWindow } from "./abstract-sql-storage";
+import { AbstractSqlStorage } from "./abstract-sql-storage";
+import { winRef } from "../window-ref";
 
 /**
  * Created by francesco on 04/11/2016.
@@ -32,7 +33,7 @@ export class SQLiteStorage extends AbstractSqlStorage {
     this.location = location;
     this.name = dbOptions.name;
 
-    this._db = nativeWindow().sqlitePlugin.openDatabase(this.assign({
+    this._db = winRef().sqlitePlugin.openDatabase(this.assign({
       name: dbOptions.name,
       location: location,
       createFromLocation: dbOptions.existingDatabase ? 1 : 0
@@ -73,7 +74,7 @@ export class SQLiteStorage extends AbstractSqlStorage {
    */
   clear(): Promise<any> {
     return new Promise((resolve, reject) => {
-      nativeWindow().sqlitePlugin.deleteDatabase(
+      winRef().sqlitePlugin.deleteDatabase(
         {
           name: this.name,
           location: this.location

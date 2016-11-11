@@ -1,4 +1,5 @@
-import { AbstractSqlStorage, nativeWindow } from "./abstract-sql-storage";
+import { AbstractSqlStorage } from "./abstract-sql-storage";
+import { winRef } from "../window-ref";
 
 /**
  * Created by francesco on 04/11/2016.
@@ -12,7 +13,7 @@ export class WebSQLStorage extends AbstractSqlStorage {
    */
   constructor(name) {
     super();
-    this._db = nativeWindow().openDatabase(name, '1.0', 'database', 5 * 1024 * 1024);
+    this._db = winRef().openDatabase(name, '1.0', 'database', 5 * 1024 * 1024);
   }
 
   /**

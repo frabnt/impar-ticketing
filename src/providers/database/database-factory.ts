@@ -1,6 +1,7 @@
-import { AbstractSqlStorage, nativeWindow } from "./abstract-sql-storage";
+import { AbstractSqlStorage } from "./abstract-sql-storage";
 import { SQLiteStorage } from "./sqlite-storage";
 import { WebSQLStorage } from "./websql-storage";
+import { winRef } from "../window-ref";
 
 /**
  * Created by francesco on 08/11/2016.
@@ -8,7 +9,6 @@ import { WebSQLStorage } from "./websql-storage";
  */
 
 export class DatabaseFactory {
-
   /**
    * Create a different db object depending on the execution platform
    * @param {Object} options - the object supports the following properties:
@@ -20,7 +20,7 @@ export class DatabaseFactory {
    * @returns {any} - db object
    */
   static getDatabaseInstance(options): AbstractSqlStorage {
-    if( nativeWindow().sqlitePlugin ) {
+    if( winRef().sqlitePlugin ) {
       return new SQLiteStorage(options);
     } else {
       return new WebSQLStorage(options.name);
