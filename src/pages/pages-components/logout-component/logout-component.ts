@@ -59,10 +59,7 @@ export class LogoutComponent {
             // If logout goes well, api token and event ID
             // are deleted from the storage
               .then(() => {
-                return Promise.all([
-                  this.settingsService.resetApiToken(),
-                  this.settingsService.resetEventID()
-                ]);
+                return this.resetApiCredentials();
               })
               .then(() => {
                 return this.platform.ready();
@@ -93,5 +90,12 @@ export class LogoutComponent {
         }
       ]
     }).present();
+  }
+
+  private resetApiCredentials(): Promise<any> {
+    return Promise.all([
+      this.settingsService.resetApiToken(),
+      this.settingsService.resetEventID()
+    ]);
   }
 }
