@@ -17,6 +17,6 @@ export class RegistrantScanResultPage {
    * @constructor
    * @param navCtrl
    */
-  constructor(public navCtrl: NavController) { }
+  constructor(private navCtrl: NavController) { }
 
 }

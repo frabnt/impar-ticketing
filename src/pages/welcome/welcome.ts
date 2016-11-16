@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { SettingsService } from "../../services/settings/settings-service";
+import { CredentialsService } from "../../services/credentials/credentials-service";
 import { VfsApiService } from "../../services/vfs-api/vfs-api-service";
 import { HomeTabs } from "../home-tabs/tabs";
 import { LoginPage } from "../login/login";
@@ -22,7 +22,7 @@ export class WelcomePage {
    * @param navCtrl
    */
   constructor(public navCtrl: NavController,
-              private settingsService: SettingsService,
+              private credentialsService: CredentialsService,
               private vfsApiService: VfsApiService) {}
 
   /**
@@ -31,8 +31,8 @@ export class WelcomePage {
    */
   ionViewDidLoad() {
     Promise.all([
-      this.settingsService.getApiToken(),
-      this.settingsService.getEventID()
+      this.credentialsService.getApiToken(),
+      this.credentialsService.getEventID()
     ])
       .then((res) => {
         // If API token or event ID are set, user hasn't performed logout yet

@@ -21,6 +21,7 @@ import { WelcomePage } from "../pages/welcome/welcome";
 import { VfsApiService } from "../services/vfs-api/vfs-api-service";
 import { SQLite } from "ionic-native";
 import { DatabaseService } from "../services/database/database-service";
+import { CredentialsService } from "../services/credentials/credentials-service";
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { DatabaseService } from "../services/database/database-service";
   ],
   providers: [
     SettingsService,
+    CredentialsService,
     VfsApiService,
     SQLite,
     DatabaseService

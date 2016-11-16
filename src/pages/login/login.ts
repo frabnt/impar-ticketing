@@ -3,12 +3,13 @@ import { NavController, ModalController, LoadingController, AlertController, Pla
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ModifyAccessCodePage } from "../manage-access-codes/manage-access-codes";
 import { HomeTabs } from "../home-tabs/tabs";
+import { CredentialsService } from "../../services/credentials/credentials-service";
 import { SettingsService } from "../../services/settings/settings-service";
 import { VfsApiService } from "../../services/vfs-api/vfs-api-service";
 import { DatabaseService } from "../../services/database/database-service";
 import { Manifest } from "../../models/manifest";
 import { Tickets } from "../../models/tickets";
-import {Deserialize} from "cerialize";
+import { Deserialize } from "cerialize";
 
 /*
   Generated class for the Login page.
@@ -32,9 +33,10 @@ export class LoginPage implements OnInit {
    * @param modalCtrl
    * @param localSettings
    */
-  constructor(public navCtrl: NavController,
+  constructor(private navCtrl: NavController,
               private builder: FormBuilder,
               private modalCtrl: ModalController,
+              private credentialsService: CredentialsService,
               private settingsService: SettingsService,
               private vfsApiService: VfsApiService,
               private loadingCtrl: LoadingController,
@@ -130,13 +132,13 @@ export class LoginPage implements OnInit {
   private setApiCredentials(res): Promise<any> {
     // Retrieve api token and event id after successful login
     let apiToken = res.headers.get("X-VENDINI-API-TOKEN"),
-      eventID = res.headers.get("X-VENDINI-EVENT-ID");
+        eventID = res.headers.get("X-VENDINI-EVENT-ID");
     // Set credentials of vfs api service and store these ones
     // in the storage
     this.vfsApiService.setCredentials(apiToken, eventID);
     return Promise.all([
-      this.settingsService.setApiToken(apiToken),
-      this.settingsService.setEventID(eventID)
+      this.credentialsService.setApiToken(apiToken),
+      this.credentialsService.setEventID(eventID)
     ]);
   }
 

@@ -4,9 +4,9 @@
 import { Component } from '@angular/core';
 import { App, AlertController, LoadingController, Platform } from "ionic-angular";
 import { LoginPage } from "../../login/login";
-import { SettingsService } from "../../../services/settings/settings-service";
 import { VfsApiService} from "../../../services/vfs-api/vfs-api-service";
 import { DatabaseService } from "../../../services/database/database-service";
+import { CredentialsService } from "../../../services/credentials/credentials-service";
 
 @Component({
   selector: 'logout',
@@ -28,7 +28,7 @@ export class LogoutComponent {
   constructor(private app: App,
               private alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
-              private settingsService: SettingsService,
+              private credentialService: CredentialsService,
               private vfsApiService: VfsApiService,
               private database: DatabaseService,
               private platform: Platform){ }
@@ -95,8 +95,8 @@ export class LogoutComponent {
 
   private resetApiCredentials(): Promise<any> {
     return Promise.all([
-      this.settingsService.resetApiToken(),
-      this.settingsService.resetEventID()
+      this.credentialService.resetApiToken(),
+      this.credentialService.resetEventID()
     ]);
   }
 }
