@@ -56,8 +56,8 @@ export class LogoutComponent {
             loading.present();
 
             this.vfsApiService.doLogout()
-            // If logout goes well, api token and event ID
-            // are deleted from the storage
+              // If logout goes well, api token and event ID
+              // are deleted from the storage
               .then(() => {
                 return this.resetApiCredentials();
               })
@@ -65,6 +65,7 @@ export class LogoutComponent {
                 return this.platform.ready();
               })
               .then(() => {
+                // If platform is ready, database is deleted
                 this.database.openDatabase();
                 return this.database.clear();
               })
