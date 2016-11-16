@@ -3,9 +3,9 @@ import { NavController, ModalController, LoadingController, AlertController, Pla
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ModifyAccessCodePage } from "../manage-access-codes/manage-access-codes";
 import { HomeTabs } from "../home-tabs/tabs";
-import { SettingsService } from "../../providers/settings-service";
-import { VfsApiService } from "../../providers/vfs-api-service";
-import { Database } from "../../providers/database/database";
+import { SettingsService } from "../../services/settings/settings-service";
+import { VfsApiService } from "../../services/vfs-api/vfs-api-service";
+import { DatabaseService } from "../../services/database/database-service";
 import { Manifest } from "../../models/manifest";
 import { Tickets } from "../../models/tickets";
 import {Deserialize} from "cerialize";
@@ -39,8 +39,8 @@ export class LoginPage implements OnInit {
               private vfsApiService: VfsApiService,
               private loadingCtrl: LoadingController,
               private alertCtrl: AlertController,
-              private platform: Platform,
-              private database: Database) {
+              private database: DatabaseService,
+              private platform: Platform) {
     this.accessCodesList = [];
     this.loginForm = builder.group({
       'accessCode': ['', Validators.required]

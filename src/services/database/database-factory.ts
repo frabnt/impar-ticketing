@@ -1,7 +1,7 @@
 import { AbstractSqlStorage } from "./abstract-sql-storage";
 import { SQLiteStorage } from "./sqlite-storage";
 import { WebSQLStorage } from "./websql-storage";
-import { winRef } from "../window-ref";
+import { winRef } from "../window-ref/window-ref-service";
 
 /**
  * Created by francesco on 08/11/2016.

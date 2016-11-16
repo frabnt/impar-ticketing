@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { SettingsService } from "../../providers/settings-service";
-import { VfsApiService } from "../../providers/vfs-api-service";
+import { SettingsService } from "../../services/settings/settings-service";
+import { VfsApiService } from "../../services/vfs-api/vfs-api-service";
 import { HomeTabs } from "../home-tabs/tabs";
 import { LoginPage } from "../login/login";
 

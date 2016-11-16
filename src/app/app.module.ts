@@ -16,11 +16,11 @@ import { ManifestScanResultPage } from "../pages/manifest-scan-result/manifest-s
 import { PopoverMenu } from "../pages/popover-menu/popover-menu";
 import { PopoverComponent } from "../pages/pages-components/popover-component/popover-component";
 import { RegistrantScanResultPage } from "../pages/registrant-scan-result/registrant-scan-result";
-import { SettingsService } from "../providers/settings-service";
+import { SettingsService } from "../services/settings/settings-service";
 import { WelcomePage } from "../pages/welcome/welcome";
-import { VfsApiService } from "../providers/vfs-api-service";
+import { VfsApiService } from "../services/vfs-api/vfs-api-service";
 import { SQLite } from "ionic-native";
-import { Database } from "../providers/database/database";
+import { DatabaseService } from "../services/database/database-service";
 
 @NgModule({
   declarations: [
@@ -66,7 +66,7 @@ import { Database } from "../providers/database/database";
     SettingsService,
     VfsApiService,
     SQLite,
-    Database
+    DatabaseService
   ]
 })
 export class AppModule {}

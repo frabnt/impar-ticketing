@@ -1,5 +1,5 @@
 import { AbstractSqlStorage } from "./abstract-sql-storage";
-import { winRef } from "../window-ref";
+import { winRef } from "../window-ref/window-ref-service";
 
 /**
  * Created by francesco on 04/11/2016.

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavParams, ViewController, AlertController } from 'ionic-angular';
-import { SettingsService } from "../../providers/settings-service";
+import { SettingsService } from "../../services/settings/settings-service";
 
 /*
   Generated class for the ModifyAccessCode page.

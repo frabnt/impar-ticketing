@@ -4,9 +4,9 @@
 import { Component } from '@angular/core';
 import { App, AlertController, LoadingController, Platform } from "ionic-angular";
 import { LoginPage } from "../../login/login";
-import { SettingsService } from "../../../providers/settings-service";
-import { VfsApiService} from "../../../providers/vfs-api-service";
-import { Database } from "../../../providers/database/database";
+import { SettingsService } from "../../../services/settings/settings-service";
+import { VfsApiService} from "../../../services/vfs-api/vfs-api-service";
+import { DatabaseService } from "../../../services/database/database-service";
 
 @Component({
   selector: 'logout',
@@ -30,8 +30,8 @@ export class LogoutComponent {
               private loadingCtrl: LoadingController,
               private settingsService: SettingsService,
               private vfsApiService: VfsApiService,
-              private platform: Platform,
-              private database: Database){ }
+              private database: DatabaseService,
+              private platform: Platform){ }
 
   /**
    * Show a confirmation alert and accomplish or not the

@@ -9,7 +9,7 @@ import { Injectable } from "@angular/core";
 const DB_NAME: string = 'impar_storage';
 
 @Injectable()
-export class Database {
+export class DatabaseService {
   private storage: AbstractSqlStorage;
 
   /**
