@@ -21,7 +21,7 @@ export class WelcomePage {
    * @constructor
    * @param navCtrl
    */
-  constructor(public navCtrl: NavController,
+  constructor(private navCtrl: NavController,
               private credentialsService: CredentialsService,
               private vfsApiService: VfsApiService) {}
 

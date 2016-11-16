@@ -22,6 +22,10 @@ import { VfsApiService } from "../services/vfs-api/vfs-api-service";
 import { SQLite } from "ionic-native";
 import { DatabaseService } from "../services/database/database-service";
 import { CredentialsService } from "../services/credentials/credentials-service";
+import { StatsService } from "../services/stats/stats-service";
+import { NumberPipe } from "../pipes/number-pipe";
+import { TimePipe } from "../pipes/time-pipe";
+import { ToggleEllipsis } from "../directives/toggle-ellipsis";
 
 @NgModule({
   declarations: [
@@ -41,7 +45,10 @@ import { CredentialsService } from "../services/credentials/credentials-service"
     LogoutComponent,
     SearchInfoComponent,
     PopoverComponent,
-    PopoverMenu
+    PopoverMenu,
+    NumberPipe,
+    TimePipe,
+    ToggleEllipsis
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -67,6 +74,7 @@ import { CredentialsService } from "../services/credentials/credentials-service"
     SettingsService,
     CredentialsService,
     VfsApiService,
+    StatsService,
     SQLite,
     DatabaseService
   ]

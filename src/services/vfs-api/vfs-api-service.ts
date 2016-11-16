@@ -20,7 +20,7 @@ export class VfsApiService {
    * @constructor
    * @param http
    */
-  constructor(public http: Http) { }
+  constructor(private http: Http) { }
 
   /**
    * Set API token and event ID returned by the server after a successful authentication.

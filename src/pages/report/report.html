@@ -21,15 +21,15 @@
       <ion-grid class="table">
         <ion-row>
           <ion-col>Total entities</ion-col>
-          <ion-col>120000</ion-col>
+          <ion-col>{{stats.totalEntities | formatNumber}}</ion-col>
         </ion-row>
         <ion-row>
           <ion-col>Total manifests</ion-col>
-          <ion-col>{{totalManifest}}</ion-col>
+          <ion-col>{{stats.totalManifest | formatNumber}}</ion-col>
         </ion-row>
         <ion-row>
           <ion-col>Total tickets</ion-col>
-          <ion-col>35500</ion-col>
+          <ion-col>{{stats.totalTickets | formatNumber}}</ion-col>
         </ion-row>
       </ion-grid>
     </ion-card-content>
@@ -38,22 +38,28 @@
   <ion-card>
     <ion-card-header>
       <ion-icon name="time"></ion-icon>
-      &nbsp;Importing Time
+      &nbsp;Importing Time (<span class="italic">sec</span>)
     </ion-card-header>
 
     <ion-card-content>
       <ion-grid class="table">
         <ion-row>
           <ion-col>Total</ion-col>
-          <ion-col>3,26 minutes</ion-col>
+          <ion-col>
+            {{stats.totalTime | convertTime:3 | formatNumber}}
+          </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>Manifest</ion-col>
-          <ion-col>1 minutes</ion-col>
+          <ion-col>
+            {{stats.manifestTime | convertTime:3 | formatNumber}}
+          </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>Tickets</ion-col>
-          <ion-col>2,26 minutes</ion-col>
+          <ion-col>
+            {{stats.ticketsTime | convertTime:3 | formatNumber}}
+          </ion-col>
         </ion-row>
       </ion-grid>
     </ion-card-content>

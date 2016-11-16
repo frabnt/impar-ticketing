@@ -84,3 +84,9 @@ hr {
 ion-slide {
   font-size: 1.6rem !important;
 }
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

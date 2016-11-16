@@ -78,7 +78,7 @@ export class LogoutComponent {
                 loading.dismiss();
                 // If logout goes wrong, an error message is displayed
                 this.alertCtrl.create({
-                  title: 'Login error',
+                  title: 'Logout error',
                   message: 'Error! Something goes wrong during logout.',
                   buttons: [
                     {
