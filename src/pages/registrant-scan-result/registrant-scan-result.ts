@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Registrant } from "../../models/registrant";
+import { ScanResultService } from "../../services/scan-result/scan-result-service";
 
 /*
   Generated class for the RegistrantScanResult page.
@@ -12,11 +13,14 @@ import { NavController } from 'ionic-angular';
   templateUrl: 'registrant-scan-result.html'
 })
 export class RegistrantScanResultPage {
+  registrant: Registrant;
 
   /**
    * @constructor
    * @param navCtrl
    */
-  constructor(private navCtrl: NavController) { }
+  constructor(private scanResultService: ScanResultService) {
+    this.registrant = scanResultService.getRegistrant();
+  }
 
 }

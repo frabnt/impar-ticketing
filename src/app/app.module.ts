@@ -26,6 +26,7 @@ import { StatsService } from "../services/stats/stats-service";
 import { NumberPipe } from "../pipes/number-pipe";
 import { TimePipe } from "../pipes/time-pipe";
 import { ToggleEllipsis } from "../directives/toggle-ellipsis";
+import { ScanResultService } from "../services/scan-result/scan-result-service";
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { ToggleEllipsis } from "../directives/toggle-ellipsis";
     CredentialsService,
     VfsApiService,
     StatsService,
+    ScanResultService,
     SQLite,
     DatabaseService
   ]

@@ -3,6 +3,8 @@
  */
 import { Component } from '@angular/core';
 import { ViewController, App } from 'ionic-angular';
+import { HomeTabs } from "../home-tabs/tabs";
+import { ScanResultService } from "../../services/scan-result/scan-result-service";
 
 @Component({
   selector: 'page-popover-menu',
@@ -16,21 +18,27 @@ export class PopoverMenu {
    * @param app
    * @param alertCtrl
    */
-  constructor(private view: ViewController,
+  constructor(private scanResultService: ScanResultService,
+              private view: ViewController,
               private app: App) { }
 
   /**
    * Redirect to home page
    */
   goHome() {
-    this.view.dismiss();
-    this.app.getRootNav().pop();
+    this.dismissMenu();
+    this.app.getRootNav().setRoot(
+      HomeTabs,
+      {},
+      {animate: true, direction: 'forward'}
+    );
   }
 
   /**
    * Dismiss the menu (e.g., useful when user click on logout)
    */
   dismissMenu() {
+    this.scanResultService.resetAll();
     this.view.dismiss();
   }
 }

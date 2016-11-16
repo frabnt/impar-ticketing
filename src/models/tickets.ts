@@ -1,6 +1,6 @@
 import { deserializeAs } from "cerialize";
 import { Order } from './order';
-import { OrderTransaction } from './order_transaction';
+import { OrderTransaction } from './order-transaction';
 import { Pagination } from './pagination';
 /**
  * Created by francesco on 06/11/2016.

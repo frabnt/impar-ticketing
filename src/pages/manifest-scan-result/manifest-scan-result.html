@@ -21,31 +21,46 @@
   <ion-grid class="table">
     <ion-row>
       <ion-col>Activated</ion-col>
-      <ion-col>12/04/2016</ion-col>
+      <ion-col [class.italic]="!manifest.activated">
+        {{manifest.activated || "empty"}}
+      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>Deactivated</ion-col>
-      <ion-col>3/05/2016</ion-col>
+      <ion-col [class.italic]="!manifest.deactivated">
+        {{manifest.deactivated || "empty"}}
+      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>Deactivated reson</ion-col>
-      <ion-col>Whatever reason related to manifest deactivation</ion-col>
+      <ion-col toggle-ellipsis
+               [class.italic]="!manifest.deactivationReason">
+        {{manifest.deactivationReason || "empty"}}
+      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>Modified</ion-col>
-      <ion-col>3/05/2016</ion-col>
+      <ion-col [class.italic]="!manifest.modified">
+        {{manifest.modified || "empty"}}
+      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>Scan code</ion-col>
-      <ion-col>04EB7F26C3F80</ion-col>
+      <ion-col class="break" [class.italic]="!manifest.scanCode">
+        {{manifest.scanCode || "empty"}}
+      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>Scan status</ion-col>
-      <ion-col>0</ion-col>
+      <ion-col [class.italic]="!manifest.scanStatus">
+        {{manifest.scanStatus || "empty"}}
+      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>Validation type</ion-col>
-      <ion-col>RFID</ion-col>
+      <ion-col [class.italic]="!manifest.validationType">
+        {{manifest.validationType || "empty"}}
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>

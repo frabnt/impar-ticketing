@@ -1,5 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Slides } from "ionic-angular";
+import { OrderTransaction } from "../../models/order-transaction";
+import { ScanResultService } from "../../services/scan-result/scan-result-service";
 
 /*
   Generated class for the TicketScanResult page.
@@ -13,11 +15,14 @@ import { Slides } from "ionic-angular";
 })
 export class TicketScanResultPage {
   @ViewChild('mySlider') slider: Slides;
+  orderTransaction: OrderTransaction;
 
   /**
    * @constructor
    */
-  constructor() {}
+  constructor(private scanResultService: ScanResultService) {
+    this.orderTransaction = this.scanResultService.getOrderTransaction();
+  }
 
   /**
    * Navigate to next slide of slider component

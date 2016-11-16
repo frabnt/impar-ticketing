@@ -1,17 +1,17 @@
 import { deserializeAs } from "cerialize";
-import { CredentialType } from "./credential_type";
+import { CredentialType } from "./credential-type";
 import { Event } from "./event";
 import { ManifestEntity } from './manifest-entity';
 import { Registrant } from "./registrant";
 import { Report } from "./report";
-import { ScanningException } from "./scanning_exception";
-import { ScanningExceptionZoneAcl } from "./scanning_exception_zone_acl";
+import { ScanningException } from "./scanning-exception";
+import { ScanningExceptionZoneAcl } from "./scanning-exception-zone-acl";
 import { Schedule } from './schedule';
-import { ScheduleSegment } from "./schedule_segment";
+import { ScheduleSegment } from "./schedule-segment";
 import { Zone } from "./zone";
-import { ZoneAcl } from "./zone_acl";
-import { ZoneAclPass } from "./zone_acl_pass";
-import { ZoneScanningPoint } from "./zone_scanning_point";
+import { ZoneAcl } from "./zone-acl";
+import { ZoneAclPass } from "./zone-acl-pass";
+import { ZoneScanningPoint } from "./zone-scanning-point";
 /**
  * Created by francesco on 06/11/2016.
  */

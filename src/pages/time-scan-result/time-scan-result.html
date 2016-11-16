@@ -20,9 +20,11 @@
 
   <ion-row>
     <ion-col>Time Spent</ion-col>
-    <ion-col>3,45 minutes</ion-col>
+    <ion-col>{{searchTime}} ms</ion-col>
   </ion-row>
 
-  <img src="assets/images/success.png" class="image_centered"/>
-  <figcaption class="figcaption">SUCCESS</figcaption>
+  <img [src]='resultImgUrl' class="image_centered"/>
+  <figcaption class="figcaption">
+    {{searchResult ? 'SUCCESS' : 'FAILURE'}}
+  </figcaption>
 </ion-content>

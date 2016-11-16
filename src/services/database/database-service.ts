@@ -265,8 +265,22 @@ export class DatabaseService {
    */
   searchForTicket(ticketId: string): Promise<any> {
     return this.storage.query(
-      'SELECT * FROM orders_transactions WHERE order_transaction_id = ?',
+      'SELECT * FROM orders_transactions WHERE transaction_id = ? LIMIT 1',
       [ticketId]
+    );
+  }
+
+  /**
+   * Search for a ticket by manifest id
+   * @param {string} ticketId - the ticket to search
+   * @returns {Promise<any>}
+   */
+  searchForTicketByManifestId(manifestId: string): Promise<any> {
+    if(!manifestId)
+      return;
+    return this.storage.query(
+      'SELECT * FROM orders_transactions WHERE manifest_id = ? LIMIT 1',
+      [manifestId]
     );
   }
 
@@ -277,7 +291,7 @@ export class DatabaseService {
    */
   searchForCredential(credentialId: string): Promise<any> {
     return this.storage.query(
-      'SELECT * FROM manifest WHERE manifest_id = ?',
+      'SELECT * FROM manifest WHERE manifest_id = ? LIMIT 1',
       [credentialId]
     );
   }
@@ -289,8 +303,28 @@ export class DatabaseService {
    */
   searchForRegistrant(registrantId: string): Promise<any> {
     return this.storage.query(
-      'SELECT * FROM registrants WHERE registrant_id = ?',
+      'SELECT * FROM registrants WHERE registrant_id = ? LIMIT 1',
       [registrantId]
+    );
+  }
+
+  /**
+   * Select two random credentials from the database
+   * @returns {Promise<any>}
+   */
+  selectRandomCredentials(): Promise<any> {
+    return this.storage.query(
+      'SELECT * FROM manifest ORDER BY manifest_id LIMIT 2'
+    );
+  }
+
+  /**
+   * Select two random tickets from the database
+   * @return {Promise<any>}
+   */
+  selectRandomTickets(): Promise<any> {
+    return this.storage.query(
+      'SELECT * FROM orders_transactions ORDER BY transaction_id DESC LIMIT 2'
     );
   }
 

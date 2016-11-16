@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ScanResultService } from "../../services/scan-result/scan-result-service";
+import { ManifestEntity } from "../../models/manifest-entity";
 
 /*
   Generated class for the ManifestScanResult page.
@@ -11,7 +13,10 @@ import { Component } from '@angular/core';
   templateUrl: 'manifest-scan-result.html'
 })
 export class ManifestScanResultPage {
+  manifest: ManifestEntity;
 
-  constructor() { }
+  constructor(private scanResultService: ScanResultService) {
+    this.manifest = scanResultService.getManifest();
+  }
 
 }

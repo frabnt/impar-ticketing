@@ -12,7 +12,9 @@ import { NavParams } from "ionic-angular";
         <ion-col >
           Searched string
         </ion-col>
-        <ion-col>{{searchedDBString}}</ion-col>
+        <ion-col toggle-ellipsis>
+          {{searchedDBString}}
+        </ion-col>
       </ion-row>
       <hr>
     `

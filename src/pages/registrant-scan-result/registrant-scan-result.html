@@ -21,11 +21,15 @@
   <ion-grid class="table">
     <ion-row>
       <ion-col>First name</ion-col>
-      <ion-col>Marco</ion-col>
+      <ion-col [class.italic]="!registrant.nameFirst">
+        {{registrant.nameFirst || "empty"}}
+      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>Last name</ion-col>
-      <ion-col>Rossi</ion-col>
+      <ion-col [class.italic]="!registrant.nameLast">
+        {{registrant.nameLast || "empty"}}
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
