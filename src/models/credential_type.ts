@@ -1,27 +1,29 @@
-import { JsonProperty } from "./decorators/json-property";
+import { deserializeAs, deserialize } from "cerialize";
 /**
  * Created by francesco on 25/10/2016.
  */
 
 export class CredentialType {
-  @JsonProperty({ name: 'credential_desc' })
+  @deserializeAs('credential_desc')
   credentialDesc: string  = undefined;
-  @JsonProperty({ name: 'credential_name' })
+  @deserializeAs('credential_name')
   credentialName: string  = undefined;
-  @JsonProperty({ name: 'credential_type' })
+  @deserializeAs('credential_type')
   credentialType: string = undefined;
-  @JsonProperty({ name: 'credential_type_id' })
+  @deserializeAs('credential_type_id')
   credentialTypeId: string = undefined;
+  @deserialize
   deleted: string = undefined;
-  @JsonProperty({ name: 'is_active' })
+  @deserializeAs('is_active')
   isActive: number = undefined;
-  @JsonProperty({ name: 'is_any_uid' })
+  @deserializeAs('is_any_uid')
   isAnyUid: number = undefined;
-  @JsonProperty({ name: 'is_one_day' })
+  @deserializeAs('is_one_day')
   isOneDay: number = undefined;
+  @deserialize
   modified: string = undefined;
-  @JsonProperty({ name: 'tokens_granted' })
+  @deserializeAs('tokens_granted')
   tokensGranted: number = undefined;
-  @JsonProperty({ name: 'validation_type' })
+  @deserializeAs('validation_type')
   validationType: string = undefined;
 }

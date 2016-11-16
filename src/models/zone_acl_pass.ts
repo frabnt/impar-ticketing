@@ -1,24 +1,25 @@
-import { JsonProperty } from "./decorators/json-property";
+import { deserializeAs, deserialize } from "cerialize";
 /**
  * Created by francesco on 25/10/2016.
  */
 
 export class ZoneAclPass {
-  @JsonProperty({ name: 'credential_type_id' })
+  @deserializeAs('credential_type_id')
   credentialTypeId: string = undefined;
-  @JsonProperty({ name: 'is_active' })
+  @deserializeAs('is_active')
   isActive: number = undefined;
-  @JsonProperty({ name: 'is_deleted' })
+  @deserializeAs('is_deleted')
   isDeleted: number = undefined;
-  @JsonProperty({ name: 'is_scheduled' })
+  @deserializeAs('is_scheduled')
   isScheduled: number = undefined;
+  @deserialize
   modified: string = undefined;
-  @JsonProperty({ name: 'scan_type' })
+  @deserializeAs('scan_type')
   scanType: string = undefined;
-  @JsonProperty({ name: 'scanning_schedule_id' })
+  @deserializeAs('scanning_schedule_id')
   scanningScheduleId: string = undefined;
-  @JsonProperty({ name: 'zone_acl_id' })
+  @deserializeAs('zone_acl_id')
   zoneAclId: string = undefined;
-  @JsonProperty({ name: 'zone_acl_pass_id' })
+  @deserializeAs('zone_acl_pass_id')
   zoneAclPassId: string = undefined;
 }

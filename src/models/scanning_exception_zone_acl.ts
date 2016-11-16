@@ -1,18 +1,19 @@
-import { JsonProperty } from "./decorators/json-property";
+import { deserializeAs, deserialize } from "cerialize";
 /**
  * Created by francesco on 04/11/2016.
  */
 
 export class ScanningExceptionZoneAcl {
-  @JsonProperty({ name: 'exception_zone_id' })
+  @deserializeAs('exception_zone_id')
   exceptionZoneId: string = undefined;
-  @JsonProperty({ name: 'exception_id' })
+  @deserializeAs('exception_id')
   exceptionId: string = undefined;
-  @JsonProperty({ name: 'zone_acl_id' })
+  @deserializeAs('zone_acl_id')
   zoneAclId: string = undefined;
+  @deserialize
   modified: string = undefined;
-  @JsonProperty({ name: 'is_deleted' })
+  @deserializeAs('is_deleted')
   isDeleted: number = undefined;
-  @JsonProperty({ name: 'is_active' })
+  @deserializeAs('is_active')
   isActive: number = undefined;
 }

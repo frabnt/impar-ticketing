@@ -1,4 +1,4 @@
-import { JsonProperty } from './decorators/json-property';
+import { deserializeAs } from "cerialize";
 import { CredentialType } from "./credential_type";
 import { Event } from "./event";
 import { ManifestEntity } from './manifest-entity';
@@ -17,52 +17,52 @@ import { ZoneScanningPoint } from "./zone_scanning_point";
  */
 
 export class Manifest {
-  @JsonProperty({
-      name: 'credential_types',
-      clazz: CredentialType
-    })
+  @deserializeAs(
+    CredentialType,
+    'credential_types'
+  )
   credentialTypes: CredentialType[] = undefined;
-  @JsonProperty({ clazz: Event })
+  @deserializeAs(Event)
   event: Event = undefined;
-  @JsonProperty({ clazz: ManifestEntity })
+  @deserializeAs(ManifestEntity)
   manifest: ManifestEntity[] = undefined;
-  @JsonProperty({ clazz: Registrant })
+  @deserializeAs(Registrant)
   registrants: Registrant[] = undefined;
-  @JsonProperty({ clazz: Report })
+  @deserializeAs(Report)
   reports: Report[] = undefined;
-  @JsonProperty({
-    name: 'scanning_exceptions',
-    clazz: ScanningException
-  })
+  @deserializeAs(
+    ScanningException,
+    'scanning_exceptions'
+  )
   scanningExceptions: ScanningException[] = undefined;
-  @JsonProperty({
-    name: 'scanning_exceptions_zones_acl',
-    clazz: ScanningExceptionZoneAcl
-  })
+  @deserializeAs(
+    ScanningExceptionZoneAcl,
+    'scanning_exceptions_zones_acl'
+  )
   scanningExceptionsZonesAcl: ScanningExceptionZoneAcl[] = undefined;
-  @JsonProperty({ clazz: Schedule })
+  @deserializeAs(Schedule)
   schedules: Schedule[] = undefined;
-  @JsonProperty({
-    name: 'schedules_segments',
-    clazz: ScheduleSegment
-  })
+  @deserializeAs(
+    ScheduleSegment,
+    'schedules_segments'
+  )
   schedulesSegments: ScheduleSegment[] = undefined;
-  @JsonProperty({ clazz: Zone })
+  @deserializeAs(Zone)
   zones: Zone[] = undefined;
-  @JsonProperty({
-    name: 'zones_acl',
-    clazz: ZoneAcl
-  })
+  @deserializeAs(
+    ZoneAcl,
+    'zones_acl'
+  )
   zonesAcl: ZoneAcl[] = undefined;
-  @JsonProperty({
-    name: 'zones_acl_passes',
-    clazz: ZoneAclPass
-  })
+  @deserializeAs(
+    ZoneAclPass,
+    'zones_acl_passes'
+  )
   zonesAclPasses: ZoneAclPass[] = undefined;
-  @JsonProperty({
-    name: 'zones_scanning_points',
-    clazz: ZoneScanningPoint
-  })
+  @deserializeAs(
+    ZoneScanningPoint,
+    'zones_scanning_points'
+  )
   zonesScanningPoints: ZoneScanningPoint[] = undefined;
 
   /**

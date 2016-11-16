@@ -1,40 +1,46 @@
-import { JsonProperty } from "./decorators/json-property";
+import { deserialize, deserializeAs } from "cerialize";
 /**
  * Created by francesco on 25/10/2016.
  */
 
 export class OrderTransaction {
+  @deserialize
   activated: string = undefined;
-  @JsonProperty({ name: 'barcode_id' })
+  @deserializeAs('barcode_id')
   barcodeId: string = undefined;
-  @JsonProperty({ name: 'credential_type_id' })
+  @deserializeAs('credential_type_id')
   credentialTypeId: string = undefined;
+  @deserialize
   deactivated: string = undefined;
-  @JsonProperty({ name: 'deactivation_reason' })
+  @deserializeAs('deactivation_reason')
   deactivationReason: string = undefined;
+  @deserialize
   deleted: string = undefined;
+  @deserialize
   identifier: string = undefined;
-  @JsonProperty({ name: 'last_scan_mode' })
+  @deserializeAs('last_scan_mode')
   lastScanMode: string = undefined;
-  @JsonProperty({ name: 'manifest_id' })
+  @deserializeAs('manifest_id')
   manifestId: string = undefined;
+  @deserialize
   modified: string = undefined;
-  @JsonProperty({ name: 'one_day' })
+  @deserializeAs('one_day')
   oneDay: string = undefined;
-  @JsonProperty({ name: 'order_id' })
+  @deserializeAs('order_id')
   orderId: string = undefined;
-  @JsonProperty({ name: 'registrant_id' })
+  @deserializeAs('registrant_id')
   registrantId: string = undefined;
-  @JsonProperty({ name: 'scan_status' })
+  @deserializeAs('scan_status')
   scanStatus: number = undefined;
-  @JsonProperty({ name: 'tokens_granted' })
+  @deserializeAs('tokens_granted')
   tokensGranted: number = undefined;
-  @JsonProperty({ name: 'tokens_used' })
+  @deserializeAs('tokens_used')
   tokensUsed: number = undefined;
-  @JsonProperty({ name: 'transaction_id' })
+  @deserializeAs('transaction_id')
   transactionId: string = undefined;
-  @JsonProperty({ name: 'transaction_type' })
+  @deserializeAs('transaction_type')
   transactionType: string = undefined;
+  @deserialize
   voided: string = undefined;
 }
 

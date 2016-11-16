@@ -1,13 +1,13 @@
-import { JsonProperty } from "./decorators/json-property";
+import { deserializeAs } from "cerialize";
 /**
  * Created by francesco on 25/10/2016.
  */
 
 export class Registrant {
-  @JsonProperty({ name: 'name_first' })
+  @deserializeAs('name_first')
   nameFirst: string = undefined;
-  @JsonProperty({ name: 'name_last' })
+  @deserializeAs('name_last')
   nameLast: string = undefined;
-  @JsonProperty({ name: 'registrant_id' })
+  @deserializeAs('registrant_id')
   registrantId: string = undefined;
 }

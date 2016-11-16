@@ -8,7 +8,7 @@ import { VfsApiService } from "../../providers/vfs-api-service";
 import { Database } from "../../providers/database/database";
 import { Manifest } from "../../models/manifest";
 import { Tickets } from "../../models/tickets";
-import { MapUtils } from "../../models/decorators/map-utils";
+import {Deserialize} from "cerialize";
 
 /*
   Generated class for the Login page.
@@ -90,9 +90,11 @@ export class LoginPage implements OnInit {
       })
       .then((results) => {
         loading.setContent('Deserializing manifest...');
-        let manifest: Manifest = MapUtils.deserialize(Manifest, results[0].json());
+        let manifest: Manifest = Deserialize(results[0].json(), Manifest);
+        console.log(manifest);
         loading.setContent('Deserializing tickets...');
-        let tickets: Tickets = MapUtils.deserialize(Tickets, results[1].json());
+        let tickets: Tickets = Deserialize(results[1].json(), Tickets);
+        console.log(tickets);
 
         return this.insertDataInDB(manifest, tickets, loading);
       })

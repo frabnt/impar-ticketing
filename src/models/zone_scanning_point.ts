@@ -1,22 +1,23 @@
-import { JsonProperty } from "./decorators/json-property";
+import { deserializeAs, deserialize } from "cerialize";
 /**
  * Created by francesco on 25/10/2016.
  */
 
 export class ZoneScanningPoint {
-  @JsonProperty({ name: 'is_active' })
+  @deserializeAs('is_active')
   isActive: number = undefined;
-  @JsonProperty({ name: 'is_deleted' })
+  @deserializeAs('is_deleted')
   isDeleted: number = undefined;
+  @deserialize
   modified: string = undefined;
-  @JsonProperty({ name: 'scan_direction' })
+  @deserializeAs('scan_direction')
   scanDirection: string = undefined;
-  @JsonProperty({ name: 'scanning_point_id' })
+  @deserializeAs('scanning_point_id')
   scanningPointId: string = undefined;
-  @JsonProperty({ name: 'scanpoint_name' })
+  @deserializeAs('scanpoint_name')
   scanpointName: string = undefined;
-  @JsonProperty({ name: 'zone_acl_id' })
+  @deserializeAs('zone_acl_id')
   zoneAclId: string = undefined;
-  @JsonProperty({ name: 'zone_id' })
+  @deserializeAs('zone_id')
   zoneId: string = undefined;
 }

@@ -1,16 +1,30 @@
-import { JsonProperty } from './decorators/json-property';
+import { deserializeAs } from "cerialize";
 import { Order } from './order';
 import { OrderTransaction } from './order_transaction';
+import { Pagination } from './pagination';
 /**
  * Created by francesco on 06/11/2016.
  */
 
 export class Tickets {
-  @JsonProperty({ clazz: Order})
+  @deserializeAs(Order)
   orders: Order[] = undefined;
-  @JsonProperty({
-    name: 'orders_transactions',
-    clazz: OrderTransaction
-  })
+  @deserializeAs(
+    OrderTransaction,
+    'orders_transactions'
+  )
   ordersTransactions: OrderTransaction[] = undefined;
+  @deserializeAs(Pagination)
+  pagination: Pagination = undefined;
+
+  pushTickets(newTickets: Tickets) {
+    Array.prototype.push.apply(
+      this.orders,
+      newTickets.orders
+    );
+    Array.prototype.push.apply(
+      this.ordersTransactions,
+      newTickets.ordersTransactions
+    );
+  }
 }

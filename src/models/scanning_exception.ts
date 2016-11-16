@@ -1,18 +1,19 @@
-import { JsonProperty } from "./decorators/json-property";
+import { deserializeAs, deserialize } from "cerialize";
 /**
  * Created by francesco on 04/11/2016.
  */
 
 export class ScanningException {
-  @JsonProperty({ name: 'exception_id' })
+  @deserializeAs('exception_id')
   exceptionId: string = undefined;
-  @JsonProperty({ name: 'exception_name' })
+  @deserializeAs('exception_name')
   exceptionName: string = undefined;
-  @JsonProperty({ name: 'exception_desc' })
+  @deserializeAs('exception_desc')
   exceptionDesc: string = undefined;
+  @deserialize
   modified: string = undefined;
-  @JsonProperty({ name: 'is_deleted' })
+  @deserializeAs('is_deleted')
   isDeleted: number = undefined;
-  @JsonProperty({ name: 'is_active' })
+  @deserializeAs('is_active')
   isActive: number = undefined;
 }

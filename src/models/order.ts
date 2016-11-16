@@ -1,13 +1,15 @@
-import { JsonProperty } from "./decorators/json-property";
+import { deserializeAs, deserialize } from "cerialize";
 /**
  * Created by francesco on 25/10/2016.
  */
 
 export class Order {
-  @JsonProperty({ name: 'barcode_id' })
+  @deserializeAs('barcode_id')
   barcodeId: string = undefined;
+  @deserialize
   deleted: string = undefined;
+  @deserialize
   modified: string = undefined;
-  @JsonProperty({ name: 'order_id' })
+  @deserializeAs('order_id')
   orderId: string = undefined;
 }

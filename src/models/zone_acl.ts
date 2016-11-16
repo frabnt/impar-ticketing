@@ -1,16 +1,17 @@
-import { JsonProperty } from "./decorators/json-property";
+import { deserializeAs, deserialize } from "cerialize";
 /**
  * Created by francesco on 25/10/2016.
  */
 
 export class ZoneAcl {
-  @JsonProperty({ name: 'is_deleted' })
+  @deserializeAs('is_deleted')
   isDeleted: number = undefined;
-  @JsonProperty({ name: 'is_tokens_acl' })
+  @deserializeAs('is_tokens_acl')
   isTokensAcl: number = undefined;
+  @deserialize
   modified: string = undefined;
-  @JsonProperty({ name: 'zone_acl_id' })
+  @deserializeAs('zone_acl_id')
   zoneAclId: string = undefined;
-  @JsonProperty({ name: 'zone_id' })
+  @deserializeAs('zone_id')
   zoneId: string = undefined;
 }

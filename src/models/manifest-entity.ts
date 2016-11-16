@@ -1,24 +1,27 @@
-import { JsonProperty } from "./decorators/json-property";
+import { deserializeAs, deserialize } from "cerialize";
 /**
  * Created by francesco on 25/10/2016.
  */
 
 export class ManifestEntity {
+  @deserialize
   activated: string  = undefined;
-  @JsonProperty({ name: 'credential_type_id' })
+  @deserializeAs('credential_type_id')
   credentialTypeId: string = undefined;
+  @deserialize
   deactivated: string = undefined;
-  @JsonProperty({ name: 'deactivation_reason' })
+  @deserializeAs('deactivation_reason')
   deactivationReason: string = undefined;
-  @JsonProperty({ name: 'is_deleted' })
+  @deserializeAs('is_deleted')
   isDeleted: number = undefined;
-  @JsonProperty({ name: 'manifest_id' })
+  @deserializeAs('manifest_id')
   manifestId: string = undefined;
+  @deserialize
   modified: string = undefined;
-  @JsonProperty({ name: 'scan_code' })
+  @deserializeAs('scan_code')
   scanCode: string = undefined;
-  @JsonProperty({ name: 'scan_status' })
+  @deserializeAs('scan_status')
   scanStatus: number = undefined;
-  @JsonProperty({ name: 'validation_type' })
+  @deserializeAs('validation_type')
   validationType: string = undefined;
 }
