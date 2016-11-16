@@ -9,7 +9,7 @@ import localforage from 'localforage';
 */
 const DB_NAME: string = '_ionicstorage';
 const STORE_NAME: string = '_ionickv';
-const ACCESS_CODES_KEY: string = 'access_codes';
+const ACCESS_CODES_KEY: string = 'accessCodes';
 
 @Injectable()
 export class SettingsService {
@@ -36,7 +36,7 @@ export class SettingsService {
 
   /**
    * Set access codes list in the storage
-   * @param {string[]} accessCodeList - the list to be stored
+   * @param accessCodeList {string[]} - the list to be stored
    * @returns {Promise<string[]>}
    */
   setAccessCodesList(accessCodesList: string[]): Promise<any> {
@@ -49,65 +49,6 @@ export class SettingsService {
    */
   removeAccessCodes(): Promise<any> {
     return localforage.removeItem(ACCESS_CODES_KEY);
-  }
-
-
-  /**
-   * Store the (vfs) api token in the storage
-   * @param {string} apiToken
-   * @returns {Promise<string>}
-   */
-  setApiToken(apiToken: string): Promise<any> {
-    return localforage.setItem('apiToken', apiToken);
-  }
-
-  /**
-   * Give back the api token
-   * @returns {Promise<T>}
-   */
-  getApiToken(): Promise<any> {
-    return localforage.getItem('apiToken');
-  }
-
-  /**
-   * Remove the api token from the storage
-   * @returns {Promise<void>}
-   */
-  resetApiToken(): Promise<any> {
-    return localforage.removeItem('apiToken');
-  }
-
-  /**
-   * Store the event ID in the storage
-   * @param {string} eventID
-   * @returns {Promise<string>}
-   */
-  setEventID(eventID: string): Promise<any> {
-    return localforage.setItem('eventID', eventID);
-  }
-
-  /**
-   * Give back the event ID
-   * @returns {Promise<T>}
-   */
-  getEventID(): Promise<any> {
-    return localforage.getItem('eventID');
-  }
-
-  /**
-   * Remove the event ID from the storage
-   * @returns {Promise<void>}
-   */
-  resetEventID(): Promise<any> {
-    return localforage.removeItem('eventID');
-  }
-
-  /**
-   * Clear the storage
-   * @returns {Promise<void>}
-   */
-  clear(): Promise<any> {
-    return localforage.clear();
   }
 
 }
