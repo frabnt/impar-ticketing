@@ -7,6 +7,7 @@ import { LoginPage } from "../../login/login";
 import { VfsApiService} from "../../../services/vfs-api/vfs-api-service";
 import { DatabaseService } from "../../../services/database/database-service";
 import { CredentialsService } from "../../../services/credentials/credentials-service";
+import { StatsService } from "../../../services/stats/stats-service";
 
 @Component({
   selector: 'logout',
@@ -29,13 +30,14 @@ export class LogoutComponent {
               private alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
               private credentialService: CredentialsService,
+              private statsService: StatsService,
               private vfsApiService: VfsApiService,
               private database: DatabaseService,
               private platform: Platform){ }
 
   /**
    * Show a confirmation alert and accomplish or not the
-   * logout using authentication service basing on user choice
+   * logout basing on user choice
    */
   logout() {
     this.alertCtrl.create({
@@ -60,6 +62,10 @@ export class LogoutComponent {
               // are deleted from the storage
               .then(() => {
                 return this.resetApiCredentials();
+              })
+              .then(() => {
+                // Delete stored stats
+                return this.statsService.resetStats();
               })
               .then(() => {
                 return this.platform.ready();

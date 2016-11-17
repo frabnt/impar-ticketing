@@ -20,8 +20,8 @@ import { Registrant } from "../../models/registrant";
   templateUrl: 'scan.html'
 })
 export class ScanPage implements OnInit {
-  randomCredentials: string[];
-  randomTickets: string[];
+  randomCredentials: string[] = ['', ''];
+  randomTickets: string[] = ['', ''];
   searchForm: FormGroup;
   searchedDBString: string;
 
@@ -35,24 +35,20 @@ export class ScanPage implements OnInit {
               private builder: FormBuilder,
               private platform: Platform,
               private app: App) {
-    this.randomCredentials = ['c1', 'c2'];
-    this.randomTickets = ['t1', 't2'];
-
     this.searchForm = builder.group({
       'searchedDBString': ['', Validators.required]
     });
   }
 
+  /**
+   * Set random credentials and tickets
+   */
   ngOnInit() {
     this.platform.ready()
       .then(() => {
         this.database.openDatabase();
         this.setRandomDBStrings();
       });
-
-    this.searchForm = this.builder.group({
-      'searchedDBString': ['', Validators.required]
-    });
   }
 
   /**

@@ -15,6 +15,10 @@ import { ManifestEntity } from "../../models/manifest-entity";
 export class ManifestScanResultPage {
   manifest: ManifestEntity;
 
+  /**
+   * @constructor
+   * @param scanResultService
+   */
   constructor(private scanResultService: ScanResultService) {
     this.manifest = scanResultService.getManifest();
   }

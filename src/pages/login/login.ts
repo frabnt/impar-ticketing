@@ -207,7 +207,7 @@ export class LoginPage implements OnInit {
     stats.totalManifest = manifest.manifest.length;
 
     let startManifest: number,
-      startTickets:  number = new Date().getTime();
+        startTickets:  number = new Date().getTime();
 
     this.setSpinnerContent('Inserting orders...');
 

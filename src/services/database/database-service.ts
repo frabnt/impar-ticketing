@@ -1,6 +1,7 @@
 import { AbstractSqlStorage } from "./abstract-sql-storage";
-import { DatabaseFactory } from "./database-factory";
+import { MyDatabaseFactory } from "./my-database-factory";
 import { Injectable } from "@angular/core";
+
 
 /**
  * Created by francesco on 04/11/2016.
@@ -21,7 +22,7 @@ export class DatabaseService {
    * Open the database
    */
   openDatabase() {
-    this.storage = DatabaseFactory
+    this.storage = new MyDatabaseFactory()
       .getDatabaseInstance({ name: DB_NAME });
   }
 
