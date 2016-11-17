@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, ModalController, LoadingController, AlertController, Platform } from 'ionic-angular';
+import { NavController, ModalController, AlertController, Platform } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ModifyAccessCodePage } from "../manage-access-codes/manage-access-codes";
 import { HomeTabs } from "../home-tabs/tabs";
@@ -11,6 +11,7 @@ import { Manifest } from "../../models/manifest";
 import { Tickets } from "../../models/tickets";
 import { Deserialize } from "cerialize";
 import { StatsService } from "../../services/stats/stats-service";
+import { SpinnerService } from "../../services/spinner-service/spinner-service";
 
 /*
   Generated class for the Login page.
@@ -26,7 +27,6 @@ export class LoginPage implements OnInit {
   accessCode: string;
   accessCodesList: string[]; //store access codes list
   loginForm: FormGroup; //used to manage login form
-  spinner: any;
 
   /**
    * @constructor
@@ -42,7 +42,7 @@ export class LoginPage implements OnInit {
               private settingsService: SettingsService,
               private statsService: StatsService,
               private vfsApiService: VfsApiService,
-              private loadingCtrl: LoadingController,
+              private spinnerService: SpinnerService,
               private alertCtrl: AlertController,
               private database: DatabaseService,
               private platform: Platform) {
@@ -73,12 +73,12 @@ export class LoginPage implements OnInit {
   login(accessCode: string) {
     let manifest: Manifest,
         tickets: Tickets;
-    this.spinner = this.loadingCtrl.create({
+    this.spinnerService.createSpinner({
       spinner: 'bubbles',
       content: 'Waiting for login...',
     });
 
-    this.spinner.present();
+    this.spinnerService.presentSpinner();
 
     this.vfsApiService.doLogin(accessCode)
       .then((res) => {
@@ -89,23 +89,23 @@ export class LoginPage implements OnInit {
       })
       .then(() => {
         this.database.openDatabase();
-        this.setSpinnerContent('Creating tables...');
+        this.spinnerService.setSpinnerContent('Creating tables...');
         return this.database.createTables();
       })
       .then(() => {
-        this.setSpinnerContent('Retrieving data...');
+        this.spinnerService.setSpinnerContent('Retrieving data...');
         return this.retrieveData();
       })
       .then((results) => {
-        this.setSpinnerContent('Deserializing manifest...');
+        this.spinnerService.setSpinnerContent('Deserializing manifest...');
         manifest = Deserialize(results[0].json(), Manifest);
         console.log(manifest);
 
-        this.setSpinnerContent('Deserializing tickets...');
+        this.spinnerService.setSpinnerContent('Deserializing tickets...');
         tickets = Deserialize(results[1].json(), Tickets);
         console.log(tickets);
 
-        this.setSpinnerContent('Retrieve and deserializing remaining tickets...');
+        this.spinnerService.setSpinnerContent('Retrieve and deserializing remaining tickets...');
         return this.retrieveRemainingTickets(tickets.pagination.lastPage);
       })
       .then((result) => {
@@ -116,11 +116,11 @@ export class LoginPage implements OnInit {
         return this.storeStats();
       })
       .then(() => {
-        this.spinner.dismiss();
+        this.spinnerService.dismissSpinner();
         this.goToHome();
       })
       .catch(err => {
-        this.spinner.dismiss();
+        this.spinnerService.dismissSpinner();
         // If login goes wrong, an error message is displayed
         this.alertCtrl.create({
           title: 'Login error',
@@ -209,7 +209,7 @@ export class LoginPage implements OnInit {
     let startManifest: number,
         startTickets:  number = new Date().getTime();
 
-    this.setSpinnerContent('Inserting orders...');
+    this.spinnerService.setSpinnerContent('Inserting orders...');
 
     return this.database.batchInsertInTable(
       'orders',
@@ -217,43 +217,43 @@ export class LoginPage implements OnInit {
     )
       .then(() => {
         stats.ticketsTime = ( new Date().getTime() ) - startTickets;
-        this.setSpinnerContent('Inserting event...');
+        this.spinnerService.setSpinnerContent('Inserting event...');
         return this.database.insertInTable(
           'event',
           manifest.event );
       })
       .then(() => {
-        this.setSpinnerContent('Inserting credential types...');
+        this.spinnerService.setSpinnerContent('Inserting credential types...');
         return this.database.batchInsertInTable(
           'credentials_types',
           manifest.credentialTypes );
       })
       .then(() => {
-        this.setSpinnerContent('Inserting registrants...');
+        this.spinnerService.setSpinnerContent('Inserting registrants...');
         return this.database.batchInsertInTable(
           'registrants',
           manifest.registrants );
       })
       .then(() => {
-        this.setSpinnerContent('Inserting reports...');
+        this.spinnerService.setSpinnerContent('Inserting reports...');
         return this.database.batchInsertInTable(
           'reports',
           manifest.getReports(manifest.reports) );
       })
       .then(() => {
-        this.setSpinnerContent('Inserting zones...');
+        this.spinnerService.setSpinnerContent('Inserting zones...');
         return this.database.batchInsertInTable(
           'zones',
           manifest.zones );
       })
       .then(() => {
-        this.setSpinnerContent('Inserting schedules...');
+        this.spinnerService.setSpinnerContent('Inserting schedules...');
         return this.database.batchInsertInTable(
           'schedules',
           manifest.schedules );
       })
       .then(() => {
-        this.setSpinnerContent('Inserting manifest...');
+        this.spinnerService.setSpinnerContent('Inserting manifest...');
         startManifest = new Date().getTime();
         return this.database.batchInsertInTable(
           'manifest',
@@ -261,25 +261,25 @@ export class LoginPage implements OnInit {
       })
       .then(() => {
         stats.manifestTime = ( new Date().getTime() ) - startManifest;
-        this.setSpinnerContent('Inserting zones acl...');
+        this.spinnerService.setSpinnerContent('Inserting zones acl...');
         return this.database.batchInsertInTable(
           'zones_acl',
           manifest.zonesAcl );
       })
       .then(() => {
-        this.setSpinnerContent('Inserting zones acl passes...');
+        this.spinnerService.setSpinnerContent('Inserting zones acl passes...');
         return this.database.batchInsertInTable(
           'zones_acl_passes',
           manifest.zonesAclPasses );
       })
       .then(() => {
-        this.setSpinnerContent('Inserting zones scanning points...');
+        this.spinnerService.setSpinnerContent('Inserting zones scanning points...');
         return this.database.batchInsertInTable(
           'zones_scanning_points',
           manifest.zonesScanningPoints );
       })
       .then(() => {
-        this.setSpinnerContent('Inserting orders transactions...');
+        this.spinnerService.setSpinnerContent('Inserting orders transactions...');
         startTickets = new Date().getTime();
         return this.database.batchInsertInTable(
           'orders_transactions',
@@ -289,39 +289,29 @@ export class LoginPage implements OnInit {
         stats.ticketsTime = stats.ticketsTime +
           ( new Date().getTime() ) -
           startTickets;
-        this.setSpinnerContent('Inserting reports contents...');
+        this.spinnerService.setSpinnerContent('Inserting reports contents...');
         return this.database.batchInsertInTable(
           'reports_contents',
           manifest.getReportsContents(manifest.reports) );
       })
       .then(() => {
-        this.setSpinnerContent('Inserting schedules segments...');
+        this.spinnerService.setSpinnerContent('Inserting schedules segments...');
         return this.database.batchInsertInTable(
           'schedules_segments',
           manifest.schedulesSegments );
       })
       .then(() => {
-        this.setSpinnerContent('Inserting scanning exceptions...');
+        this.spinnerService.setSpinnerContent('Inserting scanning exceptions...');
         return this.database.batchInsertInTable(
           'scanning_exceptions',
           manifest.scanningExceptions);
       })
       .then(() => {
-        this.setSpinnerContent('Inserting scanning exceptions zones acl...');
+        this.spinnerService.setSpinnerContent('Inserting scanning exceptions zones acl...');
         return this.database.batchInsertInTable(
           'scanning_exceptions_zones_acl',
           manifest.scanningExceptionsZonesAcl );
       });
-  }
-
-  /**
-   * Set spinner textual content
-   * @param content - the text to insert
-   */
-  private setSpinnerContent(content: string) {
-    if(this.spinner) {
-      this.spinner.setContent(content);
-    }
   }
 
   /**

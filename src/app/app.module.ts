@@ -27,6 +27,7 @@ import { NumberPipe } from "../pipes/number-pipe";
 import { TimePipe } from "../pipes/time-pipe";
 import { ToggleEllipsis } from "../directives/toggle-ellipsis";
 import { ScanResultService } from "../services/scan-result/scan-result-service";
+import { SpinnerService } from "../services/spinner-service/spinner-service";
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { ScanResultService } from "../services/scan-result/scan-result-service";
     StatsService,
     ScanResultService,
     SQLite,
-    DatabaseService
+    DatabaseService,
+    SpinnerService
   ]
 })
 export class AppModule {}

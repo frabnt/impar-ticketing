@@ -2,12 +2,13 @@
  * Created by francesco on 16/10/2016.
  */
 import { Component } from '@angular/core';
-import { App, AlertController, LoadingController, Platform } from "ionic-angular";
+import { App, AlertController, Platform } from "ionic-angular";
 import { LoginPage } from "../../login/login";
 import { VfsApiService} from "../../../services/vfs-api/vfs-api-service";
 import { DatabaseService } from "../../../services/database/database-service";
 import { CredentialsService } from "../../../services/credentials/credentials-service";
 import { StatsService } from "../../../services/stats/stats-service";
+import { SpinnerService } from "../../../services/spinner-service/spinner-service";
 
 @Component({
   selector: 'logout',
@@ -28,7 +29,7 @@ export class LogoutComponent {
    */
   constructor(private app: App,
               private alertCtrl: AlertController,
-              private loadingCtrl: LoadingController,
+              private spinnerService: SpinnerService,
               private credentialService: CredentialsService,
               private statsService: StatsService,
               private vfsApiService: VfsApiService,
@@ -51,11 +52,11 @@ export class LogoutComponent {
           text: 'Yes',
           handler: () => {
             // loading spinner showed until logout procedure ends
-            let loading = this.loadingCtrl.create({
+            this.spinnerService.createSpinner({
               spinner: 'bubbles',
               content: 'Waiting for logout...',
             });
-            loading.present();
+            this.spinnerService.presentSpinner();
 
             this.vfsApiService.doLogout()
               // If logout goes well, api token and event ID
@@ -76,12 +77,12 @@ export class LogoutComponent {
                 return this.database.clear();
               })
               .then(() => {
-                loading.dismiss();
+                this.spinnerService.dismissSpinner();
                 this.app.getRootNav().setRoot(LoginPage, {},
                   {animate: true, direction: 'forward'});
               })
               .catch(err => {
-                loading.dismiss();
+                this.spinnerService.dismissSpinner();
                 // If logout goes wrong, an error message is displayed
                 this.alertCtrl.create({
                   title: 'Logout error',
