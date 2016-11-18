@@ -37,9 +37,17 @@
 
   <hr>
 
-  <p>
+  <p *ngIf="randomCredentials.length">
     Search using available <span class="italic">credentials</span>
   </p>
+
+  <ion-card *ngIf="!randomCredentials.length">
+    <ion-card-content>
+      <p>
+        <span class="underline italic">No credentials</span> available in the database
+      </p>
+    </ion-card-content>
+  </ion-card>
 
   <ion-row *ngFor = "let credential of randomCredentials; let i=index">
     <button ion-button color='secondary_custom'
@@ -51,9 +59,17 @@
 
   <hr>
 
-  <p>
+  <p *ngIf="randomTickets.length">
     Search using available <span class="italic">tickets</span>
   </p>
+
+  <ion-card *ngIf="!randomTickets.length">
+    <ion-card-content>
+      <p>
+        <span class="underline italic">No tickets</span> available in the database
+      </p>
+    </ion-card-content>
+  </ion-card>
 
   <ion-row *ngFor = "let ticket of randomTickets; let i=index">
     <button ion-button color='secondary_custom'

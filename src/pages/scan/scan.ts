@@ -20,8 +20,8 @@ import { Registrant } from "../../models/registrant";
   templateUrl: 'scan.html'
 })
 export class ScanPage implements OnInit {
-  randomCredentials: string[] = ['', ''];
-  randomTickets: string[] = ['', ''];
+  randomCredentials: string[] = [];
+  randomTickets: string[] = [];
   searchForm: FormGroup;
   searchedDBString: string;
 
@@ -60,20 +60,20 @@ export class ScanPage implements OnInit {
       .then((result) => {
         let rows = result.res.rows;
         if(rows.length > 0) {
-          this.randomCredentials[0] = rows[0].manifest_id;
+          this.randomCredentials.push( rows[0].manifest_id );
         }
         if(rows.length > 1) {
-          this.randomCredentials[1] = rows[1].manifest_id;
+          this.randomCredentials.push( rows[1].manifest_id );
         }
       });
     this.database.selectRandomTickets()
       .then((result) => {
         let rows = result.res.rows;
         if(rows.length > 0) {
-          this.randomTickets[0] = rows[0].transaction_id;
+          this.randomTickets.push( rows[0].transaction_id );
         }
         if(rows.length > 1) {
-          this.randomTickets[1] = rows[1].transaction_id;
+          this.randomTickets.push( rows[1].transaction_id );
         }
       });
   }
