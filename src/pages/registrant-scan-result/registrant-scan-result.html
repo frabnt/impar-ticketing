@@ -20,6 +20,13 @@
 
   <ion-grid class="table">
     <ion-row>
+      <ion-col>ID</ion-col>
+      <ion-col toggle-ellipsis
+               [class.italic]="!registrant.registrantId">
+        {{registrant.registrantId || "empty"}}
+      </ion-col>
+    </ion-row>
+    <ion-row>
       <ion-col>First name</ion-col>
       <ion-col [class.italic]="!registrant.nameFirst">
         {{registrant.nameFirst || "empty"}}
