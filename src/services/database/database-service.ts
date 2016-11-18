@@ -275,8 +275,6 @@ export class DatabaseService {
    * @returns {Promise<any>}
    */
   searchForTicketByManifestId(manifestId: string): Promise<any> {
-    if(!manifestId)
-      return;
     return this.storage.query(
       'SELECT * FROM orders_transactions WHERE manifest_id = ? LIMIT 1',
       [manifestId]

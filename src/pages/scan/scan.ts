@@ -133,7 +133,7 @@ export class ScanPage implements OnInit {
 
     return this.database.searchForTicket(ticketId)
       .then((result) => {
-        if(!result || !result.res.rows.length)
+        if(!result.res.rows.length)
           return;
 
         let orderTransaction: OrderTransaction = Deserialize(result.res.rows[0], OrderTransaction);
@@ -147,12 +147,12 @@ export class ScanPage implements OnInit {
         ]);
       })
       .then((results) => {
-        if(results && results[0] && results[0].res.rows.length) {
+        if(results && results[0].res.rows.length) {
           this.scanResultService.setManifest(
             Deserialize(results[0].res.rows[0], ManifestEntity)
           );
         }
-        if(results && results[1] && results[1].res.rows.length) {
+        if(results && results[1].res.rows.length) {
           this.scanResultService.setRegistrant(
             Deserialize(results[1].res.rows[0], Registrant)
           );
@@ -174,7 +174,7 @@ export class ScanPage implements OnInit {
 
     return this.database.searchForCredential(credentialId)
       .then((result) => {
-        if(!result || !result.res.rows.length)
+        if(!result.res.rows.length)
           return;
 
         let manifest: ManifestEntity = Deserialize(result.res.rows[0], ManifestEntity);
