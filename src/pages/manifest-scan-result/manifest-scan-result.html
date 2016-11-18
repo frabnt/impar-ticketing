@@ -26,16 +26,29 @@
       </ion-col>
     </ion-row>
     <ion-row>
+      <ion-col>Credential type ID</ion-col>
+      <ion-col toggle-ellipsis
+               [class.italic]="!manifest.credentialTypeId">
+        {{manifest.credentialTypeId || "empty"}}
+      </ion-col>
+    </ion-row>
+    <ion-row>
       <ion-col>Deactivated</ion-col>
       <ion-col [class.italic]="!manifest.deactivated">
         {{manifest.deactivated || "empty"}}
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col>Deactivated reson</ion-col>
+      <ion-col>Deactivated reason</ion-col>
       <ion-col toggle-ellipsis
                [class.italic]="!manifest.deactivationReason">
         {{manifest.deactivationReason || "empty"}}
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Is deleted</ion-col>
+      <ion-col [class.italic]="!manifest.isDeleted">
+        {{manifest.isDeleted || "empty"}}
       </ion-col>
     </ion-row>
     <ion-row>
