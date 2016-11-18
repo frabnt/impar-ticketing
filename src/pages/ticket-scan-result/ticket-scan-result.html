@@ -23,40 +23,62 @@
     <ion-slide>
       <ion-grid class="table">
         <ion-row>
-          <ion-col>Activated</ion-col>
-          <ion-col [class.italic]="!orderTransaction.activated">
+          <ion-col width-50>Activated</ion-col>
+          <ion-col width-50 [class.italic]="!orderTransaction.activated">
             {{orderTransaction.activated || "empty"}}
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>Credential type</ion-col>
-          <ion-col toggle-ellipsis
+          <ion-col width-50>Barcode ID</ion-col>
+          <ion-col toggle-ellipsis width-50
+                   [class.italic]="!orderTransaction.barcodeId">
+            {{orderTransaction.barcodeId || "empty"}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-50>Credential type ID</ion-col>
+          <ion-col toggle-ellipsis width-50
                    [class.italic]="!orderTransaction.credentialTypeId">
             {{orderTransaction.credentialTypeId || "empty"}}
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>Deactivated</ion-col>
-          <ion-col [class.italic]="!orderTransaction.deactivated">
+          <ion-col width-50>Deactivated</ion-col>
+          <ion-col width-50 [class.italic]="!orderTransaction.deactivated">
             {{orderTransaction.deactivated || "empty"}}
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>Deactivated reson</ion-col>
-          <ion-col toggle-ellipsis [class.italic]="!orderTransaction.deactivationReason">
+          <ion-col width-50>Deactivation reason</ion-col>
+          <ion-col toggle-ellipsis width-50
+                   [class.italic]="!orderTransaction.deactivationReason">
             {{orderTransaction.deactivationReason || "empty"}}
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>Deleted</ion-col>
-          <ion-col [class.italic]="!orderTransaction.deleted">
+          <ion-col width-50>Deleted</ion-col>
+          <ion-col width-50 [class.italic]="!orderTransaction.deleted">
             {{orderTransaction.deleted || "empty"}}
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>Modified</ion-col>
-          <ion-col [class.italic]="!orderTransaction.modified">
-            {{orderTransaction.modified || "empty"}}
+          <ion-col width-50>Identifier</ion-col>
+          <ion-col toggle-ellipsis width-50
+                   [class.italic]="!orderTransaction.identifier">
+            {{orderTransaction.identifier || "empty"}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-50>Last scan mode</ion-col>
+          <ion-col width-50 [class.italic]="!orderTransaction.lastScanMode">
+            {{orderTransaction.lastScanMode || "empty"}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-50>Manifest ID</ion-col>
+          <ion-col toggle-ellipsis width-50
+                   [class.italic]="!orderTransaction.manifestId">
+            {{orderTransaction.manifestId || "empty"}}
           </ion-col>
         </ion-row>
         <ion-row class="navigationRow">
@@ -70,38 +92,58 @@
     <ion-slide>
       <ion-grid class="table">
         <ion-row>
-          <ion-col>One day</ion-col>
-          <ion-col [class.italic]="!orderTransaction.oneDay">
+          <ion-col width-50>Modified</ion-col>
+          <ion-col width-50 [class.italic]="!orderTransaction.modified">
+            {{orderTransaction.modified || "empty"}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-50>One day</ion-col>
+          <ion-col width-50 [class.italic]="!orderTransaction.oneDay">
             {{orderTransaction.oneDay || "empty"}}
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>Scan status</ion-col>
-          <ion-col [class.italic]="!orderTransaction.scanStatus">
+          <ion-col width-50>Order ID</ion-col>
+          <ion-col toggle-ellipsis width-50
+                   [class.italic]="!orderTransaction.orderId">
+            {{orderTransaction.orderId || "empty"}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-50>Scan status</ion-col>
+          <ion-col width-50 [class.italic]="!orderTransaction.scanStatus">
             {{orderTransaction.scanStatus || "empty"}}
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>Tokens granted</ion-col>
-          <ion-col [class.italic]="!orderTransaction.tokensGranted">
+          <ion-col width-50>Tokens granted</ion-col>
+          <ion-col width-50 [class.italic]="!orderTransaction.tokensGranted">
             {{orderTransaction.tokensGranted || "empty"}}
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>Token used</ion-col>
-          <ion-col [class.italic]="!orderTransaction.tokensUsed">
+          <ion-col width-50>Token used</ion-col>
+          <ion-col width-50 [class.italic]="!orderTransaction.tokensUsed">
             {{orderTransaction.tokensUsed || "empty"}}
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>Transaction type</ion-col>
-          <ion-col [class.italic]="!orderTransaction.transactionType">
+          <ion-col width-50>Transaction ID</ion-col>
+          <ion-col toggle-ellipsis width-50
+                   [class.italic]="!orderTransaction.transactionId">
+            {{orderTransaction.manifestId || "empty"}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-50>Transaction type</ion-col>
+          <ion-col width-50 [class.italic]="!orderTransaction.transactionType">
             {{orderTransaction.transactionType || "empty"}}
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>Voided</ion-col>
-          <ion-col [class.italic]="!orderTransaction.voided">
+          <ion-col width-50>Voided</ion-col>
+          <ion-col width-50 [class.italic]="!orderTransaction.voided">
             {{orderTransaction.voided || "empty"}}
           </ion-col>
         </ion-row>
