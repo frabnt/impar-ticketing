@@ -250,13 +250,11 @@ export class DatabaseService {
   batchInsertInTable(tableName: string, arrObjs: any[]): Promise<any> {
     if(!arrObjs.length)
       return;
-    else {
-      let values = this.objsToValuesArray(arrObjs);
-      return this.storage.batch(
-        `INSERT INTO ${tableName} VALUES (${Array(values[0].length + 1).join('?,').slice(0, -1)})`,
-        values
-      );
-    }
+    let values = this.objsToValuesArray(arrObjs);
+    return this.storage.batch(
+      `INSERT INTO ${tableName} VALUES (${Array(values[0].length + 1).join('?,').slice(0, -1)})`,
+      values
+    );
   }
 
   /**
