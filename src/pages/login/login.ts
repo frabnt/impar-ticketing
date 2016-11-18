@@ -3,15 +3,13 @@ import { NavController, ModalController, AlertController, Platform } from 'ionic
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ModifyAccessCodePage } from "../manage-access-codes/manage-access-codes";
 import { HomeTabs } from "../home-tabs/tabs";
-import { CredentialsService } from "../../services/credentials/credentials-service";
 import { SettingsService } from "../../services/settings/settings-service";
 import { VfsApiService } from "../../services/vfs-api/vfs-api-service";
+import { StatsService } from "../../services/stats/stats-service";
+import { SpinnerService } from "../../services/spinner-service/spinner-service";
 import { DatabaseService } from "../../services/database/database-service";
 import { Manifest } from "../../models/manifest";
 import { Tickets } from "../../models/tickets";
-import { Deserialize } from "cerialize";
-import { StatsService } from "../../services/stats/stats-service";
-import { SpinnerService } from "../../services/spinner-service/spinner-service";
 
 /*
   Generated class for the Login page.
@@ -38,7 +36,6 @@ export class LoginPage implements OnInit {
   constructor(private navCtrl: NavController,
               private builder: FormBuilder,
               private modalCtrl: ModalController,
-              private credentialsService: CredentialsService,
               private settingsService: SettingsService,
               private statsService: StatsService,
               private vfsApiService: VfsApiService,
@@ -71,8 +68,6 @@ export class LoginPage implements OnInit {
    * @param {string} accessCode - value used for authentication
    */
   login(accessCode: string) {
-    let manifest: Manifest,
-        tickets: Tickets;
     this.spinnerService.createSpinner({
       spinner: 'bubbles',
       content: 'Waiting for login...',
@@ -81,9 +76,6 @@ export class LoginPage implements OnInit {
     this.spinnerService.presentSpinner();
 
     this.vfsApiService.doLogin(accessCode)
-      .then((res) => {
-        return this.setApiCredentials(res);
-      })
       .then(() => {
         return this.platform.ready();
       })
@@ -93,24 +85,16 @@ export class LoginPage implements OnInit {
         return this.database.createTables();
       })
       .then(() => {
-        this.spinnerService.setSpinnerContent('Retrieving data...');
-        return this.retrieveData();
+        this.spinnerService.setSpinnerContent('Retrieving and deserializing data...');
+        return Promise.all([
+          this.vfsApiService.getManifest(),
+          this.vfsApiService.getAllTickets()
+        ]);
       })
       .then((results) => {
-        this.spinnerService.setSpinnerContent('Deserializing manifest...');
-        manifest = Deserialize(results[0].json(), Manifest);
-        console.log(manifest);
-
-        this.spinnerService.setSpinnerContent('Deserializing tickets...');
-        tickets = Deserialize(results[1].json(), Tickets);
-        console.log(tickets);
-
-        this.spinnerService.setSpinnerContent('Retrieve and deserializing remaining tickets...');
-        return this.retrieveRemainingTickets(tickets.pagination.lastPage);
-      })
-      .then((result) => {
-        this.addRemainingTickets(tickets, result);
-        return this.insertDataInDB(manifest, tickets);
+        let tickets = results[1];
+        tickets[0].pushTickets(tickets[1]);
+        return this.insertDataInDB(results[0], tickets[0]);
       })
       .then(() => {
         return this.storeStats();
@@ -120,11 +104,12 @@ export class LoginPage implements OnInit {
         this.goToHome();
       })
       .catch(err => {
+        console.log(err);
         this.spinnerService.dismissSpinner();
         // If login goes wrong, an error message is displayed
         this.alertCtrl.create({
           title: 'Login error',
-          message: 'Error! Something goes wrong during login.',
+          message: 'Error! Something goes wrong during login: '+err,
           buttons: [
             {
               text: 'Ok'
@@ -132,66 +117,6 @@ export class LoginPage implements OnInit {
           ]
         }).present();
       });
-  }
-
-  /**
-   * Set api credential in vfs api service and store them
-   * using settings service
-   * @param res - result of login request
-   * @returns {Promise<any>}
-   */
-  private setApiCredentials(res): Promise<any> {
-    // Retrieve api token and event id after successful login
-    let apiToken = res.headers.get("X-VENDINI-API-TOKEN"),
-        eventID = res.headers.get("X-VENDINI-EVENT-ID");
-    // Set credentials of vfs api service and store these ones
-    // in the storage
-    this.vfsApiService.setCredentials(apiToken, eventID);
-    return Promise.all([
-      this.credentialsService.setApiToken(apiToken),
-      this.credentialsService.setEventID(eventID)
-    ]);
-  }
-
-  /**
-   * Retrieve all data (manifest and tickets)
-   * @returns {Promise<any>}
-   */
-  private retrieveData(): Promise<any> {
-    return Promise.all([
-      this.vfsApiService.getManifest(),
-      this.vfsApiService.getTickets(1)
-    ]);
-  }
-
-  /**
-   * If tickets returned by the server are split into more pages,
-   * we need to retrieve remaining pages
-   * @param pagesNumber - number of remaining pages to retrieve
-   * @returns {Promise<[T1,T2,T3,T4,T5,T6,T7,T8,T9,T10]>}
-   */
-  private retrieveRemainingTickets(pagesNumber: number): Promise<any> {
-    return Promise.all(
-      Array.from(
-        Array(pagesNumber - 1),
-        (x,i) => i+2
-      ).map((page) => {
-        return this.vfsApiService.getTickets(page);
-      })
-    );
-  }
-
-  /**
-   * Add remaining tickets
-   * @param tickets - the object to which remaining tickets must be added
-   * @param results - http responses containing remaining tickets
-   */
-  private addRemainingTickets(tickets: Tickets, results) {
-    results.map(result => {
-      tickets.pushTickets(
-        Deserialize(result.json(), Tickets)
-      );
-    });
   }
 
   /**

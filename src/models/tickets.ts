@@ -17,14 +17,23 @@ export class Tickets {
   @deserializeAs(Pagination)
   pagination: Pagination = undefined;
 
-  pushTickets(newTickets: Tickets) {
-    Array.prototype.push.apply(
-      this.orders,
-      newTickets.orders
-    );
-    Array.prototype.push.apply(
-      this.ordersTransactions,
-      newTickets.ordersTransactions
-    );
+  /**
+   * Add to this object an array of Tickets
+   * @param newTickets - the array of Tickets to add
+   */
+  pushTickets(newTickets: Tickets[]) {
+    // Each Tickets of newTickets is added to this object
+    newTickets.map(res => {
+      // Adding orders
+      Array.prototype.push.apply(
+        this.orders,
+        res.orders
+      );
+      // Adding orders transactions
+      Array.prototype.push.apply(
+        this.ordersTransactions,
+        res.ordersTransactions
+      );
+    });
   }
 }

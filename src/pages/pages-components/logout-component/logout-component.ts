@@ -6,7 +6,6 @@ import { App, AlertController, Platform } from "ionic-angular";
 import { LoginPage } from "../../login/login";
 import { VfsApiService} from "../../../services/vfs-api/vfs-api-service";
 import { DatabaseService } from "../../../services/database/database-service";
-import { CredentialsService } from "../../../services/credentials/credentials-service";
 import { StatsService } from "../../../services/stats/stats-service";
 import { SpinnerService } from "../../../services/spinner-service/spinner-service";
 
@@ -30,7 +29,6 @@ export class LogoutComponent {
   constructor(private app: App,
               private alertCtrl: AlertController,
               private spinnerService: SpinnerService,
-              private credentialService: CredentialsService,
               private statsService: StatsService,
               private vfsApiService: VfsApiService,
               private database: DatabaseService,
@@ -59,11 +57,6 @@ export class LogoutComponent {
             this.spinnerService.presentSpinner();
 
             this.vfsApiService.doLogout()
-              // If logout goes well, api token and event ID
-              // are deleted from the storage
-              .then(() => {
-                return this.resetApiCredentials();
-              })
               .then(() => {
                 // Delete stored stats
                 return this.statsService.resetStats();
@@ -98,12 +91,5 @@ export class LogoutComponent {
         }
       ]
     }).present();
-  }
-
-  private resetApiCredentials(): Promise<any> {
-    return Promise.all([
-      this.credentialService.resetApiToken(),
-      this.credentialService.resetEventID()
-    ]);
   }
 }
