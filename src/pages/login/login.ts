@@ -244,7 +244,7 @@ export class LoginPage implements OnInit {
    * Then store stats using stats-service
    * @returns {Promise<any>}
    */
-  private storeStats(): Promise<any> {
+  storeStats(): Promise<any> {
     let stats = this.statsService.stats;
     stats.totalTime = stats.manifestTime + stats.ticketsTime;
     stats.totalEntities = stats.totalManifest + stats.totalTickets;
@@ -255,7 +255,7 @@ export class LoginPage implements OnInit {
   /**
    * Navigate to home page
    */
-  private goToHome() {
+  goToHome() {
     this.navCtrl.setRoot(
       HomeTabs,
       {},

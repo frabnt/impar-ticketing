@@ -79,46 +79,52 @@ export class ScanPage implements OnInit {
   }
 
   /**
-   * Search for credential and ticket in the database
+   * Search for credential, ticket or both in the database
    * and redirect to scan result page
    * @param dbString - the string to search
    * @param type - the string type to search. It supports following values:
-   *  - 'credential': search for a credential
-   *  - 'ticket': search for a ticket
-   *  - other values/no value: search for both credentials and tickets
+   *    - 'credential': search for a credential
+   *    - 'ticket': search for a ticket
+   *    - other values/no value: search for both credentials and tickets
    */
   search(dbString: string, type?: string) {
-    new Promise((resolve, reject) => {
-      switch (type) {
-        case 'credential':
-          return this.searchForCredential(dbString)
-            .then( time => resolve(time) )
-            .catch( err => reject(err) );
-        case 'ticket':
-          return this.searchForTicket(dbString)
-            .then( (time) => resolve(time) )
-            .catch( err => reject(err) );
-        default:
-          let totalTime: number = 0;
-          return this.searchForCredential(dbString)
-            .then((time) => {
-              totalTime += time;
-              // If a credential is found, there is no need to
-              // search for a ticket
-              if(this.scanResultService.getOrderTransaction()) {
-                return 0;
-              }
-              return this.searchForTicket(dbString);
-            })
-            .then((time) => {
-              totalTime += time;
-              resolve(totalTime);
-            })
-            .catch( (err) => reject(err) );
-      }
-    })
-      .then((res) => {
-        this.goToScanResult(dbString, <number>res);
+    this.resolveSearch(dbString, type)
+      .then((time) => {
+        this.goToScanResult(dbString, time);
+      }).catch(err => console.log(err));
+  }
+
+  /**
+   * Search for credential, ticket or both in the database
+   * @param dbString - the string to search
+   * @param type - the string type to search. It supports following values:
+   *    - 'credential': search for a credential
+   *    - 'ticket': search for a ticket
+   *    - other values/no value: search for both credentials and tickets
+   * @returns {PromiseLike<number>} - time to perform the search
+   */
+  resolveSearch(dbString: string, type?: string): Promise<number> {
+    if(type == 'credential') {
+      return this.searchForCredential(dbString);
+    }
+    if(type == 'ticket') {
+      return this.searchForTicket(dbString);
+    }
+
+    let totalTime: number;
+    return this.searchForCredential(dbString)
+      .then((time) => {
+        totalTime = time;
+        // If a credential is found, there is no need to
+        // search for a ticket
+        if(this.scanResultService.getOrderTransaction()) {
+          return 0;
+        }
+        return this.searchForTicket(dbString);
+      })
+      .then((time) => {
+        totalTime += time;
+        return totalTime;
       });
   }
 
@@ -211,7 +217,7 @@ export class ScanPage implements OnInit {
    * @param dbString - string searched
    * @param searchTime - time to perform the search
    */
-  private goToScanResult(dbString: string, searchTime: number) {
+  goToScanResult(dbString: string, searchTime: number) {
     this.app.getRootNav().push(
       ScanResultPage,
       {dbString, searchTime},
