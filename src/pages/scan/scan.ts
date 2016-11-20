@@ -58,23 +58,11 @@ export class ScanPage implements OnInit {
   setRandomDBStrings() {
     this.database.selectRandomCredentials()
       .then((result) => {
-        let rows = result.res.rows;
-        if(rows.length > 0) {
-          this.randomCredentials.push( rows[0].manifest_id );
-        }
-        if(rows.length > 1) {
-          this.randomCredentials.push( rows[1].manifest_id );
-        }
+        this.randomCredentials = result;
       });
     this.database.selectRandomTickets()
       .then((result) => {
-        let rows = result.res.rows;
-        if(rows.length > 0) {
-          this.randomTickets.push( rows[0].transaction_id );
-        }
-        if(rows.length > 1) {
-          this.randomTickets.push( rows[1].transaction_id );
-        }
+        this.randomTickets = result;
       });
   }
 
@@ -142,7 +130,10 @@ export class ScanPage implements OnInit {
         if(!result.res.rows.length)
           return;
 
-        let orderTransaction: OrderTransaction = Deserialize(result.res.rows[0], OrderTransaction);
+        let orderTransaction: OrderTransaction = Deserialize(
+          result.res.rows.item(0),
+          OrderTransaction
+        );
         this.scanResultService.setOrderTransaction(orderTransaction);
         this.scanResultService.setSearchSuccessful();
 
@@ -155,12 +146,12 @@ export class ScanPage implements OnInit {
       .then((results) => {
         if(results && results[0].res.rows.length) {
           this.scanResultService.setManifest(
-            Deserialize(results[0].res.rows[0], ManifestEntity)
+            Deserialize(results[0].res.rows.item(0), ManifestEntity)
           );
         }
         if(results && results[1].res.rows.length) {
           this.scanResultService.setRegistrant(
-            Deserialize(results[1].res.rows[0], Registrant)
+            Deserialize(results[1].res.rows.item(0), Registrant)
           );
         }
 
@@ -183,7 +174,10 @@ export class ScanPage implements OnInit {
         if(!result.res.rows.length)
           return;
 
-        let manifest: ManifestEntity = Deserialize(result.res.rows[0], ManifestEntity);
+        let manifest: ManifestEntity = Deserialize(
+          result.res.rows.item(0),
+          ManifestEntity
+        );
         this.scanResultService.setManifest(manifest);
         this.scanResultService.setSearchSuccessful();
 
@@ -194,7 +188,10 @@ export class ScanPage implements OnInit {
         if(!result || !result.res.rows.length)
           return;
 
-        let orderTransaction: OrderTransaction = Deserialize(result.res.rows[0], OrderTransaction);
+        let orderTransaction: OrderTransaction = Deserialize(
+          result.res.rows.item(0),
+          OrderTransaction
+        );
         this.scanResultService.setOrderTransaction(orderTransaction);
 
         // Searching for registrant linked to the credential
@@ -203,7 +200,7 @@ export class ScanPage implements OnInit {
       .then((result) => {
         if(result && result.res.rows.length) {
           this.scanResultService.setRegistrant(
-            Deserialize(result.res.rows[0], Registrant)
+            Deserialize(result.res.rows.item(0), Registrant)
           );
         }
 

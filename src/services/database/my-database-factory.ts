@@ -21,10 +21,8 @@ export class MyDatabaseFactory implements DatabaseFactory {
    * @returns {any} - db object
    */
   getDatabaseInstance(options): AbstractSqlStorage {
-    if( winRef().sqlitePlugin ) {
-      return new SQLiteStorage(options);
-    } else {
-      return new WebSQLStorage(options.name);
-    }
+    return winRef().sqlitePlugin ?
+      new SQLiteStorage(options) :
+      new WebSQLStorage(options.name);
   }
 }

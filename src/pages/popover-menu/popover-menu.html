@@ -1,7 +1,11 @@
 <ion-list>
-  <ion-list-header>Menu</ion-list-header>
+  <ion-list-header class="no-btm-margin">
+    Menu
+  </ion-list-header>
 
-  <button ion-item (click)="goHome()">Home</button>
+  <button ion-item detail-none (click)="goHome()">
+    Home
+  </button>
 
   <logout (click)="dismissMenu()">
     <span id="logoutText">Logout</span>

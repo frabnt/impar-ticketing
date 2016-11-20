@@ -1,9 +1,14 @@
 page-popover-menu {
+  .no-btm-margin {
+    margin-bottom: 0px;
+  }
+
   logout button {
     width: 100%;
     margin: 0 !important;
     min-height: 4.4rem;
   }
+
   #logoutText {
     color: black;
     text-transform: none;

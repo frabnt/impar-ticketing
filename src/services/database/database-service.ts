@@ -12,17 +12,20 @@ const DB_NAME: string = 'impar_storage';
 @Injectable()
 export class DatabaseService {
   private storage: AbstractSqlStorage;
+  private databaseFactory: MyDatabaseFactory;
 
   /**
    * @constructor
    */
-  constructor() { }
+  constructor() {
+    this.databaseFactory = new MyDatabaseFactory();
+  }
 
   /**
    * Open the database
    */
   openDatabase() {
-    this.storage = new MyDatabaseFactory()
+    this.storage = this.databaseFactory
       .getDatabaseInstance({ name: DB_NAME });
   }
 
@@ -271,7 +274,7 @@ export class DatabaseService {
 
   /**
    * Search for a ticket by manifest id
-   * @param {string} ticketId - the ticket to search
+   * @param {string} manifestId - the manifest to search in tickets table
    * @returns {Promise<any>}
    */
   searchForTicketByManifestId(manifestId: string): Promise<any> {
@@ -306,23 +309,53 @@ export class DatabaseService {
   }
 
   /**
+   * Cast random credentials/tickets objects to string array.
+   * Each array value corresponds to the value of objects
+   * specific property
+   * @param rows - sql result row list
+   * @param objProp - the objects property
+   * @returns {Array} - string array of objects values
+   */
+  private castRndCredentialsTicketsToArr(rows, objProp: string): string[] {
+    let objsVal = [];
+    for(let i = 0; i < rows.length; i++) {
+      if(rows.item(i).hasOwnProperty(objProp))
+        objsVal.push(rows.item(i)[objProp]);
+    }
+    return objsVal;
+  }
+
+  /**
    * Select two random credentials from the database
-   * @returns {Promise<any>}
+   * @returns {Promise<any>} - objects array returned by the query
    */
   selectRandomCredentials(): Promise<any> {
     return this.storage.query(
-      'SELECT * FROM manifest ORDER BY manifest_id LIMIT 2'
-    );
+      'SELECT manifest_id FROM manifest ORDER BY manifest_id LIMIT 2'
+    )
+      .then((result) => {
+        console.log(result);
+        return this.castRndCredentialsTicketsToArr(
+          result.res.rows,
+          'manifest_id'
+        );
+      });
   }
 
   /**
    * Select two random tickets from the database
-   * @return {Promise<any>}
+   * @return {Promise<any>} - objects array returned by the query
    */
   selectRandomTickets(): Promise<any> {
     return this.storage.query(
-      'SELECT * FROM orders_transactions ORDER BY transaction_id DESC LIMIT 2'
-    );
+      'SELECT transaction_id FROM orders_transactions ORDER BY transaction_id LIMIT 2'
+    )
+      .then((result) => {
+        return this.castRndCredentialsTicketsToArr(
+          result.res.rows,
+          'transaction_id'
+        );
+      });
   }
 
   /**
