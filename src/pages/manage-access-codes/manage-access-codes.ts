@@ -68,7 +68,7 @@ export class ModifyAccessCodePage {
       .then(() => {
         this.view.dismiss(this.codeList);
       })
-      .catch((err) => {
+      .catch(err => {
         this.alertCtrl.create({
           title: 'Error',
           message: 'Something goes wrong saving settings.',

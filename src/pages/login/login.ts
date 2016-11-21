@@ -93,7 +93,7 @@ export class LoginPage implements OnInit {
           this.vfsApiService.getAllTickets()
         ]);
       })
-      .then((results) => {
+      .then(results => {
         let tickets = results[1];
         tickets[0].pushTickets(tickets[1]);
         return this.insertDataInDB(results[0], tickets[0]);
@@ -278,7 +278,7 @@ export class LoginPage implements OnInit {
    */
   manageAccessCodes() {
     let addModal = this.modalCtrl.create(ModifyAccessCodePage, {codeList: this.accessCodesList});
-    addModal.onDidDismiss( (codeList?) => {
+    addModal.onDidDismiss(codeList => {
       if(codeList) {
         this.accessCodesList = codeList;
       }

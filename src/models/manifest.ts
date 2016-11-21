@@ -73,7 +73,7 @@ export class Manifest {
   getReports(reports: Report[]): any[] {
     let res: any[] = [];
 
-    reports.map((report) => {
+    reports.map(report => {
       res.push([report.reportId, report.type]);
     });
     return res;
@@ -87,8 +87,8 @@ export class Manifest {
   getReportsContents(reports: Report[]): any[] {
     let res: any[] = [];
 
-    reports.map((report) => {
-      report.content.zones.map((zone) => {
+    reports.map(report => {
+      report.content.zones.map(zone => {
         zone.credentialsTypes.map(credType => {
           res.push([
             credType.entryId,

@@ -29,7 +29,7 @@ export class WelcomePage {
    */
   ionViewDidLoad() {
     this.vfsApiService.getCredentials()
-      .then((res) => {
+      .then(res => {
         // If API token and event ID are set, user hasn't performed logout yet
         // so is currently authenticated
         if(res[0] && res[1]) {

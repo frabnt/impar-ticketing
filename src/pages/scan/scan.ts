@@ -59,11 +59,11 @@ export class ScanPage implements OnInit {
    */
   setRandomDBStrings() {
     this.database.selectRandomCredentials()
-      .then((result) => {
+      .then(result => {
         this.randomCredentials = result;
       });
     this.database.selectRandomTickets()
-      .then((result) => {
+      .then(result => {
         this.randomTickets = result;
       });
   }
@@ -103,7 +103,7 @@ export class ScanPage implements OnInit {
 
     let totalTime: number;
     return this.searchForCredential(dbString)
-      .then((time) => {
+      .then(time => {
         totalTime = time;
         // If a credential is found, there is no need to
         // search for a ticket
@@ -112,7 +112,7 @@ export class ScanPage implements OnInit {
         }
         return this.searchForTicket(dbString);
       })
-      .then((time) => {
+      .then(time => {
         totalTime += time;
         return totalTime;
       });
@@ -128,7 +128,7 @@ export class ScanPage implements OnInit {
     let time: number = this.execTimeService.startCounting();
 
     return this.database.searchForTicket(ticketId)
-      .then((result) => {
+      .then(result => {
         if(!result.res.rows.length)
           return;
 
@@ -145,7 +145,7 @@ export class ScanPage implements OnInit {
           this.database.searchForRegistrant(orderTransaction.registrantId)
         ]);
       })
-      .then((results) => {
+      .then(results => {
         if(results && results[0].res.rows.length) {
           this.scanResultService.setManifest(
             Deserialize(results[0].res.rows.item(0), ManifestEntity)
@@ -170,7 +170,7 @@ export class ScanPage implements OnInit {
     let time: number = this.execTimeService.startCounting();
 
     return this.database.searchForCredential(credentialId)
-      .then((result) => {
+      .then(result => {
         if(!result.res.rows.length)
           return;
 
@@ -184,7 +184,7 @@ export class ScanPage implements OnInit {
         // Searching for ticket linked to the credential
         return this.database.searchForTicketByManifestId(manifest.manifestId);
       })
-      .then((result) => {
+      .then(result => {
         if(!result || !result.res.rows.length)
           return;
 
@@ -197,7 +197,7 @@ export class ScanPage implements OnInit {
         // Searching for registrant linked to the credential
         return this.database.searchForRegistrant(orderTransaction.registrantId);
       })
-      .then((result) => {
+      .then(result => {
         if(result && result.res.rows.length) {
           this.scanResultService.setRegistrant(
             Deserialize(result.res.rows.item(0), Registrant)
