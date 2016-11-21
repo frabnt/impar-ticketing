@@ -18,63 +18,88 @@
 <ion-content padding>
   <search-info></search-info>
 
+  <ion-segment [(ngModel)]="tableTabs">
+    <ion-segment-button value="tableTab1">
+      #1
+    </ion-segment-button>
+    <ion-segment-button value="tableTab2">
+      #2
+    </ion-segment-button>
+  </ion-segment>
+
   <ion-grid class="table">
-    <ion-row>
-      <ion-col width-50>Activated</ion-col>
-      <ion-col width-50 [class.italic]="!manifest.activated">
-        {{manifest.activated || "empty"}}
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col width-50>Credential type ID</ion-col>
-      <ion-col toggle-ellipsis width-50
-               [class.italic]="!manifest.credentialTypeId">
-        {{manifest.credentialTypeId || "empty"}}
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col width-50>Deactivated</ion-col>
-      <ion-col width-50 [class.italic]="!manifest.deactivated">
-        {{manifest.deactivated || "empty"}}
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col width-50>Deactivated reason</ion-col>
-      <ion-col toggle-ellipsis width-50
-               [class.italic]="!manifest.deactivationReason">
-        {{manifest.deactivationReason || "empty"}}
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col width-50>Is deleted</ion-col>
-      <ion-col width-50 [class.italic]="!manifest.isDeleted">
-        {{manifest.isDeleted || "empty"}}
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col width-50>Modified</ion-col>
-      <ion-col width-50 [class.italic]="!manifest.modified">
-        {{manifest.modified || "empty"}}
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col width-50>Scan code</ion-col>
-      <ion-col toggle-ellipsis width-50
-               [class.italic]="!manifest.scanCode">
-        {{manifest.scanCode || "empty"}}
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col width-50>Scan status</ion-col>
-      <ion-col width-50 [class.italic]="!manifest.scanStatus">
-        {{manifest.scanStatus || "empty"}}
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col width-50>Validation type</ion-col>
-      <ion-col width-50 [class.italic]="!manifest.validationType">
-        {{manifest.validationType || "empty"}}
-      </ion-col>
-    </ion-row>
+    <div [ngSwitch]="tableTabs">
+
+      <div *ngSwitchCase="'tableTab1'">
+        <ion-row>
+          <ion-col width-50>Activated</ion-col>
+          <ion-col width-50 [class.italic]="!manifest.activated">
+            {{manifest.activated || "empty"}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-50>Credential type ID</ion-col>
+          <ion-col toggle-ellipsis width-50
+                   [class.italic]="!manifest.credentialTypeId">
+            {{manifest.credentialTypeId || "empty"}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-50>Deactivated</ion-col>
+          <ion-col width-50 [class.italic]="!manifest.deactivated">
+            {{manifest.deactivated || "empty"}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-50>Deactivated reason</ion-col>
+          <ion-col toggle-ellipsis width-50
+                   [class.italic]="!manifest.deactivationReason">
+            {{manifest.deactivationReason || "empty"}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-50>Is deleted</ion-col>
+          <ion-col width-50 [class.italic]="!manifest.isDeleted">
+            {{manifest.isDeleted || "empty"}}
+          </ion-col>
+        </ion-row>
+      </div>
+
+      <div *ngSwitchCase="'tableTab2'">
+        <ion-row>
+          <ion-col width-50>Manifest ID</ion-col>
+          <ion-col toggle-ellipsis width-50
+                   [class.italic]="!manifest.manifestId">
+            {{manifest.manifestId || "empty"}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-50>Modified</ion-col>
+          <ion-col width-50 [class.italic]="!manifest.modified">
+            {{manifest.modified || "empty"}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-50>Scan code</ion-col>
+          <ion-col toggle-ellipsis width-50
+                   [class.italic]="!manifest.scanCode">
+            {{manifest.scanCode || "empty"}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-50>Scan status</ion-col>
+          <ion-col width-50 [class.italic]="!manifest.scanStatus">
+            {{manifest.scanStatus || "empty"}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-50>Validation type</ion-col>
+          <ion-col width-50 [class.italic]="!manifest.validationType">
+            {{manifest.validationType || "empty"}}
+          </ion-col>
+        </ion-row>
+      </div>
+
+    </div>
   </ion-grid>
 </ion-content>

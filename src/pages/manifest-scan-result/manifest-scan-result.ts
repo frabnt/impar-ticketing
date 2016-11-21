@@ -13,6 +13,7 @@ import { ManifestEntity } from "../../models/manifest-entity";
   templateUrl: 'manifest-scan-result.html'
 })
 export class ManifestScanResultPage {
+  tableTabs: string = 'tableTab1'; // table tabs
   manifest: ManifestEntity;
 
   /**

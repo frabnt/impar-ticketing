@@ -1,5 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
-import { Slides } from "ionic-angular";
+import { Component } from '@angular/core';
 import { OrderTransaction } from "../../models/order-transaction";
 import { ScanResultService } from "../../services/scan-result/scan-result-service";
 
@@ -14,7 +13,7 @@ import { ScanResultService } from "../../services/scan-result/scan-result-servic
   templateUrl: 'ticket-scan-result.html'
 })
 export class TicketScanResultPage {
-  tableTabs: string = 'tableTab1';
+  tableTabs: string = 'tableTab1'; // table tabs
   orderTransaction: OrderTransaction;
 
   /**
