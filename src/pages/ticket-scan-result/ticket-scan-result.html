@@ -18,10 +18,23 @@
 <ion-content padding>
   <search-info></search-info>
 
-  <ion-slides #mySlider pager>
+  <ion-segment [(ngModel)]="tableTabs">
+    <ion-segment-button value="tableTab1">
+      #1
+    </ion-segment-button>
+    <ion-segment-button value="tableTab2">
+      #2
+    </ion-segment-button>
+    <ion-segment-button value="tableTab3">
+      #3
+    </ion-segment-button>
+  </ion-segment>
 
-    <ion-slide>
-      <ion-grid class="table">
+  <ion-grid class="table">
+
+    <div [ngSwitch]="tableTabs">
+
+      <div *ngSwitchCase="'tableTab1'">
         <ion-row>
           <ion-col width-50>Activated</ion-col>
           <ion-col width-50 [class.italic]="!orderTransaction.activated">
@@ -61,6 +74,9 @@
             {{orderTransaction.deleted || "empty"}}
           </ion-col>
         </ion-row>
+      </div>
+
+      <div *ngSwitchCase="'tableTab2'">
         <ion-row>
           <ion-col width-50>Identifier</ion-col>
           <ion-col toggle-ellipsis width-50
@@ -81,16 +97,6 @@
             {{orderTransaction.manifestId || "empty"}}
           </ion-col>
         </ion-row>
-        <ion-row class="navigationRow">
-          <button ion-button clear (click)="nextSlide()">
-            <ion-icon name="arrow-forward"></ion-icon>
-          </button>
-        </ion-row>
-      </ion-grid>
-    </ion-slide>
-
-    <ion-slide>
-      <ion-grid class="table">
         <ion-row>
           <ion-col width-50>Modified</ion-col>
           <ion-col width-50 [class.italic]="!orderTransaction.modified">
@@ -110,6 +116,9 @@
             {{orderTransaction.orderId || "empty"}}
           </ion-col>
         </ion-row>
+      </div>
+
+      <div *ngSwitchCase="'tableTab3'">
         <ion-row>
           <ion-col width-50>Scan status</ion-col>
           <ion-col width-50 [class.italic]="!orderTransaction.scanStatus">
@@ -147,13 +156,7 @@
             {{orderTransaction.voided || "empty"}}
           </ion-col>
         </ion-row>
-        <ion-row class="navigationRow">
-          <button ion-button clear (click)="prevSlide()">
-            <ion-icon name="arrow-back"></ion-icon>
-          </button>
-        </ion-row>
-      </ion-grid>
-    </ion-slide>
-
-  </ion-slides>
+      </div>
+    </div>
+  </ion-grid>
 </ion-content>

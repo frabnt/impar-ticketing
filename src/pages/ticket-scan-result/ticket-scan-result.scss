@@ -1,18 +1,5 @@
 page-ticket-scan-result {
-  .table {
-    position: absolute;
-    top: 2px;
-  }
-  .navigationRow {
-    background-color: transparent;
-  }
-
-  .navigationRow ion-icon {
-    font-size: 30px;
-  }
-
-  .navigationRow button {
-    position: absolute;
-    right: 0;
+  ion-segment {
+    padding: 0 5px;
   }
 }

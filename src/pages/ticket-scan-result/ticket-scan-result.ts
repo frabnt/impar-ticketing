@@ -14,7 +14,7 @@ import { ScanResultService } from "../../services/scan-result/scan-result-servic
   templateUrl: 'ticket-scan-result.html'
 })
 export class TicketScanResultPage {
-  @ViewChild('mySlider') slider: Slides;
+  tableTabs: string = 'tableTab1';
   orderTransaction: OrderTransaction;
 
   /**
@@ -22,20 +22,6 @@ export class TicketScanResultPage {
    */
   constructor(private scanResultService: ScanResultService) {
     this.orderTransaction = this.scanResultService.getOrderTransaction();
-  }
-
-  /**
-   * Navigate to next slide of slider component
-   */
-  nextSlide() {
-    this.slider.slideNext(500);
-  }
-
-  /**
-   * Navigate to previous slide of slider component
-   */
-  prevSlide() {
-    this.slider.slidePrev(500);
   }
 
 }
