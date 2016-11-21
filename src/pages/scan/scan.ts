@@ -8,6 +8,7 @@ import { Deserialize } from "cerialize";
 import { ManifestEntity } from "../../models/manifest-entity";
 import { OrderTransaction } from "../../models/order-transaction";
 import { Registrant } from "../../models/registrant";
+import { ExecTimeService } from "../../services/exec-time/exec-time-service";
 
 /*
   Generated class for the Scan page.
@@ -31,6 +32,7 @@ export class ScanPage implements OnInit {
    * @param app
    */
   constructor(private scanResultService: ScanResultService,
+              private execTimeService: ExecTimeService,
               private database: DatabaseService,
               private builder: FormBuilder,
               private platform: Platform,
@@ -123,7 +125,7 @@ export class ScanPage implements OnInit {
    * @returns {PromiseLike<number>} - time to perform the search
    */
   searchForTicket(ticketId: string): Promise<number> {
-    let time: number = new Date().getTime();
+    let time: number = this.execTimeService.startCounting();
 
     return this.database.searchForTicket(ticketId)
       .then((result) => {
@@ -154,9 +156,7 @@ export class ScanPage implements OnInit {
             Deserialize(results[1].res.rows.item(0), Registrant)
           );
         }
-
-        time = ( new Date().getTime() ) - time;
-        return time;
+        return this.execTimeService.endCounting(time);
       });
   }
 
@@ -167,7 +167,7 @@ export class ScanPage implements OnInit {
    * @returns {PromiseLike<number>} - time to perform the search
    */
   searchForCredential(credentialId: string): Promise<number> {
-    let time: number = new Date().getTime();
+    let time: number = this.execTimeService.startCounting();
 
     return this.database.searchForCredential(credentialId)
       .then((result) => {
@@ -204,8 +204,7 @@ export class ScanPage implements OnInit {
           );
         }
 
-        time = ( new Date().getTime() ) - time;
-        return time;
+        return this.execTimeService.endCounting(time);
       });
   }
 

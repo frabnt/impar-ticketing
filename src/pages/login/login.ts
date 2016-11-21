@@ -6,10 +6,11 @@ import { HomeTabs } from "../home-tabs/tabs";
 import { SettingsService } from "../../services/settings/settings-service";
 import { VfsApiService } from "../../services/vfs-api/vfs-api-service";
 import { StatsService } from "../../services/stats/stats-service";
-import { SpinnerService } from "../../services/spinner-service/spinner-service";
+import { SpinnerService } from "../../services/spinner/spinner-service";
 import { DatabaseService } from "../../services/database/database-service";
 import { Manifest } from "../../models/manifest";
 import { Tickets } from "../../models/tickets";
+import { ExecTimeService } from "../../services/exec-time/exec-time-service";
 
 /*
   Generated class for the Login page.
@@ -40,6 +41,7 @@ export class LoginPage implements OnInit {
               private statsService: StatsService,
               private vfsApiService: VfsApiService,
               private spinnerService: SpinnerService,
+              private execTimeService: ExecTimeService,
               private alertCtrl: AlertController,
               private database: DatabaseService,
               private platform: Platform) {
@@ -135,7 +137,7 @@ export class LoginPage implements OnInit {
     );
 
     let startManifest: number,
-        startTickets:  number = new Date().getTime();
+        startTickets:  number = this.execTimeService.startCounting();
 
     this.spinnerService.setSpinnerContent('Inserting orders...');
 
@@ -145,7 +147,7 @@ export class LoginPage implements OnInit {
     )
       .then(() => {
         this.statsService.setTicketsTime(
-          ( new Date().getTime() ) - startTickets
+          this.execTimeService.endCounting(startTickets)
         );
         this.spinnerService.setSpinnerContent('Inserting event...');
         return this.database.insertInTable(
@@ -184,14 +186,14 @@ export class LoginPage implements OnInit {
       })
       .then(() => {
         this.spinnerService.setSpinnerContent('Inserting manifest...');
-        startManifest = new Date().getTime();
+        startManifest = this.execTimeService.startCounting();
         return this.database.batchInsertInTable(
           'manifest',
           manifest.manifest );
       })
       .then(() => {
         this.statsService.setManifestTime(
-          ( new Date().getTime() ) - startManifest
+          this.execTimeService.endCounting(startManifest)
         );
         this.spinnerService.setSpinnerContent('Inserting zones acl...');
         return this.database.batchInsertInTable(
@@ -212,7 +214,7 @@ export class LoginPage implements OnInit {
       })
       .then(() => {
         this.spinnerService.setSpinnerContent('Inserting orders transactions...');
-        startTickets = new Date().getTime();
+        startTickets = this.execTimeService.startCounting();
         return this.database.batchInsertInTable(
           'orders_transactions',
           tickets.ordersTransactions );
@@ -220,8 +222,7 @@ export class LoginPage implements OnInit {
       .then(() => {
         this.statsService.setTicketsTime(
           this.statsService.getTicketsTime() +
-          ( new Date().getTime() ) -
-          startTickets
+          this.execTimeService.endCounting(startTickets)
         );
 
         this.spinnerService.setSpinnerContent('Inserting reports contents...');
