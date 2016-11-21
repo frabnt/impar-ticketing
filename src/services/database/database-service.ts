@@ -334,7 +334,6 @@ export class DatabaseService {
       'SELECT manifest_id FROM manifest ORDER BY manifest_id LIMIT 2'
     )
       .then((result) => {
-        console.log(result);
         return this.castRndCredentialsTicketsToArr(
           result.res.rows,
           'manifest_id'

@@ -14,7 +14,7 @@ const STATS_KEY: string = 'stats';
 
 @Injectable()
 export class StatsService {
-  stats: Stats = new Stats();
+  private stats: Stats = new Stats();
 
   /**
    * @constructor
@@ -24,6 +24,62 @@ export class StatsService {
       name: DB_NAME,
       storeName: STORE_NAME // Should be alphanumeric, with underscores
     });
+  }
+
+  /**
+   * Set total number of tickets entities
+   * @param total - tickets entities
+   */
+  setTotalTickets(total: number) {
+    this.stats.totalTickets = total;
+  }
+
+  /**
+   * Set total number of manifest entities
+   * @param total - manifest entities
+   */
+  setTotalManifest(total: number) {
+    this.stats.totalManifest = total;
+  }
+
+  /**
+   * Set the time to perform tickets mapping
+   * @param time
+   */
+  setTicketsTime(time: number) {
+    this.stats.ticketsTime = time;
+  }
+
+  /**
+   *
+   * @returns {number} - the time to perform tickets mapping
+   */
+  getTicketsTime(): number {
+    return this.stats.ticketsTime;
+  }
+
+  /**
+   * Set the time to perform manifest mapping
+   * @param time
+   */
+  setManifestTime(time: number) {
+    this.stats.manifestTime = time;
+  }
+
+  /**
+   * Set total number of entities ( = manifest entities + tickets entities )
+   */
+  updateTotalEntities() {
+    this.stats.totalEntities =
+      this.stats.totalManifest + this.stats.totalTickets;
+  }
+
+  /**
+   * Set the time to perform both tickets and manifest mapping
+   */
+  updateTotalTime() {
+    this.stats.totalTime =
+      this.stats.manifestTime + this.stats.ticketsTime;
   }
 
   /**

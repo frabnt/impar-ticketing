@@ -127,9 +127,12 @@ export class LoginPage implements OnInit {
    * @returns {PromiseLike<Promise<any>>}
    */
   private insertDataInDB(manifest: Manifest, tickets: Tickets): Promise<any> {
-    let stats = this.statsService.stats;
-    stats.totalTickets = tickets.orders.length + tickets.ordersTransactions.length;
-    stats.totalManifest = manifest.manifest.length;
+    this.statsService.setTotalTickets(
+      tickets.orders.length + tickets.ordersTransactions.length
+    );
+    this.statsService.setTotalManifest(
+      manifest.manifest.length
+    );
 
     let startManifest: number,
         startTickets:  number = new Date().getTime();
@@ -141,7 +144,9 @@ export class LoginPage implements OnInit {
       tickets.orders
     )
       .then(() => {
-        stats.ticketsTime = ( new Date().getTime() ) - startTickets;
+        this.statsService.setTicketsTime(
+          ( new Date().getTime() ) - startTickets
+        );
         this.spinnerService.setSpinnerContent('Inserting event...');
         return this.database.insertInTable(
           'event',
@@ -185,7 +190,9 @@ export class LoginPage implements OnInit {
           manifest.manifest );
       })
       .then(() => {
-        stats.manifestTime = ( new Date().getTime() ) - startManifest;
+        this.statsService.setManifestTime(
+          ( new Date().getTime() ) - startManifest
+        );
         this.spinnerService.setSpinnerContent('Inserting zones acl...');
         return this.database.batchInsertInTable(
           'zones_acl',
@@ -211,9 +218,12 @@ export class LoginPage implements OnInit {
           tickets.ordersTransactions );
       })
       .then(() => {
-        stats.ticketsTime = stats.ticketsTime +
+        this.statsService.setTicketsTime(
+          this.statsService.getTicketsTime() +
           ( new Date().getTime() ) -
-          startTickets;
+          startTickets
+        );
+
         this.spinnerService.setSpinnerContent('Inserting reports contents...');
         return this.database.batchInsertInTable(
           'reports_contents',
@@ -245,9 +255,8 @@ export class LoginPage implements OnInit {
    * @returns {Promise<any>}
    */
   storeStats(): Promise<any> {
-    let stats = this.statsService.stats;
-    stats.totalTime = stats.manifestTime + stats.ticketsTime;
-    stats.totalEntities = stats.totalManifest + stats.totalTickets;
+    this.statsService.updateTotalEntities();
+    this.statsService.updateTotalTime();
 
     return this.statsService.storeStats();
   }
