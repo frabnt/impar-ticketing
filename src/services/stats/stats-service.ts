@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import localforage from 'localforage';
+import localForage from "localforage";
 import { Stats } from "../../models/stats";
 
 /*
@@ -20,7 +20,7 @@ export class StatsService {
    * @constructor
    */
   constructor() {
-    localforage.config({
+    localForage.config({
       name: DB_NAME,
       storeName: STORE_NAME // Should be alphanumeric, with underscores
     });
@@ -88,7 +88,7 @@ export class StatsService {
    * @returns {Promise<Stats>}
    */
   storeStats(): Promise<any> {
-    return localforage.setItem(STATS_KEY, this.stats);
+    return localForage.setItem(STATS_KEY, this.stats);
   }
 
   /**
@@ -96,7 +96,7 @@ export class StatsService {
    * @returns {Promise<T>}
    */
   getStats(): Promise<any> {
-    return localforage.getItem(STATS_KEY);
+    return localForage.getItem(STATS_KEY);
   }
 
   /**
@@ -104,7 +104,7 @@ export class StatsService {
    * @returns {Promise<void>}
    */
   resetStats(): Promise<any> {
-    return localforage.removeItem(STATS_KEY);
+    return localForage.removeItem(STATS_KEY);
   }
 
 }

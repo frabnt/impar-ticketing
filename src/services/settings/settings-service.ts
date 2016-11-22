@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import localforage from 'localforage';
+import localForage from "localforage";
 
 /*
   Generated class for the SettingsService provider.
@@ -20,7 +20,7 @@ export class SettingsService {
    * @param http
    */
   constructor() {
-    localforage.config({
+    localForage.config({
       name: DB_NAME,
       storeName: STORE_NAME // Should be alphanumeric, with underscores
     });
@@ -31,7 +31,7 @@ export class SettingsService {
    * @returns {Promise<string[]>}
    */
   getAccessCodesList(): Promise<string[]> {
-    return localforage.getItem<string[]>(ACCESS_CODES_KEY);
+    return localForage.getItem<string[]>(ACCESS_CODES_KEY);
   }
 
   /**
@@ -40,7 +40,7 @@ export class SettingsService {
    * @returns {Promise<string[]>}
    */
   setAccessCodesList(accessCodesList: string[]): Promise<string[]> {
-    return localforage.setItem<string[]>(ACCESS_CODES_KEY, accessCodesList);
+    return localForage.setItem<string[]>(ACCESS_CODES_KEY, accessCodesList);
   }
 
   /**
@@ -48,7 +48,7 @@ export class SettingsService {
    * @returns {Promise<void>}
    */
   removeAccessCodes(): Promise<any> {
-    return localforage.removeItem(ACCESS_CODES_KEY);
+    return localForage.removeItem(ACCESS_CODES_KEY);
   }
 
 }

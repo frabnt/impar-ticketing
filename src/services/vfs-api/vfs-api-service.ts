@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
-import localforage from 'localforage';
+import localForage from "localforage";
 import { Tickets } from "../../models/tickets";
 import { Manifest } from "../../models/manifest";
 import { Deserialize } from "cerialize";
@@ -39,7 +39,7 @@ export class VfsApiService {
    * @param http
    */
   constructor(private http: Http) {
-    localforage.config({
+    localForage.config({
       name: DB_NAME,
       storeName: STORE_NAME // Should be alphanumeric, with underscores
     });
@@ -57,8 +57,8 @@ export class VfsApiService {
     this.eventID = eventID;
 
     return Promise.all([
-      localforage.setItem<string>(TOKEN_KEY, apiToken),
-      localforage.setItem<string>(EVENT_ID_KEY, eventID)
+      localForage.setItem<string>(TOKEN_KEY, apiToken),
+      localForage.setItem<string>(EVENT_ID_KEY, eventID)
     ]);
   }
 
@@ -71,8 +71,8 @@ export class VfsApiService {
       return Promise.resolve([this.apiToken, this.eventID]);
 
     return Promise.all([
-      localforage.getItem<string>(TOKEN_KEY),
-      localforage.getItem<string>(EVENT_ID_KEY)
+      localForage.getItem<string>(TOKEN_KEY),
+      localForage.getItem<string>(EVENT_ID_KEY)
     ]);
   }
 
@@ -85,8 +85,8 @@ export class VfsApiService {
     this.eventID = undefined;
 
     return Promise.all([
-      localforage.removeItem(TOKEN_KEY),
-      localforage.removeItem(EVENT_ID_KEY)
+      localForage.removeItem(TOKEN_KEY),
+      localForage.removeItem(EVENT_ID_KEY)
     ]);
   }
 
