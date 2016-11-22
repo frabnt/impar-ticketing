@@ -35,7 +35,7 @@ export class PopoverMenu {
   }
 
   /**
-   * Dismiss the menu (e.g., useful when user click on logout)
+   * Reset scan results and dismiss the menu
    */
   dismissMenu() {
     this.scanResultService.resetAll();

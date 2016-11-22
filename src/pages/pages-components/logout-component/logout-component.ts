@@ -14,7 +14,6 @@ import { SpinnerService } from "../../../services/spinner/spinner-service";
   template:
     `
       <button ion-button clear (click)="logout()">
-        <!-- <ion-icon name="log-out" class="larger-icon"></ion-icon> -->
         <ng-content></ng-content>
       </button>
     `
@@ -65,7 +64,7 @@ export class LogoutComponent {
                 return this.platform.ready();
               })
               .then(() => {
-                // If platform is ready, database is deleted
+                // When platform is ready the database is deleted
                 this.database.openDatabase();
                 return this.database.clear();
               })

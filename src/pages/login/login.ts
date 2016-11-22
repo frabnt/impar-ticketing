@@ -125,7 +125,6 @@ export class LoginPage implements OnInit {
    * Insert manifest and tickets data in the database
    * @param {Manifest} manifest - manifest data
    * @param {Tickets} tickets - tickets data
-   * @param spinner
    * @returns {PromiseLike<Promise<any>>}
    */
   private insertDataInDB(manifest: Manifest, tickets: Tickets): Promise<any> {

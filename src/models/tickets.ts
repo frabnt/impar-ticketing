@@ -18,22 +18,16 @@ export class Tickets {
   pagination: Pagination = undefined;
 
   /**
-   * Add to this object an array of Tickets
+   * Add an array of Tickets to this object
    * @param newTickets - the array of Tickets to add
    */
   pushTickets(newTickets: Tickets[]) {
     // Each Tickets of newTickets is added to this object
     newTickets.map(res => {
       // Adding orders
-      Array.prototype.push.apply(
-        this.orders,
-        res.orders
-      );
+      this.orders.push(...res.orders);
       // Adding orders transactions
-      Array.prototype.push.apply(
-        this.ordersTransactions,
-        res.ordersTransactions
-      );
+      this.ordersTransactions.push(...res.ordersTransactions);
     });
   }
 }

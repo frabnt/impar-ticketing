@@ -21,7 +21,7 @@ export class TimeScanResultPage {
    * @constructor
    */
   constructor(private scanResultService: ScanResultService,
-              private navParams: NavParams,) {
+              private navParams: NavParams) {
     this.searchTime = navParams.get('searchTime');
     this.searchResult = scanResultService.isSearchSuccessful();
     this.resultImgUrl += this.searchResult ? 'success.png' : 'failure.png';

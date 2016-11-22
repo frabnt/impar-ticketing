@@ -28,10 +28,10 @@ export class SettingsService {
 
   /**
    * Retrieve stored access codes
-   * @returns {Promise<T>}
+   * @returns {Promise<string[]>}
    */
   getAccessCodesList(): Promise<string[]> {
-    return localforage.getItem(ACCESS_CODES_KEY);
+    return localforage.getItem<string[]>(ACCESS_CODES_KEY);
   }
 
   /**
@@ -39,8 +39,8 @@ export class SettingsService {
    * @param accessCodeList {string[]} - the list to be stored
    * @returns {Promise<string[]>}
    */
-  setAccessCodesList(accessCodesList: string[]): Promise<any> {
-    return localforage.setItem(ACCESS_CODES_KEY, accessCodesList);
+  setAccessCodesList(accessCodesList: string[]): Promise<string[]> {
+    return localforage.setItem<string[]>(ACCESS_CODES_KEY, accessCodesList);
   }
 
   /**

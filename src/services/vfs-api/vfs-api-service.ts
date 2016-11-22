@@ -22,11 +22,17 @@ const EVENT_ID_KEY: string = 'eventID';
 
 @Injectable()
 export class VfsApiService {
+  // API URLs
   private static readonly API_BASE_URL = 'https://vfs.staging.vendini.com/api/v1';
   private static readonly AUTH_BASE_URL: string = `${VfsApiService.API_BASE_URL}/auth/registration`;
   private static readonly MANIFEST_BASE_URL: string = `${VfsApiService.API_BASE_URL}/scanning/sync`;
   private static TICKETS_BASE_URL: string = `${VfsApiService.API_BASE_URL}/scanning/tickets?`;
+
   private static readonly DEVICE_ID = '22229C46-8813-4494-B654-BCCA4C366CB1';
+
+  // API credentials
+  private apiToken: string;
+  private eventID: string;
 
   /**
    * @constructor
@@ -47,6 +53,9 @@ export class VfsApiService {
    * @returns {Promise<Promise<string>[]>}
    */
   storeCredentials(apiToken: string, eventID: string): Promise<string[]> {
+    this.apiToken = apiToken;
+    this.eventID = eventID;
+
     return Promise.all([
       localforage.setItem<string>(TOKEN_KEY, apiToken),
       localforage.setItem<string>(EVENT_ID_KEY, eventID)
@@ -54,12 +63,13 @@ export class VfsApiService {
   }
 
   /**
-
-   /**
    * Give back api token and event id
-   * @returns {Promise<Promise<string>[]>}
+   * @returns {Promise<Promise<string>[]>|Promise<string[]>}
    */
   getCredentials(): Promise<string[]> {
+    if(this.apiToken && this.eventID)
+      return Promise.resolve([this.apiToken, this.eventID]);
+
     return Promise.all([
       localforage.getItem<string>(TOKEN_KEY),
       localforage.getItem<string>(EVENT_ID_KEY)
@@ -71,6 +81,9 @@ export class VfsApiService {
    * @returns {Promise<Promise<void>[]>}
    */
   resetCredentials(): Promise<any> {
+    this.apiToken = undefined;
+    this.eventID = undefined;
+
     return Promise.all([
       localforage.removeItem(TOKEN_KEY),
       localforage.removeItem(EVENT_ID_KEY)
@@ -91,7 +104,7 @@ export class VfsApiService {
   /**
    * Perform login http (POST) request
    * @param {string} accessCode - the access code of the event
-   * @returns {Promise<Response>}
+   * @returns {Promise<any>}
    */
   doLogin(accessCode: string): Promise<any> {
     return this.http.post(
@@ -119,7 +132,7 @@ export class VfsApiService {
 
   /**
    * Perform logout http (DELETE) request
-   * @returns {Promise<Response>}
+   * @returns {Promise<any>}
    */
   doLogout(): Promise<any> {
     return this.getCredentials()
@@ -144,7 +157,7 @@ export class VfsApiService {
 
   /**
    * Perform an http (GET) request to retrieve manifest data
-   * @returns {Promise<Response>}
+   * @returns {Promise<Manifest>}
    */
   getManifest(): Promise<any> {
     return this.getCredentials()
@@ -206,7 +219,7 @@ export class VfsApiService {
           Array.from(
             Array(res.pagination.lastPage - 1),
             (x,i) => i+2
-          ).map((page) => {
+          ).map(page => {
             return this.getTickets(page, items);
           })
         );
@@ -217,6 +230,7 @@ export class VfsApiService {
   /**
    * Arrange the error message to return
    * @param error
+   * @returns {Promise<never>}
    */
   private handleError(error: any): Promise<any> {
     let errMsg = (error.message) ? error.message :
