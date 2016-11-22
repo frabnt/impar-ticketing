@@ -14,7 +14,7 @@ export class NumberPipe implements PipeTransform {
    * @param thousandsSeparator
    * @returns {string}
    */
-  transform(value: number, thousandsSeparator: string = '\''): string {
+  transform(value: number, thousandsSeparator: string = '.'): string {
     return value.toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparator);
   }
