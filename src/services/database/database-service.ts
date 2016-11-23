@@ -1,6 +1,10 @@
 import { AbstractSqlStorage } from "./abstract-sql-storage";
 import { MyDatabaseFactory } from "./my-database-factory";
 import { Injectable } from "@angular/core";
+import { Deserialize } from "cerialize";
+import { OrderTransaction } from "../../models/order-transaction";
+import { ManifestEntity } from "../../models/manifest-entity";
+import { Registrant } from "../../models/registrant";
 
 
 /**
@@ -263,49 +267,82 @@ export class DatabaseService {
   /**
    * Search for a ticket in the database
    * @param {string} ticketId - the ticket to search
-   * @returns {Promise<any>}
+   * @returns {Promise<OrderTransaction>}
    */
-  searchForTicket(ticketId: string): Promise<any> {
+  searchForTicket(ticketId: string): Promise<OrderTransaction> {
     return this.storage.query(
       'SELECT * FROM orders_transactions WHERE transaction_id = ? LIMIT 1',
       [ticketId]
-    );
+    )
+      .then(result => {
+        if(!result.res.rows.length)
+          return;
+        //deserializing query result
+        return Deserialize(
+          result.res.rows.item(0),
+          OrderTransaction
+        );
+      });
   }
 
   /**
    * Search for a ticket by manifest id
    * @param {string} manifestId - the manifest to search in tickets table
-   * @returns {Promise<any>}
+   * @returns {Promise<OrderTransaction>}
    */
-  searchForTicketByManifestId(manifestId: string): Promise<any> {
+  searchForTicketByManifestId(manifestId: string): Promise<OrderTransaction> {
     return this.storage.query(
       'SELECT * FROM orders_transactions WHERE manifest_id = ? LIMIT 1',
       [manifestId]
-    );
+    )
+      .then(result => {
+        if(!result.res.rows.length)
+          return;
+        return Deserialize(
+          result.res.rows.item(0),
+          OrderTransaction
+        );
+      });
   }
 
   /**
    * Search for a credential in the database
    * @param {string} credentialId - the credential to search
-   * @returns {Promise<any>}
+   * @returns {Promise<ManifestEntity>}
    */
-  searchForCredential(credentialId: string): Promise<any> {
+  searchForCredential(credentialId: string): Promise<ManifestEntity> {
     return this.storage.query(
       'SELECT * FROM manifest WHERE manifest_id = ? LIMIT 1',
       [credentialId]
-    );
+    )
+      .then(result => {
+        if(!result.res.rows.length)
+          return;
+        return Deserialize(
+          result.res.rows.item(0),
+          ManifestEntity
+        );
+      });
   }
 
   /**
    * Search for a registrant in the database
    * @param {string} registrantId - the registrant to search
-   * @returns {Promise<any>}
+   * @returns {Promise<Registrant>}
    */
-  searchForRegistrant(registrantId: string): Promise<any> {
+  searchForRegistrant(registrantId: string): Promise<Registrant> {
     return this.storage.query(
       'SELECT * FROM registrants WHERE registrant_id = ? LIMIT 1',
       [registrantId]
-    );
+    )
+      .then(result => {
+        if(!result.res.rows.length)
+          return;
+        return Deserialize(
+          result.res.rows.item(0),
+          Registrant
+        );
+      });
   }
 
   /**
@@ -327,7 +364,7 @@ export class DatabaseService {
 
   /**
    * Select two random credentials from the database
-   * @returns {Promise<string[]>} - objects array returned by the query
+   * @returns {Promise<string[]>} - string array containing manifest_id values
    */
   selectRandomCredentials(): Promise<string[]> {
     return this.storage.query(
@@ -343,7 +380,7 @@ export class DatabaseService {
 
   /**
    * Select two random tickets from the database
-   * @return {Promise<string[]>} - objects array returned by the query
+   * @return {Promise<string[]>} - string array containing transaction_id values
    */
   selectRandomTickets(): Promise<string[]> {
     return this.storage.query(

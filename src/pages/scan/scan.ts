@@ -4,9 +4,7 @@ import { App, Platform } from "ionic-angular";
 import { ScanResultPage } from "../scan-result-tabs/scan-result-tabs";
 import { ScanResultService } from "../../services/scan-result/scan-result-service";
 import { DatabaseService } from "../../services/database/database-service";
-import { Deserialize } from "cerialize";
 import { ManifestEntity } from "../../models/manifest-entity";
-import { OrderTransaction } from "../../models/order-transaction";
 import { Registrant } from "../../models/registrant";
 import { ExecTimeService } from "../../services/exec-time/exec-time-service";
 
@@ -128,33 +126,25 @@ export class ScanPage implements OnInit {
     let time: number = this.execTimeService.startCounting();
 
     return this.database.searchForTicket(ticketId)
-      .then(result => {
-        if(!result.res.rows.length)
+      .then(ticket => {
+        if(!ticket)
           return;
 
-        let orderTransaction: OrderTransaction = Deserialize(
-          result.res.rows.item(0),
-          OrderTransaction
-        );
-        this.scanResultService.setOrderTransaction(orderTransaction);
+        // Update scan result
+        this.scanResultService.setOrderTransaction(ticket);
         this.scanResultService.setSearchSuccessful();
-
         // Searching for manifest and registrant linked to the ticket
-        return Promise.all([
-          this.database.searchForCredential(orderTransaction.manifestId),
-          this.database.searchForRegistrant(orderTransaction.registrantId)
+        return Promise.all<ManifestEntity, Registrant>([
+          this.database.searchForCredential(ticket.manifestId),
+          this.database.searchForRegistrant(ticket.registrantId)
         ]);
       })
       .then(results => {
-        if(results && results[0].res.rows.length) {
-          this.scanResultService.setManifest(
-            Deserialize(results[0].res.rows.item(0), ManifestEntity)
-          );
+        if(results && results[0]) {
+          this.scanResultService.setManifest(results[0]);
         }
-        if(results && results[1].res.rows.length) {
-          this.scanResultService.setRegistrant(
-            Deserialize(results[1].res.rows.item(0), Registrant)
-          );
+        if(results && results[1]) {
+          this.scanResultService.setRegistrant(results[1]);
         }
         return this.execTimeService.endCounting(time);
       });
@@ -170,40 +160,29 @@ export class ScanPage implements OnInit {
     let time: number = this.execTimeService.startCounting();
 
     return this.database.searchForCredential(credentialId)
-      .then(result => {
-        if(!result.res.rows.length)
+      .then(credential => {
+        if(!credential)
           return;
 
-        let manifest: ManifestEntity = Deserialize(
-          result.res.rows.item(0),
-          ManifestEntity
-        );
-        this.scanResultService.setManifest(manifest);
+        // Update scan result
+        this.scanResultService.setManifest(credential);
         this.scanResultService.setSearchSuccessful();
 
         // Searching for ticket linked to the credential
-        return this.database.searchForTicketByManifestId(manifest.manifestId);
+        return this.database.searchForTicketByManifestId(credential.manifestId);
       })
-      .then(result => {
-        if(!result || !result.res.rows.length)
+      .then(ticket => {
+        if(!ticket)
           return;
 
-        let orderTransaction: OrderTransaction = Deserialize(
-          result.res.rows.item(0),
-          OrderTransaction
-        );
-        this.scanResultService.setOrderTransaction(orderTransaction);
-
+        this.scanResultService.setOrderTransaction(ticket);
         // Searching for registrant linked to the credential
-        return this.database.searchForRegistrant(orderTransaction.registrantId);
+        return this.database.searchForRegistrant(ticket.registrantId);
       })
-      .then(result => {
-        if(result && result.res.rows.length) {
-          this.scanResultService.setRegistrant(
-            Deserialize(result.res.rows.item(0), Registrant)
-          );
+      .then(registrant => {
+        if(registrant) {
+          this.scanResultService.setRegistrant(registrant);
         }
-
         return this.execTimeService.endCounting(time);
       });
   }
