@@ -1,8 +1,18 @@
+import { Injectable } from '@angular/core';
 /**
- * Give back a reference of window object
- * @returns {any}
+ * Created by francesco on 23/11/2016.
  */
-export let winRef = (): any => {
+
+function _window() : any {
   // return the global native browser window object
   return window;
+}
+
+@Injectable()
+export class WindowRefService {
+
+  get nativeWindow(): any {
+    return _window();
+  }
+
 }

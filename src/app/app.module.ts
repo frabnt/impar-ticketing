@@ -28,6 +28,8 @@ import { ToggleEllipsis } from "../directives/toggle-ellipsis";
 import { ScanResultService } from "../services/scan-result/scan-result-service";
 import { SpinnerService } from "../services/utils/spinner-service";
 import { ExecTimeService } from "../services/exec-time/exec-time-service";
+import { WindowRefService } from "../services/window-ref/window-ref-service";
+import { MyDatabaseFactory } from "../services/database/my-database-factory";
 
 @NgModule({
   declarations: [
@@ -80,7 +82,9 @@ import { ExecTimeService } from "../services/exec-time/exec-time-service";
     SQLite,
     DatabaseService,
     SpinnerService,
-    ExecTimeService
+    ExecTimeService,
+    WindowRefService,
+    MyDatabaseFactory
   ]
 })
 export class AppModule {}

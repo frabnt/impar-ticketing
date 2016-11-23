@@ -1,11 +1,16 @@
 import { AbstractSqlStorage } from "./abstract-sql-storage";
-import { winRef } from "../window-ref/window-ref-service";
+import { WindowRefService } from "../window-ref/window-ref-service";
+import { ReflectiveInjector } from "@angular/core";
 
 /**
  * Created by francesco on 04/11/2016.
  */
 
 export class WebSQLStorage extends AbstractSqlStorage {
+  // Inject WindowRefService dependency outside the constructor
+  private winRef: WindowRefService = ReflectiveInjector
+    .resolveAndCreate([WindowRefService])
+    .get(WindowRefService);
 
   /**
    * @constructor
@@ -13,7 +18,7 @@ export class WebSQLStorage extends AbstractSqlStorage {
    */
   constructor(name) {
     super();
-    this._db = winRef().openDatabase(name, '1.0', 'database', 5 * 1024 * 1024);
+    this._db = this.winRef.nativeWindow.openDatabase(name, '1.0', 'database', 5 * 1024 * 1024);
   }
 
   /**

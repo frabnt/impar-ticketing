@@ -1,5 +1,6 @@
 import { AbstractSqlStorage } from "./abstract-sql-storage";
-import { winRef } from "../window-ref/window-ref-service";
+import { WindowRefService } from "../window-ref/window-ref-service";
+import { ReflectiveInjector } from "@angular/core";
 
 /**
  * Created by francesco on 04/11/2016.
@@ -15,6 +16,10 @@ export class SQLiteStorage extends AbstractSqlStorage {
   static BACKUP_DOCUMENTS = 0;
   private name: string;
   private location: number;
+  // Inject WindowRefService dependency outside the constructor
+  private winRef: WindowRefService = ReflectiveInjector
+    .resolveAndCreate([WindowRefService])
+    .get(WindowRefService);
 
   /**
    * @constructor
@@ -33,7 +38,7 @@ export class SQLiteStorage extends AbstractSqlStorage {
     this.location = location;
     this.name = dbOptions.name;
 
-    this._db = winRef().sqlitePlugin.openDatabase(this.assign({
+    this._db = this.winRef.nativeWindow.sqlitePlugin.openDatabase(this.assign({
       name: dbOptions.name,
       location: location,
       createFromLocation: dbOptions.existingDatabase ? 1 : 0
@@ -74,7 +79,7 @@ export class SQLiteStorage extends AbstractSqlStorage {
    */
   clear(): Promise<any> {
     return new Promise((resolve, reject) => {
-      winRef().sqlitePlugin.deleteDatabase(
+      this.winRef.nativeWindow.sqlitePlugin.deleteDatabase(
         {
           name: this.name,
           location: this.location

@@ -1,15 +1,20 @@
 import { AbstractSqlStorage } from "./abstract-sql-storage";
 import { SQLiteStorage } from "./sqlite-storage";
 import { WebSQLStorage } from "./websql-storage";
-import { winRef } from "../window-ref/window-ref-service";
 import { DatabaseFactory } from "./database-factory";
+import { Injectable } from "@angular/core";
+import {WindowRefService} from "../window-ref/window-ref-service";
 
 /**
  * Created by francesco on 17/11/2016.
  *
  */
 
+@Injectable()
 export class MyDatabaseFactory implements DatabaseFactory {
+
+  constructor(private winRefService: WindowRefService) {}
+
   /**
    * Create a different db object depending on the execution platform
    * @param {Object} options - the object supports the following properties:
@@ -21,7 +26,7 @@ export class MyDatabaseFactory implements DatabaseFactory {
    * @returns {any} - db object
    */
   getDatabaseInstance(options): AbstractSqlStorage {
-    return winRef().sqlitePlugin ?
+    return this.winRefService.nativeWindow.sqlitePlugin ?
       new SQLiteStorage(options) :
       new WebSQLStorage(options.name);
   }

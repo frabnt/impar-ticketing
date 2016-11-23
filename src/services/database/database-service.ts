@@ -16,14 +16,11 @@ const DB_NAME: string = 'impar_storage';
 @Injectable()
 export class DatabaseService {
   private storage: AbstractSqlStorage;
-  private databaseFactory: MyDatabaseFactory;
 
   /**
    * @constructor
    */
-  constructor() {
-    this.databaseFactory = new MyDatabaseFactory();
-  }
+  constructor(private databaseFactory: MyDatabaseFactory) { }
 
   /**
    * Open the database
