@@ -7,7 +7,7 @@ import { LoginPage } from "../../login/login";
 import { VfsApiService} from "../../../services/vfs-api/vfs-api-service";
 import { DatabaseService } from "../../../services/database/database-service";
 import { StatsService } from "../../../services/stats/stats-service";
-import { SpinnerService } from "../../../services/spinner/spinner-service";
+import { SpinnerService } from "../../../services/utils/spinner-service";
 
 @Component({
   selector: 'logout',

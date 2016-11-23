@@ -61,7 +61,6 @@ export class ModifyAccessCodePage {
 
   /**
    * Save access codes list in the storage
-   * @returns {Promise<T>}
    */
   save() {
     this.settingsService.setAccessCodesList(this.codeList)

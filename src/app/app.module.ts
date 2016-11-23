@@ -26,7 +26,7 @@ import { NumberPipe } from "../pipes/number-pipe";
 import { TimePipe } from "../pipes/time-pipe";
 import { ToggleEllipsis } from "../directives/toggle-ellipsis";
 import { ScanResultService } from "../services/scan-result/scan-result-service";
-import { SpinnerService } from "../services/spinner/spinner-service";
+import { SpinnerService } from "../services/utils/spinner-service";
 import { ExecTimeService } from "../services/exec-time/exec-time-service";
 
 @NgModule({

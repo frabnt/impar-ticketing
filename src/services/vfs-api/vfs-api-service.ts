@@ -159,7 +159,7 @@ export class VfsApiService {
    * Perform an http (GET) request to retrieve manifest data
    * @returns {Promise<Manifest>}
    */
-  getManifest(): Promise<any> {
+  getManifest(): Promise<Manifest> {
     return this.getCredentials()
       .then(results => {
         return this.http.get(
@@ -236,7 +236,7 @@ export class VfsApiService {
    * @param error
    * @returns {Promise<never>}
    */
-  private handleError(error: any): Promise<any> {
+  private handleError(error: any): Promise<string> {
     let errMsg = (error.message) ? error.message :
       error.status ? `${error.status} - ${error.statusText}` : 'Server error';
 

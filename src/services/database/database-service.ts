@@ -327,9 +327,9 @@ export class DatabaseService {
 
   /**
    * Select two random credentials from the database
-   * @returns {Promise<any>} - objects array returned by the query
+   * @returns {Promise<string[]>} - objects array returned by the query
    */
-  selectRandomCredentials(): Promise<any> {
+  selectRandomCredentials(): Promise<string[]> {
     return this.storage.query(
       'SELECT manifest_id FROM manifest ORDER BY manifest_id LIMIT 2'
     )
@@ -343,9 +343,9 @@ export class DatabaseService {
 
   /**
    * Select two random tickets from the database
-   * @return {Promise<any>} - objects array returned by the query
+   * @return {Promise<string[]>} - objects array returned by the query
    */
-  selectRandomTickets(): Promise<any> {
+  selectRandomTickets(): Promise<string[]> {
     return this.storage.query(
       'SELECT transaction_id FROM orders_transactions ORDER BY transaction_id LIMIT 2'
     )

@@ -6,7 +6,7 @@ import { HomeTabs } from "../home-tabs/tabs";
 import { SettingsService } from "../../services/settings/settings-service";
 import { VfsApiService } from "../../services/vfs-api/vfs-api-service";
 import { StatsService } from "../../services/stats/stats-service";
-import { SpinnerService } from "../../services/spinner/spinner-service";
+import { SpinnerService } from "../../services/utils/spinner-service";
 import { DatabaseService } from "../../services/database/database-service";
 import { Manifest } from "../../models/manifest";
 import { Tickets } from "../../models/tickets";
@@ -88,7 +88,7 @@ export class LoginPage implements OnInit {
       })
       .then(() => {
         this.spinnerService.setSpinnerContent('Retrieving and deserializing data...');
-        return Promise.all([
+        return Promise.all<Manifest, Tickets>([
           this.vfsApiService.getManifest(),
           this.vfsApiService.getAllTickets()
         ]);
