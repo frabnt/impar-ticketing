@@ -207,12 +207,12 @@ export class VfsApiService {
    * Because of tickets could be divided into multiple pages, perform
    * multiple http request to retrieve all paginated tickets
    * @param items - number of items in each page
-   * @returns {Promise<Tickets[]>}
+   * @returns {Promise<Tickets>}
    */
-  getAllTickets(items?: number): Promise<Tickets[]> {
+  getAllTickets(items?: number): Promise<Tickets> {
     let firstPage = this.getTickets(1);
 
-    return Promise.all([
+    return Promise.all<Tickets, Tickets[]>([
       firstPage,
       firstPage.then((res) => {
         return Promise.all(
@@ -224,7 +224,11 @@ export class VfsApiService {
           })
         );
       })
-    ]);
+    ])
+      .then(results => {
+        results[0].pushTickets(results[1]);
+        return results[0];
+      });
   }
 
   /**

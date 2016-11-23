@@ -94,9 +94,7 @@ export class LoginPage implements OnInit {
         ]);
       })
       .then(results => {
-        let tickets = results[1];
-        tickets[0].pushTickets(tickets[1]);
-        return this.insertDataInDB(results[0], tickets[0]);
+        return this.insertDataInDB(results[0], results[1]);
       })
       .then(() => {
         return this.storeStats();
