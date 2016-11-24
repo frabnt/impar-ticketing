@@ -3,8 +3,7 @@ import { SQLiteStorage } from "./sqlite-storage";
 import { WebSQLStorage } from "./websql-storage";
 import { DatabaseFactory } from "./database-factory";
 import { Injectable } from "@angular/core";
-import {WindowRefService} from "../window-ref/window-ref-service";
-
+import { WindowRefService } from "../window-ref/window-ref-service";
 /**
  * Created by francesco on 17/11/2016.
  *

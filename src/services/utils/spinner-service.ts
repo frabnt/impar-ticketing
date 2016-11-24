@@ -5,13 +5,13 @@ import {
   Loading,
   NavOptions
 } from "ionic-angular";
-
 /*
   Generated class for the SpinnerService provider.
 
   See https://angular.io/docs/ts/latest/guide/dependency-injection.html
   for more info on providers and Angular 2 DI.
 */
+
 @Injectable()
 export class SpinnerService {
   private spinner: Loading;

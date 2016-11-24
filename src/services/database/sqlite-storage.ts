@@ -1,10 +1,10 @@
 import { AbstractSqlStorage } from "./abstract-sql-storage";
 import { WindowRefService } from "../window-ref/window-ref-service";
 import { ReflectiveInjector } from "@angular/core";
-
 /**
  * Created by francesco on 04/11/2016.
  */
+
 const DB_NAME: string = '__ionicstorage';
 const isFunction = (val: any) => typeof val === 'function';
 const isObject = (val: any) => typeof val === 'object';

@@ -7,13 +7,13 @@ import { DatabaseService } from "../../services/database/database-service";
 import { ManifestEntity } from "../../models/manifest-entity";
 import { Registrant } from "../../models/registrant";
 import { ExecTimeService } from "../../services/exec-time/exec-time-service";
-
 /*
   Generated class for the Scan page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+
 @Component({
   selector: 'page-scan',
   templateUrl: 'scan.html'
@@ -78,7 +78,8 @@ export class ScanPage implements OnInit {
   search(dbString: string, type?: string) {
     this.resolveSearch(dbString, type)
       .then((time) => {
-        this.goToScanResult(dbString, time);
+        this.execTimeService.setTime('dbStringSearchTime', time);
+        this.goToScanResult(dbString);
       }).catch(err => console.log(err));
   }
 
@@ -192,10 +193,10 @@ export class ScanPage implements OnInit {
    * @param dbString - string searched
    * @param searchTime - time to perform the search
    */
-  goToScanResult(dbString: string, searchTime: number) {
+  goToScanResult(dbString: string) {
     this.app.getRootNav().push(
       ScanResultPage,
-      {dbString, searchTime},
+      {dbString},
       {animate: true, direction: 'forward'}
     );
   }

@@ -16,12 +16,10 @@ import { ManifestScanResultPage } from "../pages/manifest-scan-result/manifest-s
 import { PopoverMenu } from "../pages/popover-menu/popover-menu";
 import { PopoverComponent } from "../pages/pages-components/popover-component/popover-component";
 import { RegistrantScanResultPage } from "../pages/registrant-scan-result/registrant-scan-result";
-import { SettingsService } from "../services/settings/settings-service";
 import { WelcomePage } from "../pages/welcome/welcome";
 import { VfsApiService } from "../services/vfs-api/vfs-api-service";
 import { SQLite } from "ionic-native";
 import { DatabaseService } from "../services/database/database-service";
-import { StatsService } from "../services/stats/stats-service";
 import { NumberPipe } from "../pipes/number-pipe";
 import { TimePipe } from "../pipes/time-pipe";
 import { ToggleEllipsis } from "../directives/toggle-ellipsis";
@@ -30,6 +28,8 @@ import { SpinnerService } from "../services/utils/spinner-service";
 import { ExecTimeService } from "../services/exec-time/exec-time-service";
 import { WindowRefService } from "../services/window-ref/window-ref-service";
 import { MyDatabaseFactory } from "../services/database/my-database-factory";
+import { Storage } from "@ionic/storage";
+import { LocalStorageService } from "../services/local-storage/local-storage-service";
 
 @NgModule({
   declarations: [
@@ -75,16 +75,16 @@ import { MyDatabaseFactory } from "../services/database/my-database-factory";
     PopoverMenu
   ],
   providers: [
-    SettingsService,
     VfsApiService,
-    StatsService,
     ScanResultService,
     SQLite,
     DatabaseService,
     SpinnerService,
     ExecTimeService,
     WindowRefService,
-    MyDatabaseFactory
+    MyDatabaseFactory,
+    Storage,
+    LocalStorageService
   ]
 })
 export class AppModule {}

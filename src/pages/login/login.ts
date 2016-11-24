@@ -3,21 +3,20 @@ import { NavController, ModalController, AlertController, Platform } from 'ionic
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ModifyAccessCodePage } from "../manage-access-codes/manage-access-codes";
 import { HomeTabs } from "../home-tabs/tabs";
-import { SettingsService } from "../../services/settings/settings-service";
 import { VfsApiService } from "../../services/vfs-api/vfs-api-service";
-import { StatsService } from "../../services/stats/stats-service";
 import { SpinnerService } from "../../services/utils/spinner-service";
 import { DatabaseService } from "../../services/database/database-service";
 import { Manifest } from "../../models/manifest";
 import { Tickets } from "../../models/tickets";
 import { ExecTimeService } from "../../services/exec-time/exec-time-service";
-
+import { LocalStorageService } from "../../services/local-storage/local-storage-service";
 /*
   Generated class for the Login page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
@@ -37,8 +36,7 @@ export class LoginPage implements OnInit {
   constructor(private navCtrl: NavController,
               private builder: FormBuilder,
               private modalCtrl: ModalController,
-              private settingsService: SettingsService,
-              private statsService: StatsService,
+              private storageService: LocalStorageService,
               private vfsApiService: VfsApiService,
               private spinnerService: SpinnerService,
               private execTimeService: ExecTimeService,
@@ -56,7 +54,7 @@ export class LoginPage implements OnInit {
    * to access code list variable
    */
   ngOnInit(): void {
-    this.settingsService.getAccessCodesList().then(list => {
+    this.storageService.get('accessCodes').then(list => {
       if(list) {
         this.accessCodesList = list;
       }
@@ -97,9 +95,6 @@ export class LoginPage implements OnInit {
         return this.insertDataInDB(results[0], results[1]);
       })
       .then(() => {
-        return this.storeStats();
-      })
-      .then(() => {
         this.spinnerService.dismissSpinner();
         this.goToHome();
       })
@@ -126,13 +121,6 @@ export class LoginPage implements OnInit {
    * @returns {PromiseLike<Promise<any>>}
    */
   private insertDataInDB(manifest: Manifest, tickets: Tickets): Promise<any> {
-    this.statsService.setTotalTickets(
-      tickets.orders.length + tickets.ordersTransactions.length
-    );
-    this.statsService.setTotalManifest(
-      manifest.manifest.length
-    );
-
     let startManifest: number,
         startTickets:  number = this.execTimeService.startCounting();
 
@@ -143,7 +131,8 @@ export class LoginPage implements OnInit {
       tickets.orders
     )
       .then(() => {
-        this.statsService.setTicketsTime(
+        this.execTimeService.setTime(
+          'ticketsTime',
           this.execTimeService.endCounting(startTickets)
         );
         this.spinnerService.setSpinnerContent('Inserting event...');
@@ -189,7 +178,8 @@ export class LoginPage implements OnInit {
           manifest.manifest );
       })
       .then(() => {
-        this.statsService.setManifestTime(
+        this.execTimeService.setTime(
+          'manifestTime',
           this.execTimeService.endCounting(startManifest)
         );
         this.spinnerService.setSpinnerContent('Inserting zones acl...');
@@ -217,11 +207,11 @@ export class LoginPage implements OnInit {
           tickets.ordersTransactions );
       })
       .then(() => {
-        this.statsService.setTicketsTime(
-          this.statsService.getTicketsTime() +
+        this.execTimeService.setTime(
+          'ticketsTime',
+          this.execTimeService.getTime('ticketsTime') +
           this.execTimeService.endCounting(startTickets)
         );
-
         this.spinnerService.setSpinnerContent('Inserting reports contents...');
         return this.database.batchInsertInTable(
           'reports_contents',
@@ -245,18 +235,6 @@ export class LoginPage implements OnInit {
           'scanning_exceptions_zones_acl',
           manifest.scanningExceptionsZonesAcl );
       });
-  }
-
-  /**
-   * Update total number of entities and total import time.
-   * Then store stats using stats-service
-   * @returns {Promise<any>}
-   */
-  storeStats(): Promise<any> {
-    this.statsService.updateTotalEntities();
-    this.statsService.updateTotalTime();
-
-    return this.statsService.storeStats();
   }
 
   /**

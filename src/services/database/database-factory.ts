@@ -1,5 +1,4 @@
 import { AbstractSqlStorage } from "./abstract-sql-storage";
-
 /**
  * Created by francesco on 08/11/2016.
  *

@@ -1,10 +1,10 @@
 <ion-tabs>
   <ion-tab [root]="tab1Root" tabTitle="Time"
-           tabIcon="time" [rootParams]="{dbString: dbString, searchTime: searchTime}"></ion-tab>
+           tabIcon="time" [rootParams]="{ dbString: dbString }"></ion-tab>
   <ion-tab *ngIf="tab2Root" [root]="tab2Root" tabTitle="Ticket"
-           tabIcon="list-box" [rootParams]="{dbString: dbString}"></ion-tab>
+           tabIcon="list-box" [rootParams]="{ dbString: dbString }"></ion-tab>
   <ion-tab *ngIf="tab3Root" [root]="tab3Root" tabTitle="Manifest"
-           tabIcon="document" [rootParams]="{dbString: dbString}"></ion-tab>
+           tabIcon="document" [rootParams]="{ dbString: dbString }"></ion-tab>
   <ion-tab *ngIf="tab4Root" [root]="tab4Root" tabTitle="Registrant"
-           tabIcon="body" [rootParams]="{dbString: dbString}"></ion-tab>
+           tabIcon="body" [rootParams]="{ dbString: dbString }"></ion-tab>
 </ion-tabs>

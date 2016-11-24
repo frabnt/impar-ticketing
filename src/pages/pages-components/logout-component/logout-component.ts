@@ -1,13 +1,12 @@
-/**
- * Created by francesco on 16/10/2016.
- */
 import { Component } from '@angular/core';
 import { App, AlertController, Platform } from "ionic-angular";
 import { LoginPage } from "../../login/login";
 import { VfsApiService} from "../../../services/vfs-api/vfs-api-service";
 import { DatabaseService } from "../../../services/database/database-service";
-import { StatsService } from "../../../services/stats/stats-service";
 import { SpinnerService } from "../../../services/utils/spinner-service";
+/**
+ * Created by francesco on 16/10/2016.
+ */
 
 @Component({
   selector: 'logout',
@@ -28,7 +27,6 @@ export class LogoutComponent {
   constructor(private app: App,
               private alertCtrl: AlertController,
               private spinnerService: SpinnerService,
-              private statsService: StatsService,
               private vfsApiService: VfsApiService,
               private database: DatabaseService,
               private platform: Platform){ }
@@ -57,10 +55,6 @@ export class LogoutComponent {
 
             this.vfsApiService.doLogout()
               .then(() => {
-                // Delete stored stats
-                return this.statsService.resetStats();
-              })
-              .then(() => {
                 return this.platform.ready();
               })
               .then(() => {
@@ -70,8 +64,11 @@ export class LogoutComponent {
               })
               .then(() => {
                 this.spinnerService.dismissSpinner();
-                this.app.getRootNav().setRoot(LoginPage, {},
-                  {animate: true, direction: 'forward'});
+                this.app.getRootNav().setRoot(
+                  LoginPage,
+                  {},
+                  {animate: true, direction: 'forward'}
+                );
               })
               .catch(err => {
                 this.spinnerService.dismissSpinner();
@@ -91,4 +88,5 @@ export class LogoutComponent {
       ]
     }).present();
   }
+
 }

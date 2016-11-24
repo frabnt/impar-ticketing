@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ExecTimeService {
+  private timesMap: { [key:string]:number } = {};
 
   constructor() { }
 
@@ -24,6 +25,36 @@ export class ExecTimeService {
    */
   endCounting(startTime: number): number {
     return new Date().getTime() - startTime;
+  }
+
+  /**
+   * Set the time for the given key
+   * @param key
+   * @param value
+   */
+  setTime(key: string|number, value: any) {
+    this.timesMap[key] = value;
+  }
+
+  /**
+   * Get the time for the given key
+   * @param key
+   * @returns {any}
+   */
+  getTime(key: string|number): any {
+    if(this.hasKey(key))
+      return this.timesMap[key];
+    return undefined;
+  }
+
+  /**
+   * Check if times map has the given key
+   * @param key
+   * @returns {boolean}
+   */
+  private hasKey(key: string|number): boolean {
+    return Object.keys(this.timesMap)
+        .indexOf( key.toString() ) > -1;
   }
 
 }

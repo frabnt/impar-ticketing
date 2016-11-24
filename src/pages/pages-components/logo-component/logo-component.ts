@@ -1,7 +1,7 @@
+import { Component } from '@angular/core';
 /**
  * Created by francesco on 16/10/2016.
  */
-import { Component } from '@angular/core';
 
 @Component({
   selector: 'logo',

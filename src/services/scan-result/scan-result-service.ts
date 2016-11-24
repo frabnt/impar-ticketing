@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { OrderTransaction } from "../../models/order-transaction";
 import { ManifestEntity } from "../../models/manifest-entity";
 import { Registrant } from "../../models/registrant";
-
-
 /*
   Generated class for the ScanResultService provider.
 
   See https://angular.io/docs/ts/latest/guide/dependency-injection.html
   for more info on providers and Angular 2 DI.
 */
+
 @Injectable()
 export class ScanResultService {
   private orderTransaction: OrderTransaction;

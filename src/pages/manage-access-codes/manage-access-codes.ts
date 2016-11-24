@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { NavParams, ViewController, AlertController } from 'ionic-angular';
-import { SettingsService } from "../../services/settings/settings-service";
-
+import { LocalStorageService } from "../../services/local-storage/local-storage-service";
 /*
   Generated class for the ModifyAccessCode page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+
 @Component({
   selector: 'page-manage-access-code',
   templateUrl: 'manage-access-codes.html'
@@ -27,7 +27,7 @@ export class ModifyAccessCodePage {
   constructor(private navParams: NavParams,
               private view: ViewController,
               private alertCtrl: AlertController,
-              private settingsService: SettingsService) {
+              private storageService: LocalStorageService) {
     this.codeList = this.navParams.get('codeList').slice(0); //assign to codeList a copy of access codes list (that's why is used slice)
     this.numbers = Array.from( //store as many integers (0,1,2,..,codeList.length-1) as the length of codeList
       Array(this.codeList.length),
@@ -63,7 +63,7 @@ export class ModifyAccessCodePage {
    * Save access codes list in the storage
    */
   save() {
-    this.settingsService.setAccessCodesList(this.codeList)
+    this.storageService.set('accessCodes', this.codeList)
       .then(() => {
         this.view.dismiss(this.codeList);
       })

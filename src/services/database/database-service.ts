@@ -5,8 +5,6 @@ import { Deserialize } from "cerialize";
 import { OrderTransaction } from "../../models/order-transaction";
 import { ManifestEntity } from "../../models/manifest-entity";
 import { Registrant } from "../../models/registrant";
-
-
 /**
  * Created by francesco on 04/11/2016.
  */
@@ -343,23 +341,6 @@ export class DatabaseService {
   }
 
   /**
-   * Cast random credentials/tickets objects to string array.
-   * Each array value corresponds to the value of objects
-   * specific property
-   * @param rows - sql result row list
-   * @param objProp - the objects property
-   * @returns {Array} - string array of objects values
-   */
-  private castRndCredentialsTicketsToArr(rows, objProp: string): string[] {
-    let objsVal = [];
-    for(let i = 0; i < rows.length; i++) {
-      if(rows.item(i).hasOwnProperty(objProp))
-        objsVal.push(rows.item(i)[objProp]);
-    }
-    return objsVal;
-  }
-
-  /**
    * Select two random credentials from the database
    * @returns {Promise<string[]>} - string array containing manifest_id values
    */
@@ -367,11 +348,12 @@ export class DatabaseService {
     return this.storage.query(
       'SELECT manifest_id FROM manifest ORDER BY manifest_id LIMIT 2'
     )
-      .then((result) => {
-        return this.castRndCredentialsTicketsToArr(
-          result.res.rows,
-          'manifest_id'
-        );
+      .then(result => {
+        let rows = result.res.rows;
+        return [
+          rows.item(0).manifest_id,
+          rows.item(1).manifest_id
+        ];
       });
   }
 
@@ -383,12 +365,29 @@ export class DatabaseService {
     return this.storage.query(
       'SELECT transaction_id FROM orders_transactions ORDER BY transaction_id LIMIT 2'
     )
-      .then((result) => {
-        return this.castRndCredentialsTicketsToArr(
-          result.res.rows,
-          'transaction_id'
-        );
+      .then(result => {
+        let rows = result.res.rows;
+        return [
+          rows.item(0).transaction_id,
+          rows.item(1).transaction_id
+        ];
       });
+  }
+
+  /**
+   * Calculate total number of manifest and tickets
+   * @returns {Promise<number[]>} that resolves with the number of
+   * manifest, orders and orders transactions respectively
+   */
+  calculateStats(): Promise<number[]> {
+    return Promise.all([
+      this.storage.query('SELECT COUNT(*) as count FROM manifest')
+        .then(result => { return result.res.rows.item(0).count }),
+      this.storage.query('SELECT COUNT(*) as count FROM orders')
+        .then(result => { return result.res.rows.item(0).count }),
+      this.storage.query('SELECT COUNT(*) as count FROM orders_transactions')
+        .then(result => { return result.res.rows.item(0).count })
+    ]);
   }
 
   /**

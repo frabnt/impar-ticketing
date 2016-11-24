@@ -1,14 +1,13 @@
-/**
- * Created by francesco on 16/10/2016.
- */
 import { Component } from '@angular/core';
-
 import { NavParams } from "ionic-angular";
 import { TimeScanResultPage } from "../time-scan-result/time-scan-result";
 import { ManifestScanResultPage } from "../manifest-scan-result/manifest-scan-result";
 import { TicketScanResultPage } from "../ticket-scan-result/ticket-scan-result";
 import { RegistrantScanResultPage } from "../registrant-scan-result/registrant-scan-result";
 import { ScanResultService } from "../../services/scan-result/scan-result-service";
+/**
+ * Created by francesco on 16/10/2016.
+ */
 
 @Component({
   templateUrl: 'scan-result-tabs.html'
@@ -21,7 +20,6 @@ export class ScanResultPage {
   tab3Root: any;
   tab4Root: any;
   dbString: string;
-  searchTime: number;
 
   /**
    * @constructor
@@ -30,7 +28,6 @@ export class ScanResultPage {
   constructor(private scanResultService: ScanResultService,
               private navParams: NavParams) {
     this.dbString = this.navParams.get('dbString');
-    this.searchTime = this.navParams.get('searchTime');
 
     if(this.scanResultService.getOrderTransaction()) {
       this.tab2Root = TicketScanResultPage;

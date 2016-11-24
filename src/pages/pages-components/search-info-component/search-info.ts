@@ -1,8 +1,8 @@
+import { Component } from '@angular/core';
+import { NavParams } from "ionic-angular";
 /**
  * Created by francesco on 16/10/2016.
  */
-import { Component } from '@angular/core';
-import { NavParams } from "ionic-angular";
 
 @Component({
   selector: 'search-info',

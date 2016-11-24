@@ -21,15 +21,21 @@
       <ion-grid class="table">
         <ion-row>
           <ion-col>Total entities</ion-col>
-          <ion-col>{{stats.totalEntities | formatNumber}}</ion-col>
+          <ion-col>
+            {{ (totalManifest + totalTickets) | formatNumber }}
+          </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>Total manifests</ion-col>
-          <ion-col>{{stats.totalManifest | formatNumber}}</ion-col>
+          <ion-col>
+            {{ totalManifest | formatNumber }}
+          </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>Total tickets</ion-col>
-          <ion-col>{{stats.totalTickets | formatNumber}}</ion-col>
+          <ion-col>
+            {{ totalTickets | formatNumber }}
+          </ion-col>
         </ion-row>
       </ion-grid>
     </ion-card-content>
@@ -46,19 +52,19 @@
         <ion-row>
           <ion-col>Total</ion-col>
           <ion-col>
-            {{stats.totalTime | convertTime:3}}
+            {{ (ticketsTime + manifestTime) | convertTime:3 }}
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>Manifest</ion-col>
           <ion-col>
-            {{stats.manifestTime | convertTime:3}}
+            {{ manifestTime | convertTime:3 }}
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>Tickets</ion-col>
           <ion-col>
-            {{stats.ticketsTime | convertTime:3}}
+            {{ ticketsTime | convertTime:3 }}
           </ion-col>
         </ion-row>
       </ion-grid>

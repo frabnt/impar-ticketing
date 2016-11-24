@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
-import localForage from "localforage";
 import { Tickets } from "../../models/tickets";
 import { Manifest } from "../../models/manifest";
 import { Deserialize } from "cerialize";
-
+import { LocalStorageService } from "../local-storage/local-storage-service";
 /*
   Generated class for the VfsApiService provider.
 
@@ -14,20 +13,13 @@ import { Deserialize } from "cerialize";
   for more info on providers and Angular 2 DI.
 */
 
-// Storage config options
-const DB_NAME: string = '_ionicstorage';
-const STORE_NAME: string = '_ionickv';
-const TOKEN_KEY: string = 'apiToken';
-const EVENT_ID_KEY: string = 'eventID';
-
 @Injectable()
 export class VfsApiService {
-  // API URLs
+  // API URLs and device-ID
   private static readonly API_BASE_URL = 'https://vfs.staging.vendini.com/api/v1';
   private static readonly AUTH_BASE_URL: string = `${VfsApiService.API_BASE_URL}/auth/registration`;
   private static readonly MANIFEST_BASE_URL: string = `${VfsApiService.API_BASE_URL}/scanning/sync`;
   private static TICKETS_BASE_URL: string = `${VfsApiService.API_BASE_URL}/scanning/tickets?`;
-
   private static readonly DEVICE_ID = '22229C46-8813-4494-B654-BCCA4C366CB1';
 
   // API credentials
@@ -38,12 +30,8 @@ export class VfsApiService {
    * @constructor
    * @param http
    */
-  constructor(private http: Http) {
-    localForage.config({
-      name: DB_NAME,
-      storeName: STORE_NAME // Should be alphanumeric, with underscores
-    });
-  }
+  constructor(private http: Http,
+              private localStorageService: LocalStorageService) { }
 
   /**
    * Store API token and event ID returned by the server after a successful authentication.
@@ -57,8 +45,8 @@ export class VfsApiService {
     this.eventID = eventID;
 
     return Promise.all([
-      localForage.setItem<string>(TOKEN_KEY, apiToken),
-      localForage.setItem<string>(EVENT_ID_KEY, eventID)
+      this.localStorageService.set('apiToken', apiToken),
+      this.localStorageService.set('eventID', eventID)
     ]);
   }
 
@@ -71,8 +59,8 @@ export class VfsApiService {
       return Promise.resolve([this.apiToken, this.eventID]);
 
     return Promise.all([
-      localForage.getItem<string>(TOKEN_KEY),
-      localForage.getItem<string>(EVENT_ID_KEY)
+      this.localStorageService.get('apiToken'),
+      this.localStorageService.get('eventID')
     ]);
   }
 
@@ -85,8 +73,8 @@ export class VfsApiService {
     this.eventID = undefined;
 
     return Promise.all([
-      localForage.removeItem(TOKEN_KEY),
-      localForage.removeItem(EVENT_ID_KEY)
+      this.localStorageService.remove('apiToken'),
+      this.localStorageService.remove('eventID')
     ]);
   }
 
