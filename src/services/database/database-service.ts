@@ -15,6 +15,8 @@ const DB_NAME: string = 'impar_storage';
 @Injectable()
 export class DatabaseService {
   private storage: AbstractSqlStorage;
+  // Max number of multiple insert
+  private static MAX_BATCH_SIZE: number = 40000;
 
   /**
    * @constructor
@@ -28,8 +30,10 @@ export class DatabaseService {
   openDatabase(): Promise<any> {
     return this.platform.ready()
       .then(() => {
-        this.storage = this.databaseFactory
-          .getDatabaseInstance({ name: DB_NAME });
+        if(!this.storage) {
+          this.storage = this.databaseFactory
+            .getDatabaseInstance({ name: DB_NAME });
+        }
         return;
       });
   }
@@ -255,14 +259,52 @@ export class DatabaseService {
    * @param {Object} arrObjs - objects array
    * @returns {Promise<any>}
    */
-  batchInsertInTable(tableName: string, arrObjs: any[]): Promise<any> {
+  batchQuery(tableName: string, arrObjs: any[]): Promise<any> {
     if(!arrObjs.length)
       return;
+
     let values = this.objsToValuesArray(arrObjs);
     return this.storage.batch(
       `INSERT INTO ${tableName} VALUES (${Array(values[0].length + 1).join('?,').slice(0, -1)})`,
       values
     );
+  }
+
+  /**
+   * Split an array into smaller chunks
+   * @param arr - the array to split
+   * @param size - the size of the chunk
+   * @returns {Array} - the array of chunks
+   */
+  private chunksArray(arr: any[], size: number): any[] {
+    let result = [];
+    while(arr.length > 0) {
+      result.push(arr.splice(0, size));
+    }
+    return result;
+  }
+
+  /**
+   * Insert multiple objects (of the same type) into a table through
+   * batch queries. The number of batch queries depends on the array size
+   * and is defined by the configured value of MAX_BATCH_SIZE property
+   * @param {string} tableName - name of the table
+   * @param {Object} arrObjs - objects array
+   * @returns {Promise<any>}
+   */
+  batchInsertInTable(tableName: string, arrObjs: any[]): Promise<any> {
+    // Split the array into smaller chunks
+    let chunks = this.chunksArray(arrObjs, DatabaseService.MAX_BATCH_SIZE),
+      result = Promise.resolve(); // To start the chain
+
+    // building the promises chain
+    chunks.map(chunk => {
+      result = result.then(() => {
+        return this.batchQuery(tableName, chunk);
+      });
+    });
+
+    return result;
   }
 
   /**
