@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, ModalController, AlertController, Platform } from 'ionic-angular';
+import { NavController, ModalController, AlertController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ModifyAccessCodePage } from "../manage-access-codes/manage-access-codes";
 import { HomeTabs } from "../home-tabs/tabs";
@@ -41,8 +41,7 @@ export class LoginPage implements OnInit {
               private spinnerService: SpinnerService,
               private execTimeService: ExecTimeService,
               private alertCtrl: AlertController,
-              private database: DatabaseService,
-              private platform: Platform) {
+              private database: DatabaseService) {
     this.accessCodesList = [];
     this.loginForm = builder.group({
       'accessCode': ['', Validators.required]
@@ -77,10 +76,9 @@ export class LoginPage implements OnInit {
 
     this.vfsApiService.doLogin(accessCode)
       .then(() => {
-        return this.platform.ready();
+        return this.database.openDatabase();
       })
       .then(() => {
-        this.database.openDatabase();
         this.spinnerService.setSpinnerContent('Creating tables...');
         return this.database.createTables();
       })

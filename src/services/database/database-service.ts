@@ -5,6 +5,7 @@ import { Deserialize } from "cerialize";
 import { OrderTransaction } from "../../models/order-transaction";
 import { ManifestEntity } from "../../models/manifest-entity";
 import { Registrant } from "../../models/registrant";
+import { Platform } from "ionic-angular";
 /**
  * Created by francesco on 04/11/2016.
  */
@@ -18,14 +19,19 @@ export class DatabaseService {
   /**
    * @constructor
    */
-  constructor(private databaseFactory: MyDatabaseFactory) { }
+  constructor(private databaseFactory: MyDatabaseFactory,
+              private platform: Platform) { }
 
   /**
    * Open the database
    */
-  openDatabase() {
-    this.storage = this.databaseFactory
-      .getDatabaseInstance({ name: DB_NAME });
+  openDatabase(): Promise<any> {
+    return this.platform.ready()
+      .then(() => {
+        this.storage = this.databaseFactory
+          .getDatabaseInstance({ name: DB_NAME });
+        return;
+      });
   }
 
   /**

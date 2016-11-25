@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { App, AlertController, Platform } from "ionic-angular";
+import { App, AlertController } from "ionic-angular";
 import { LoginPage } from "../../login/login";
 import { VfsApiService} from "../../../services/vfs-api/vfs-api-service";
 import { DatabaseService } from "../../../services/database/database-service";
@@ -28,8 +28,7 @@ export class LogoutComponent {
               private alertCtrl: AlertController,
               private spinnerService: SpinnerService,
               private vfsApiService: VfsApiService,
-              private database: DatabaseService,
-              private platform: Platform){ }
+              private database: DatabaseService){ }
 
   /**
    * Show a confirmation alert and accomplish or not the
@@ -55,11 +54,10 @@ export class LogoutComponent {
 
             this.vfsApiService.doLogout()
               .then(() => {
-                return this.platform.ready();
+                return this.database.openDatabase();
               })
               .then(() => {
-                // When platform is ready the database is deleted
-                this.database.openDatabase();
+                // Once opened, the database is deleted
                 return this.database.clear();
               })
               .then(() => {

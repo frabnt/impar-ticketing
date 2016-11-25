@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { App, Platform } from "ionic-angular";
+import { App } from "ionic-angular";
 import { ScanResultPage } from "../scan-result-tabs/scan-result-tabs";
 import { ScanResultService } from "../../services/scan-result/scan-result-service";
 import { DatabaseService } from "../../services/database/database-service";
@@ -33,7 +33,6 @@ export class ScanPage implements OnInit {
               private execTimeService: ExecTimeService,
               private database: DatabaseService,
               private builder: FormBuilder,
-              private platform: Platform,
               private app: App) {
     this.searchForm = builder.group({
       'searchedDBString': ['', Validators.required]
@@ -44,9 +43,8 @@ export class ScanPage implements OnInit {
    * Set random credentials and tickets
    */
   ngOnInit() {
-    this.platform.ready()
+    this.database.openDatabase()
       .then(() => {
-        this.database.openDatabase();
         this.setRandomDBStrings();
       });
   }

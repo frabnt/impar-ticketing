@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from "../../services/database/database-service";
-import { Platform } from "ionic-angular";
 import { ExecTimeService } from "../../services/exec-time/exec-time-service";
 
 @Component({
@@ -18,7 +17,6 @@ export class ReportPage implements OnInit {
    * @param loadingCtrl
    */
   constructor(private databaseService: DatabaseService,
-              private platform: Platform,
               private execTimeService: ExecTimeService) {
     let manifestTime = execTimeService.getTime('manifestTime'),
          ticketsTime = execTimeService.getTime('ticketsTime');
@@ -33,9 +31,8 @@ export class ReportPage implements OnInit {
    * Retrieve stats using stats-service
    */
   ngOnInit() {
-    this.platform.ready()
+    this.databaseService.openDatabase()
       .then(() => {
-        this.databaseService.openDatabase();
         return this.databaseService.calculateStats();
       })
       .then(stats => {

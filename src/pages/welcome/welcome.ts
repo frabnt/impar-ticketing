@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Platform } from 'ionic-angular';
 import { LocalStorageService } from "../../services/local-storage/local-storage-service";
 import { HomeTabs } from "../home-tabs/tabs";
 import { LoginPage } from "../login/login";
@@ -21,6 +21,7 @@ export class WelcomePage {
    * @param navCtrl
    */
   constructor(private navCtrl: NavController,
+              private platform: Platform,
               private storageService: LocalStorageService) {}
 
   /**
@@ -28,10 +29,13 @@ export class WelcomePage {
    * If not, the user is redirected to login page
    */
   ionViewDidLoad() {
-    return Promise.all([
-      this.storageService.get('apiToken'),
-      this.storageService.get('eventID')
-    ])
+    return this.platform.ready()
+      .then(() => {
+        return Promise.all([
+          this.storageService.get('apiToken'),
+          this.storageService.get('eventID')
+        ]);
+      })
       .then(res => {
         // If API token and event ID are set, user hasn't performed logout yet
         // so is currently authenticated
