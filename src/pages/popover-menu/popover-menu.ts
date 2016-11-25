@@ -27,11 +27,7 @@ export class PopoverMenu {
    */
   goHome() {
     this.dismissMenu();
-    this.app.getRootNav().setRoot(
-      HomeTabs,
-      {},
-      {animate: true, direction: 'forward'}
-    );
+    this.app.getRootNav().pop();
   }
 
   /**
