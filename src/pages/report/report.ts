@@ -14,7 +14,8 @@ export class ReportPage implements OnInit {
 
   /**
    * @constructor
-   * @param loadingCtrl
+   * @param {DatabaseService} databaseService
+   * @param {ExecTimeService} execTimeService
    */
   constructor(private databaseService: DatabaseService,
               private execTimeService: ExecTimeService) {
@@ -28,7 +29,7 @@ export class ReportPage implements OnInit {
   }
 
   /**
-   * Retrieve stats using stats-service
+   * Calculate stats using database service
    */
   ngOnInit() {
     this.databaseService.openDatabase()

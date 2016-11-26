@@ -28,7 +28,7 @@ export class VfsApiService {
 
   /**
    * @constructor
-   * @param http
+   * @param {Http} http
    */
   constructor(private http: Http,
               private localStorageService: LocalStorageService) { }
@@ -36,9 +36,9 @@ export class VfsApiService {
   /**
    * Store API token and event ID returned by the server after a successful authentication.
    * These credentials are sent in all subsequent http requests from client to server
-   * @param apiToken
-   * @param eventID
-   * @returns {Promise<Promise<string>[]>}
+   * @param {string} apiToken
+   * @param {string} eventID
+   * @returns {Promise<string[]>} that resolves when credentials have been stored
    */
   storeCredentials(apiToken: string, eventID: string): Promise<string[]> {
     this.apiToken = apiToken;
@@ -52,7 +52,7 @@ export class VfsApiService {
 
   /**
    * Give back api token and event id
-   * @returns {Promise<Promise<string>[]>|Promise<string[]>}
+   * @returns {Promise<string[]>} that resolves with api token and event id values
    */
   getCredentials(): Promise<string[]> {
     if(this.apiToken && this.eventID)
@@ -66,7 +66,8 @@ export class VfsApiService {
 
   /**
    * Delete api token and event id from the storage
-   * @returns {Promise<Promise<void>[]>}
+   * @returns {Promise<void[]>} that resolves once api token and event id have been
+   *                            removed from the storage
    */
   resetCredentials(): Promise<any> {
     this.apiToken = undefined;
@@ -80,7 +81,7 @@ export class VfsApiService {
 
   /**
    * Generate headers to perform a http request
-   * @param headers
+   * @param {Object} headers - object containing headers
    * @returns {RequestOptions}
    */
   private generateHeaders(headers): RequestOptions {
@@ -92,7 +93,7 @@ export class VfsApiService {
   /**
    * Perform login http (POST) request
    * @param {string} accessCode - the access code of the event
-   * @returns {Promise<any>}
+   * @returns {Promise<any>} that resolves when login has been performed
    */
   doLogin(accessCode: string): Promise<any> {
     return this.http.post(
@@ -120,7 +121,7 @@ export class VfsApiService {
 
   /**
    * Perform logout http (DELETE) request
-   * @returns {Promise<any>}
+   * @returns {Promise<any>} that resolves once logout has been performed
    */
   doLogout(): Promise<any> {
     return this.getCredentials()
@@ -145,7 +146,7 @@ export class VfsApiService {
 
   /**
    * Perform an http (GET) request to retrieve manifest data
-   * @returns {Promise<Manifest>}
+   * @returns {Promise<Manifest>} that resolves with the manifest object
    */
   getManifest(): Promise<Manifest> {
     return this.getCredentials()
@@ -170,7 +171,7 @@ export class VfsApiService {
    * Perform an http (GET) request to retrieve tickets data
    * @param {number} page - page to retrieve
    * @param {number} items - number of page items to retrieve
-   * @returns {Promise<Tickets>}
+   * @returns {Promise<Tickets>} that resolves with the tickets object
    */
   getTickets(page: number, items: number = 20000): Promise<Tickets> {
     return this.getCredentials()
@@ -194,8 +195,8 @@ export class VfsApiService {
   /**
    * Because of tickets could be divided into multiple pages, perform
    * multiple http request to retrieve all paginated tickets
-   * @param items - number of items in each page
-   * @returns {Promise<Tickets>}
+   * @param {number} items - number of items in each page
+   * @returns {Promise<Tickets>} that resolves with the tickets object
    */
   getAllTickets(items?: number): Promise<Tickets> {
     let firstPage = this.getTickets(1);
@@ -221,8 +222,8 @@ export class VfsApiService {
 
   /**
    * Arrange the error message to return
-   * @param error
-   * @returns {Promise<never>}
+   * @param {any} error
+   * @returns {Promise<string>} that resolves with a string embedding the error msg
    */
   private handleError(error: any): Promise<string> {
     let errMsg = (error.message) ? error.message :

@@ -42,7 +42,7 @@ export class SpinnerService {
 
   /**
    * Set the spinner textual content
-   * @param {String} content - the text to insert
+   * @param {string} content - the text to insert
    */
   setSpinnerContent(content: string) {
     if(this.spinner) {

@@ -18,7 +18,7 @@ export class ManifestScanResultPage {
 
   /**
    * @constructor
-   * @param scanResultService
+   * @param {ScanResultService} scanResultService
    */
   constructor(private scanResultService: ScanResultService) {
     this.manifest = scanResultService.getManifest();

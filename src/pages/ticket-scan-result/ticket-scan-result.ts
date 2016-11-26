@@ -18,6 +18,7 @@ export class TicketScanResultPage {
 
   /**
    * @constructor
+   * @param {ScanResultService} scanResultService
    */
   constructor(private scanResultService: ScanResultService) {
     this.orderTransaction = this.scanResultService.getOrderTransaction();

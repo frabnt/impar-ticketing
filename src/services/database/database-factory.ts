@@ -8,7 +8,7 @@ export interface DatabaseFactory {
   /**
    * Create a different db object depending on specified conditions
    * @param {Object} options - any useful options to create db objects
-   * @returns {any} - db object
+   * @returns {AbstractSqlStorage} - db object
    */
   getDatabaseInstance(options): AbstractSqlStorage;
 }

@@ -7,10 +7,12 @@ import { Injectable } from '@angular/core';
 export class ExecTimeService {
   private timesMap: { [key:string]:number } = {};
 
+  /**
+   * @constructor
+   */
   constructor() { }
 
   /**
-   *
    * @returns {number} - number of milliseconds since 1970/01/01
    */
   startCounting(): number {
@@ -18,10 +20,9 @@ export class ExecTimeService {
   }
 
   /**
-   *
-   * @param startTime
-   * @returns {number} - difference between current time
-   * and start time expressed in milliseconds
+   * @param {number} startTime
+   * @returns {number} - difference between current time and
+   *                     start time expressed in milliseconds
    */
   endCounting(startTime: number): number {
     return new Date().getTime() - startTime;
@@ -29,8 +30,8 @@ export class ExecTimeService {
 
   /**
    * Set the time for the given key
-   * @param key
-   * @param value
+   * @param {string|number} key
+   * @param {any} value
    */
   setTime(key: string|number, value: any) {
     this.timesMap[key] = value;
@@ -38,7 +39,7 @@ export class ExecTimeService {
 
   /**
    * Get the time for the given key
-   * @param key
+   * @param {string|number} key
    * @returns {any}
    */
   getTime(key: string|number): any {
@@ -49,7 +50,7 @@ export class ExecTimeService {
 
   /**
    * Check if times map has the given key
-   * @param key
+   * @param {string|number} key
    * @returns {boolean}
    */
   private hasKey(key: string|number): boolean {

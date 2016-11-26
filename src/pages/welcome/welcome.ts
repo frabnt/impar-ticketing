@@ -18,7 +18,9 @@ export class WelcomePage {
 
   /**
    * @constructor
-   * @param navCtrl
+   * @param {NavController} navCtrl
+   * @param {Platform} platform
+   * @param {LocalStorageService} storageService
    */
   constructor(private navCtrl: NavController,
               private platform: Platform,

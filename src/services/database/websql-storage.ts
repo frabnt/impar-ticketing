@@ -25,7 +25,8 @@ export class WebSQLStorage extends AbstractSqlStorage {
    * (not properly a batch query 'cause is not supported by WebSQL)
    * @param {string} query - the query to be executed multiple times
    * @param {Array} objects - i-th item of array contains values need to be inserted in i-th query
-   * @returns {Promise<T>|Promise}
+   * @returns {Promise<any>} that resolves or reject with the result of batch query. The result is
+   *                         an object of the form { res: Result (or err) }
    */
   batch(query: string, objects: any[]): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -48,6 +49,7 @@ export class WebSQLStorage extends AbstractSqlStorage {
 
   /**
    * Delete the database
+   * @returns {Promise<any>} that resolves once the database is deleted
    */
   clear(): Promise<any> {
     let deleteQuery = "SELECT * FROM sqlite_master WHERE name NOT LIKE 'sqlite\\_%' escape '\\' AND name NOT LIKE '\\_%' escape '\\'";

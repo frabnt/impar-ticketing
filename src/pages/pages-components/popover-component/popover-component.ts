@@ -20,7 +20,7 @@ export class PopoverComponent {
 
   /**
    * @constructor
-   * @param popoverCtrl
+   * @param {PopoverController} popoverCtrl
    */
   constructor(private popoverCtrl: PopoverController) { }
 

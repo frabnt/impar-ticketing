@@ -23,7 +23,8 @@ export class ScanResultPage {
 
   /**
    * @constructor
-   * @param navParams
+   * @param {ScanResultService} scanResultService
+   * @param {NavParams} navParams
    */
   constructor(private scanResultService: ScanResultService,
               private navParams: NavParams) {

@@ -7,12 +7,17 @@ import { Storage } from "@ionic/storage";
 
 @Injectable()
 export class LocalStorageService {
+
+  /**
+   * @constructor
+   * @param storage
+   */
   constructor(private storage: Storage) {}
 
   /**
    * Get the value associated with the given key
-   * @param key - the key associated with the value
-   * @returns {Promise<any>} that resolve with the value
+   * @param {string} key - the key associated with the value
+   * @returns {Promise<any>} that resolves with the value
    */
   get(key: string): Promise<any> {
     return this.hasKey(key)
@@ -25,9 +30,9 @@ export class LocalStorageService {
 
   /**
    * Set the value for the given key
-   * @param key - the key associated with the value
-   * @param value - the value for the key
-   * @returns {Promise<any>} that resolve when the value is set
+   * @param {string} key - the key associated with the value
+   * @param {any} value - the value for the key
+   * @returns {Promise<any>} that resolves when the value is set
    */
   set(key: string, value: any): Promise<any> {
     return this.storage.set(key, value);
@@ -35,7 +40,7 @@ export class LocalStorageService {
 
   /**
    * Remove any value associated with the given key
-   * @param key - the key to identify this value
+   * @param {string} key - the key to identify this value
    * @returns {Promise<any>} that resolves when the value is removed
    */
   remove(key: string): Promise<any> {
@@ -44,7 +49,7 @@ export class LocalStorageService {
 
   /**
    * Check if the key is in the storage
-   * @param key - the key to search
+   * @param {string} key - the key to search
    * @returns {Promise<boolean>} that resolves with the result of the check
    */
   hasKey(key: string): Promise<boolean> {
@@ -53,4 +58,5 @@ export class LocalStorageService {
         return keys.indexOf(key) > -1;
       })
   }
+
 }

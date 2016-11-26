@@ -23,7 +23,7 @@ export class ScanResultService {
 
   /**
    * Set order transaction property
-   * @param orderTransaction
+   * @param {OrderTransaction} orderTransaction
    */
   setOrderTransaction(orderTransaction: OrderTransaction) {
     this.orderTransaction = orderTransaction;
@@ -39,7 +39,7 @@ export class ScanResultService {
 
   /**
    * Set manifest property
-   * @param manifest
+   * @param {ManifestEntity} manifest
    */
   setManifest(manifest: ManifestEntity) {
     this.manifest = manifest;
@@ -55,7 +55,7 @@ export class ScanResultService {
 
   /**
    * Set registrant property
-   * @param registrant
+   * @param {Registrant} registrant
    */
   setRegistrant(registrant: Registrant) {
     this.registrant = registrant;
@@ -88,7 +88,7 @@ export class ScanResultService {
   }
 
   /**
-   * Set search result (successful or not)
+   * Set search result to successful
    */
   setSearchSuccessful() {
     this.searchSuccessful = true;

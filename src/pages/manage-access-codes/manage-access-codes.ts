@@ -19,10 +19,10 @@ export class ModifyAccessCodePage {
 
   /**
    * @constructor
-   * @param navParams
-   * @param view
-   * @param alertCtrl
-   * @param localSettings
+   * @param {NavParams} navParams
+   * @param {View} view
+   * @param {AlertController} alertCtrl
+   * @param {LocalStorageService} localStorageService
    */
   constructor(private navParams: NavParams,
               private view: ViewController,
@@ -95,8 +95,8 @@ export class ModifyAccessCodePage {
 
   /**
    * Update code list values when user modifies them through input fields
-   * @param event
-   * @param i
+   * @param {Event} event
+   * @param {number} i
    */
   updateState(event, i) {
     this.codeList[i] = event.target.value;

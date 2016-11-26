@@ -26,8 +26,11 @@ export class ScanPage implements OnInit {
 
   /**
    * @constructor
-   * @param builder
-   * @param app
+   * @param {ScanResultService} scanResultService
+   * @param {ExecTimeService} execTimeService
+   * @param {DatabaseService} database
+   * @param {FormBuilder} builder
+   * @param {App} app
    */
   constructor(private scanResultService: ScanResultService,
               private execTimeService: ExecTimeService,
@@ -67,8 +70,8 @@ export class ScanPage implements OnInit {
   /**
    * Search for credential, ticket or both in the database
    * and redirect to scan result page
-   * @param dbString - the string to search
-   * @param type - the string type to search. It supports following values:
+   * @param {string} dbString - the string to search
+   * @param {string} type - the string type to search. It supports following values:
    *    - 'credential': search for a credential
    *    - 'ticket': search for a ticket
    *    - other values/no value: search for both credentials and tickets
@@ -83,12 +86,12 @@ export class ScanPage implements OnInit {
 
   /**
    * Search for credential, ticket or both in the database
-   * @param dbString - the string to search
-   * @param type - the string type to search. It supports following values:
+   * @param {string} dbString - the string to search
+   * @param {string} type - the string type to search. It supports following values:
    *    - 'credential': search for a credential
    *    - 'ticket': search for a ticket
    *    - other values/no value: search for both credentials and tickets
-   * @returns {PromiseLike<number>} - time to perform the search
+   * @returns {Promise<number>} that resolves with the time to perform the search
    */
   resolveSearch(dbString: string, type?: string): Promise<number> {
     if(type == 'credential') {
@@ -117,9 +120,9 @@ export class ScanPage implements OnInit {
 
   /**
    * Search for a ticket in the database. It also searches for
-   * credential and registrant linked to the ticket
-   * @param ticketId - the ticket to search
-   * @returns {PromiseLike<number>} - time to perform the search
+   * credential and registrant linked to that ticket
+   * @param {string} ticketId - the ticket to search
+   * @returns {PromiseLike<number>} that resolves with the time to perform the ticket search
    */
   searchForTicket(ticketId: string): Promise<number> {
     let time: number = this.execTimeService.startCounting();
@@ -151,9 +154,9 @@ export class ScanPage implements OnInit {
 
   /**
    * Search for a credential in the database. It also searches for
-   * ticket and registrant linked to the credential
-   * @param credentialId - the credential to search
-   * @returns {PromiseLike<number>} - time to perform the search
+   * ticket and registrant linked to that credential
+   * @param {string} credentialId - the credential to search
+   * @returns {PromiseLike<number>} that resolves with the time to perform the credential search
    */
   searchForCredential(credentialId: string): Promise<number> {
     let time: number = this.execTimeService.startCounting();
@@ -188,8 +191,7 @@ export class ScanPage implements OnInit {
 
   /**
    * Navigate to scan result page
-   * @param dbString - string searched
-   * @param searchTime - time to perform the search
+   * @param {string} dbString - string searched
    */
   goToScanResult(dbString: string) {
     this.app.getRootNav().push(

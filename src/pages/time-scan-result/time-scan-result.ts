@@ -19,6 +19,8 @@ export class TimeScanResultPage {
 
   /**
    * @constructor
+   * @param {ExecTimeService} execTimeService
+   * @param {ScanResultService} scanResultService
    */
   constructor(private execTimeService: ExecTimeService,
               private scanResultService: ScanResultService) {

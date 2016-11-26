@@ -24,7 +24,7 @@ export class SearchInfoComponent {
 
   /**
    * @constructor
-   * @param navParams
+   * @param {NavParams} navParams
    */
   constructor(private navParams: NavParams) {
     this.searchedDBString = this.navParams.get('dbString');

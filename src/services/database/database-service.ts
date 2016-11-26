@@ -40,7 +40,7 @@ export class DatabaseService {
 
   /**
    * Enable foreign key support
-   * @returns {Promise<any>}
+   * @returns {Promise<any>} that resolves once the foreign key support has been enabled
    */
   enableForeignKey(): Promise<any> {
     return this.storage.query('PRAGMA foreign_keys = ON');
@@ -48,7 +48,7 @@ export class DatabaseService {
 
   /**
    * Create all DB tables
-   * @returns {Promise<any>}
+   * @returns {Promise<any>} that resolves when all db tables have been created
    */
   createTables(): Promise<any> {
     let createTablePrx: string = 'CREATE TABLE IF NOT EXISTS ';
@@ -241,7 +241,7 @@ export class DatabaseService {
    * Insert an object into a table
    * @param {string} tableName - name of the table
    * @param {Object} obj - object to insert
-   * @returns {Promise<any>}
+   * @returns {Promise<any>} that resolves when the object has been inserted
    */
   insertInTable(tableName: string, obj: {}): Promise<any> {
     if(!obj)
@@ -257,7 +257,7 @@ export class DatabaseService {
    * Insert multiple objects (of the same type) into a table
    * @param {string} tableName - name of the table
    * @param {Object} arrObjs - objects array
-   * @returns {Promise<any>}
+   * @returns {Promise<any>} that resolves once the batch query has been performed
    */
   batchQuery(tableName: string, arrObjs: any[]): Promise<any> {
     if(!arrObjs.length)
@@ -290,7 +290,7 @@ export class DatabaseService {
    * and is defined by the configured value of MAX_BATCH_SIZE property
    * @param {string} tableName - name of the table
    * @param {Object} arrObjs - objects array
-   * @returns {Promise<any>}
+   * @returns {Promise<any>} that resolves when all batch queries have been performed
    */
   batchInsertInTable(tableName: string, arrObjs: any[]): Promise<any> {
     // Split the array into smaller chunks
@@ -310,7 +310,7 @@ export class DatabaseService {
   /**
    * Search for a ticket in the database
    * @param {string} ticketId - the ticket to search
-   * @returns {Promise<OrderTransaction>}
+   * @returns {Promise<OrderTransaction>} that resolves with the ticket object
    */
   searchForTicket(ticketId: string): Promise<OrderTransaction> {
     return this.storage.query(
@@ -331,7 +331,7 @@ export class DatabaseService {
   /**
    * Search for a ticket by manifest id
    * @param {string} manifestId - the manifest to search in tickets table
-   * @returns {Promise<OrderTransaction>}
+   * @returns {Promise<OrderTransaction>} that resolves with the ticket object
    */
   searchForTicketByManifestId(manifestId: string): Promise<OrderTransaction> {
     return this.storage.query(
@@ -351,7 +351,7 @@ export class DatabaseService {
   /**
    * Search for a credential in the database
    * @param {string} credentialId - the credential to search
-   * @returns {Promise<ManifestEntity>}
+   * @returns {Promise<ManifestEntity>} that resolves with the credential object
    */
   searchForCredential(credentialId: string): Promise<ManifestEntity> {
     return this.storage.query(
@@ -371,7 +371,7 @@ export class DatabaseService {
   /**
    * Search for a registrant in the database
    * @param {string} registrantId - the registrant to search
-   * @returns {Promise<Registrant>}
+   * @returns {Promise<Registrant>} that resolves with the registrant object
    */
   searchForRegistrant(registrantId: string): Promise<Registrant> {
     return this.storage.query(
@@ -390,7 +390,8 @@ export class DatabaseService {
 
   /**
    * Select two random credentials from the database
-   * @returns {Promise<string[]>} - string array containing manifest_id values
+   * @returns {Promise<string[]>} that resolves with the string array
+   *                              containing manifest_id values
    */
   selectRandomCredentials(): Promise<string[]> {
     return this.storage.query(
@@ -407,7 +408,8 @@ export class DatabaseService {
 
   /**
    * Select two random tickets from the database
-   * @return {Promise<string[]>} - string array containing transaction_id values
+   * @return {Promise<string[]>} that resolves with the string array
+   *                             containing transaction_id values
    */
   selectRandomTickets(): Promise<string[]> {
     return this.storage.query(
@@ -424,8 +426,8 @@ export class DatabaseService {
 
   /**
    * Calculate total number of manifest and tickets
-   * @returns {Promise<number[]>} that resolves with the number of
-   * manifest, orders and orders transactions respectively
+   * @returns {Promise<number[]>} that resolves with the number of manifest,
+   *                              orders and orders transactions respectively
    */
   calculateStats(): Promise<number[]> {
     return Promise.all([
@@ -440,10 +442,15 @@ export class DatabaseService {
 
   /**
    * Clear the database
-   * @returns {Promise<any>}
+   * @returns {Promise<any>} that resolves once the database has been cleared
    */
   clear(): Promise<any> {
-    return this.storage.clear();
+    return this.storage.clear()
+      .then(() => {
+        // Resetting storage after deleting the database
+        this.storage = undefined;
+        return;
+      });
   }
 
 }

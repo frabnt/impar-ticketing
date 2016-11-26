@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ViewController, App } from 'ionic-angular';
-import { HomeTabs } from "../home-tabs/tabs";
 import { ScanResultService } from "../../services/scan-result/scan-result-service";
 /**
  * Created by francesco on 16/10/2016.
@@ -14,9 +13,9 @@ export class PopoverMenu {
 
   /**
    * @constructor
-   * @param view
-   * @param app
-   * @param alertCtrl
+   * @param {ScanResultService} scanResultService
+   * @param {View} view
+   * @param {App} app
    */
   constructor(private scanResultService: ScanResultService,
               private view: ViewController,

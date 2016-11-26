@@ -28,10 +28,15 @@ export class LoginPage implements OnInit {
 
   /**
    * @constructor
-   * @param navCtrl
-   * @param builder
-   * @param modalCtrl
-   * @param localSettings
+   * @param {NavController} navCtrl
+   * @param {FormBuilder} builder
+   * @param {ModalController} modalCtrl
+   * @param {LocalStorageService} storageService
+   * @param {VfsApiService} vfsApiService
+   * @param {SpinnerService} spinnerService
+   * @param {ExecTimeService} execTimeService
+   * @param {AlertController} alertCtrl
+   * @param {DatabaseService} database
    */
   constructor(private navCtrl: NavController,
               private builder: FormBuilder,
@@ -102,7 +107,7 @@ export class LoginPage implements OnInit {
         // If login goes wrong, an error message is displayed
         this.alertCtrl.create({
           title: 'Login error',
-          message: 'Error! Something goes wrong during login: '+err,
+          message: 'Error! Something goes wrong during login: '+JSON.stringify(err),
           buttons: [
             {
               text: 'Ok'
@@ -116,7 +121,7 @@ export class LoginPage implements OnInit {
    * Insert manifest and tickets data in the database
    * @param {Manifest} manifest - manifest data
    * @param {Tickets} tickets - tickets data
-   * @returns {PromiseLike<Promise<any>>}
+   * @returns {PromiseLike<any>} that resolves after all batch inserts are done
    */
   private insertDataInDB(manifest: Manifest, tickets: Tickets): Promise<any> {
     let startManifest: number,

@@ -26,8 +26,8 @@
     "zone.js": "0.6.26"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "0.0.42",
-    "typescript": "2.0.6"
+    "@ionic/app-scripts": "0.0.45",
+    "typescript": "2.0.9"
   },
   "description": "ImParApp: An Ionic project",
   "cordovaPlugins": [

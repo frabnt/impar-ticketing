@@ -20,9 +20,12 @@ import { SpinnerService } from "../../../services/utils/spinner-service";
 export class LogoutComponent {
 
   /**
-   * @constructor
-   * @param app
-   * @param alertCtrl
+   *
+   * @param {App} app
+   * @param {AlertController} alertCtrl
+   * @param {SpinnerService} spinnerService
+   * @param {VfsApiService} vfsApiService
+   * @param {DatabaseService} database
    */
   constructor(private app: App,
               private alertCtrl: AlertController,
@@ -45,7 +48,7 @@ export class LogoutComponent {
         {
           text: 'Yes',
           handler: () => {
-            // loading spinner showed until logout procedure ends
+            // loading spinner showed until logout ends
             this.spinnerService.createSpinner({
               spinner: 'bubbles',
               content: 'Waiting for logout...',

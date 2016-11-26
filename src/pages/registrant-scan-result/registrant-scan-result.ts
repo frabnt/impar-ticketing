@@ -17,7 +17,7 @@ export class RegistrantScanResultPage {
 
   /**
    * @constructor
-   * @param navCtrl
+   * @param {ScanResultService} scanResultService
    */
   constructor(private scanResultService: ScanResultService) {
     this.registrant = scanResultService.getRegistrant();
