@@ -7,6 +7,7 @@ import { DatabaseService } from "../../services/database/database-service";
 import { ManifestEntity } from "../../models/manifest-entity";
 import { Registrant } from "../../models/registrant";
 import { ExecTimeService } from "../../services/exec-time/exec-time-service";
+import { SpinnerService } from "../../services/utils/spinner-service";
 /*
   Generated class for the Scan page.
 
@@ -36,6 +37,7 @@ export class ScanPage implements OnInit {
               private execTimeService: ExecTimeService,
               private database: DatabaseService,
               private builder: FormBuilder,
+              private spinnerService: SpinnerService,
               private app: App) {
     this.searchForm = builder.group({
       'searchedDBString': ['', Validators.required]
@@ -77,11 +79,22 @@ export class ScanPage implements OnInit {
    *    - other values/no value: search for both credentials and tickets
    */
   search(dbString: string, type?: string) {
+    this.spinnerService.createSpinner({
+      spinner: 'bubbles',
+      content: 'Wait for the DB search...',
+    });
+    this.spinnerService.presentSpinner();
+
     this.resolveSearch(dbString, type)
-      .then((time) => {
+      .then(time => {
         this.execTimeService.setTime('dbStringSearchTime', time);
+        this.spinnerService.dismissSpinner();
         this.goToScanResult(dbString);
-      }).catch(err => console.log(err));
+      })
+      .catch(err => {
+        this.spinnerService.dismissSpinner();
+        console.log(err);
+      });
   }
 
   /**
