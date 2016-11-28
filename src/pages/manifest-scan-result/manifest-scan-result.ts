@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ScanResultService } from "../../services/scan-result/scan-result-service";
 import { ManifestEntity } from "../../models/manifest-entity";
+import { NavParams } from "ionic-angular";
 /*
   Generated class for the ManifestScanResult page.
 
@@ -20,8 +20,8 @@ export class ManifestScanResultPage {
    * @constructor
    * @param {ScanResultService} scanResultService
    */
-  constructor(private scanResultService: ScanResultService) {
-    this.manifest = scanResultService.getManifest();
+  constructor(private navParams: NavParams) {
+    this.manifest = navParams.get('manifest');
   }
 
 }

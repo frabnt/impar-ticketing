@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ViewController, App } from 'ionic-angular';
-import { ScanResultService } from "../../services/scan-result/scan-result-service";
 /**
  * Created by francesco on 16/10/2016.
  */
@@ -17,8 +16,7 @@ export class PopoverMenu {
    * @param {View} view
    * @param {App} app
    */
-  constructor(private scanResultService: ScanResultService,
-              private view: ViewController,
+  constructor(private view: ViewController,
               private app: App) { }
 
   /**
@@ -33,7 +31,6 @@ export class PopoverMenu {
    * Reset scan results and dismiss the menu
    */
   dismissMenu() {
-    this.scanResultService.resetAll();
     this.view.dismiss();
   }
 }

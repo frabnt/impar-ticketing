@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { App } from "ionic-angular";
 import { ScanResultPage } from "../scan-result-tabs/scan-result-tabs";
-import { ScanResultService } from "../../services/scan-result/scan-result-service";
 import { DatabaseService } from "../../services/database/database-service";
 import { ManifestEntity } from "../../models/manifest-entity";
 import { Registrant } from "../../models/registrant";
 import { ExecTimeService } from "../../services/exec-time/exec-time-service";
 import { SpinnerService } from "../../services/utils/spinner-service";
+import { ScanResult } from "../../models/scan-result";
 /*
   Generated class for the Scan page.
 
@@ -24,6 +24,7 @@ export class ScanPage implements OnInit {
   randomTickets: string[] = [];
   searchForm: FormGroup;
   searchedDBString: string;
+  scanResult: ScanResult;
 
   /**
    * @constructor
@@ -33,8 +34,7 @@ export class ScanPage implements OnInit {
    * @param {FormBuilder} builder
    * @param {App} app
    */
-  constructor(private scanResultService: ScanResultService,
-              private execTimeService: ExecTimeService,
+  constructor(private execTimeService: ExecTimeService,
               private database: DatabaseService,
               private builder: FormBuilder,
               private spinnerService: SpinnerService,
@@ -83,11 +83,14 @@ export class ScanPage implements OnInit {
       'Wait for the DB search...'
     );
 
+    this.scanResult = new ScanResult();
+    this.scanResult.dbString = dbString;
+
     this.resolveSearch(dbString, type)
       .then(time => {
         this.execTimeService.setTime('dbStringSearchTime', time);
         this.spinnerService.dismiss();
-        this.goToScanResult(dbString);
+        this.goToScanResult();
       })
       .catch(err => {
         this.spinnerService.dismiss();
@@ -118,7 +121,7 @@ export class ScanPage implements OnInit {
         totalTime = time;
         // If a credential is found, there is no need to
         // search for a ticket
-        if(this.scanResultService.getOrderTransaction()) {
+        if(this.scanResult.manifest) {
           return 0;
         }
         return this.searchForTicket(dbString);
@@ -144,8 +147,8 @@ export class ScanPage implements OnInit {
           return;
 
         // Update scan result
-        this.scanResultService.setOrderTransaction(ticket);
-        this.scanResultService.setSearchSuccessful();
+        this.scanResult.ticket = ticket;
+        this.scanResult.isSearchSuccessful = true;
         // Searching for manifest and registrant linked to the ticket
         return Promise.all<ManifestEntity, Registrant>([
           this.database.searchForCredential(ticket.manifestId),
@@ -154,10 +157,10 @@ export class ScanPage implements OnInit {
       })
       .then(results => {
         if(results && results[0]) {
-          this.scanResultService.setManifest(results[0]);
+          this.scanResult.manifest = results[0];
         }
         if(results && results[1]) {
-          this.scanResultService.setRegistrant(results[1]);
+          this.scanResult.registrant = results[1];
         }
         return this.execTimeService.endCounting(time);
       });
@@ -178,8 +181,8 @@ export class ScanPage implements OnInit {
           return;
 
         // Update scan result
-        this.scanResultService.setManifest(credential);
-        this.scanResultService.setSearchSuccessful();
+        this.scanResult.manifest = credential;
+        this.scanResult.isSearchSuccessful = true;
 
         // Searching for ticket linked to the credential
         return this.database.searchForTicketByManifestId(credential.manifestId);
@@ -188,13 +191,13 @@ export class ScanPage implements OnInit {
         if(!ticket)
           return;
 
-        this.scanResultService.setOrderTransaction(ticket);
+        this.scanResult.ticket = ticket;
         // Searching for registrant linked to the credential
         return this.database.searchForRegistrant(ticket.registrantId);
       })
       .then(registrant => {
         if(registrant) {
-          this.scanResultService.setRegistrant(registrant);
+          this.scanResult.registrant = registrant;
         }
         return this.execTimeService.endCounting(time);
       });
@@ -204,10 +207,10 @@ export class ScanPage implements OnInit {
    * Navigate to scan result page
    * @param {string} dbString - string searched
    */
-  goToScanResult(dbString: string) {
+  goToScanResult() {
     this.app.getRootNav().push(
       ScanResultPage,
-      {dbString},
+      this.scanResult,
       {animate: true, direction: 'forward'}
     );
   }

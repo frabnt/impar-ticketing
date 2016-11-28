@@ -1,10 +1,14 @@
 <ion-tabs>
-  <ion-tab [root]="tab1Root" tabTitle="Time"
-           tabIcon="time" [rootParams]="{ dbString: dbString }"></ion-tab>
-  <ion-tab *ngIf="tab2Root" [root]="tab2Root" tabTitle="Ticket"
-           tabIcon="list-box" [rootParams]="{ dbString: dbString }"></ion-tab>
-  <ion-tab *ngIf="tab3Root" [root]="tab3Root" tabTitle="Manifest"
-           tabIcon="document" [rootParams]="{ dbString: dbString }"></ion-tab>
-  <ion-tab *ngIf="tab4Root" [root]="tab4Root" tabTitle="Registrant"
-           tabIcon="body" [rootParams]="{ dbString: dbString }"></ion-tab>
+  <ion-tab [root]="tab1Root"
+           tabTitle="Time" tabIcon="time"
+           [rootParams]="{ dbString: scanResult.dbString, searchSuccessful: scanResult.isSearchSuccessful }"></ion-tab>
+  <ion-tab *ngIf="tab2Root" [root]="tab2Root"
+           tabTitle="Ticket" tabIcon="list-box"
+           [rootParams]="{ dbString: scanResult.dbString, ticket: scanResult.ticket }"></ion-tab>
+  <ion-tab *ngIf="tab3Root" [root]="tab3Root"
+           tabTitle="Manifest" tabIcon="document"
+           [rootParams]="{ dbString: scanResult.dbString, manifest: scanResult.manifest }"></ion-tab>
+  <ion-tab *ngIf="tab4Root" [root]="tab4Root"
+           tabTitle="Registrant" tabIcon="body"
+           [rootParams]="{ dbString: scanResult.dbString, registrant: scanResult.registrant }"></ion-tab>
 </ion-tabs>

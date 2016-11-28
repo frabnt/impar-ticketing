@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { OrderTransaction } from "../../models/order-transaction";
-import { ScanResultService } from "../../services/scan-result/scan-result-service";
+import { NavParams } from "ionic-angular";
 /*
   Generated class for the TicketScanResult page.
 
@@ -20,8 +20,8 @@ export class TicketScanResultPage {
    * @constructor
    * @param {ScanResultService} scanResultService
    */
-  constructor(private scanResultService: ScanResultService) {
-    this.orderTransaction = this.scanResultService.getOrderTransaction();
+  constructor(private navParams: NavParams) {
+    this.orderTransaction = navParams.get('ticket');
   }
 
 }

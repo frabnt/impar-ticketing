@@ -4,7 +4,7 @@ import { TimeScanResultPage } from "../time-scan-result/time-scan-result";
 import { ManifestScanResultPage } from "../manifest-scan-result/manifest-scan-result";
 import { TicketScanResultPage } from "../ticket-scan-result/ticket-scan-result";
 import { RegistrantScanResultPage } from "../registrant-scan-result/registrant-scan-result";
-import { ScanResultService } from "../../services/scan-result/scan-result-service";
+import { ScanResult } from "../../models/scan-result";
 /**
  * Created by francesco on 16/10/2016.
  */
@@ -19,24 +19,23 @@ export class ScanResultPage {
   tab2Root: any;
   tab3Root: any;
   tab4Root: any;
-  dbString: string;
+  scanResult: ScanResult;
 
   /**
    * @constructor
    * @param {ScanResultService} scanResultService
    * @param {NavParams} navParams
    */
-  constructor(private scanResultService: ScanResultService,
-              private navParams: NavParams) {
-    this.dbString = this.navParams.get('dbString');
+  constructor(private navParams: NavParams) {
+    this.scanResult = navParams.data;
 
-    if(this.scanResultService.getOrderTransaction()) {
+    if(this.scanResult.ticket) {
       this.tab2Root = TicketScanResultPage;
     }
-    if(this.scanResultService.getManifest()) {
+    if(this.scanResult.manifest) {
       this.tab3Root = ManifestScanResultPage;
     }
-    if(this.scanResultService.getRegistrant()) {
+    if(this.scanResult.registrant) {
       this.tab4Root = RegistrantScanResultPage;
     }
   }

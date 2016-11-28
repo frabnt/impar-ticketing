@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ScanResultService } from "../../services/scan-result/scan-result-service";
 import { ExecTimeService } from "../../services/exec-time/exec-time-service";
+import { NavParams } from "ionic-angular";
 /*
   Generated class for the TimeScanResult page.
 
@@ -23,9 +23,9 @@ export class TimeScanResultPage {
    * @param {ScanResultService} scanResultService
    */
   constructor(private execTimeService: ExecTimeService,
-              private scanResultService: ScanResultService) {
+              private navParams: NavParams) {
     this.searchTime = execTimeService.getTime('dbStringSearchTime');
-    this.searchResult = scanResultService.isSearchSuccessful();
+    this.searchResult = navParams.get('searchSuccessful');
     this.resultImgUrl += this.searchResult ? 'success.png' : 'failure.png';
   }
 
