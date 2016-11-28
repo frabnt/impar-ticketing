@@ -1,4 +1,5 @@
 import { deserialize, deserializeAs } from "cerialize";
+import { DateHelper } from "./utils/date-helper";
 /**
  * Created by francesco on 25/10/2016.
  */
@@ -42,5 +43,11 @@ export class OrderTransaction {
   transactionType: string = undefined;
   @deserialize
   voided: string = undefined;
+
+  static OnDeserialized(instance : OrderTransaction, json : any) : void {
+    let check = DateHelper.compareDateWithMarker(instance.deleted, json['is_deleted']);
+    if(check)
+      console.warn(`Order transaction (id -> ${instance.transactionId}) ${check}`);
+  }
 }
 

@@ -1,4 +1,5 @@
 import { deserializeAs, deserialize } from "cerialize";
+import { DateHelper } from "./utils/date-helper";
 /**
  * Created by francesco on 25/10/2016.
  */
@@ -24,4 +25,14 @@ export class ManifestEntity {
   scanStatus: number = undefined;
   @deserializeAs('validation_type')
   validationType: string = undefined;
+
+  static OnDeserialized(instance : ManifestEntity, json : any) : void {
+    let check = DateHelper.compareDateWithMarker(instance.activated, json['is_activated']);
+    if(check)
+      console.warn(`Credential (id -> ${instance.manifestId}) ${check}`);
+
+    check = DateHelper.compareDateWithMarker(instance.deactivated, json['is_deactivated']);
+    if(check)
+      console.warn(`Credential (id -> ${instance.manifestId}) ${check}`);
+  }
 }

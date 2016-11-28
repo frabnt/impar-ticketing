@@ -1,4 +1,5 @@
 import { deserializeAs, deserialize } from "cerialize";
+import { DateHelper } from "./utils/date-helper";
 /**
  * Created by francesco on 25/10/2016.
  */
@@ -26,4 +27,10 @@ export class CredentialType {
   tokensGranted: number = undefined;
   @deserializeAs('validation_type')
   validationType: string = undefined;
+
+  static OnDeserialized(instance : CredentialType, json : any) : void {
+    let check = DateHelper.compareDateWithMarker(instance.deleted, json['is_deleted']);
+    if(check)
+      console.warn(`Credential (id -> ${instance.credentialTypeId}) ${check}`);
+  }
 }
