@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, Platform } from 'ionic-angular';
-import { LocalStorageService } from "../../services/local-storage/local-storage-service";
+import { Storage } from "@ionic/storage";
 import { HomeTabs } from "../home-tabs/tabs";
 import { LoginPage } from "../login/login";
 /*
@@ -24,7 +24,7 @@ export class WelcomePage {
    */
   constructor(private navCtrl: NavController,
               private platform: Platform,
-              private storageService: LocalStorageService) {}
+              private storageService: Storage) {}
 
   /**
    * If authenticated, the user is redirected to home page.

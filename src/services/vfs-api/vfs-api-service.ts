@@ -5,7 +5,7 @@ import 'rxjs/add/operator/toPromise';
 import { Tickets } from "../../models/tickets";
 import { Manifest } from "../../models/manifest";
 import { Deserialize } from "cerialize";
-import { LocalStorageService } from "../local-storage/local-storage-service";
+import { Storage } from "@ionic/storage";
 /*
   Generated class for the VfsApiService provider.
 
@@ -31,7 +31,7 @@ export class VfsApiService {
    * @param {Http} http
    */
   constructor(private http: Http,
-              private localStorageService: LocalStorageService) { }
+              private localStorageService: Storage) { }
 
   /**
    * Store API token and event ID returned by the server after a successful authentication.

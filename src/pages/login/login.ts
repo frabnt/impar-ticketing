@@ -9,7 +9,7 @@ import { DatabaseService } from "../../services/database/database-service";
 import { Manifest } from "../../models/manifest";
 import { Tickets } from "../../models/tickets";
 import { ExecTimeService } from "../../services/exec-time/exec-time-service";
-import { LocalStorageService } from "../../services/local-storage/local-storage-service";
+import { Storage } from "@ionic/storage";
 /*
   Generated class for the Login page.
 
@@ -41,7 +41,7 @@ export class LoginPage implements OnInit {
   constructor(private navCtrl: NavController,
               private builder: FormBuilder,
               private modalCtrl: ModalController,
-              private storageService: LocalStorageService,
+              private storageService: Storage,
               private vfsApiService: VfsApiService,
               private spinnerService: SpinnerService,
               private execTimeService: ExecTimeService,

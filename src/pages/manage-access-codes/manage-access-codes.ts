@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavParams, ViewController, AlertController } from 'ionic-angular';
-import { LocalStorageService } from "../../services/local-storage/local-storage-service";
+import { Storage } from "@ionic/storage";
 /*
   Generated class for the ModifyAccessCode page.
 
@@ -27,7 +27,7 @@ export class ModifyAccessCodePage {
   constructor(private navParams: NavParams,
               private view: ViewController,
               private alertCtrl: AlertController,
-              private storageService: LocalStorageService) {
+              private storageService: Storage) {
     this.codeList = this.navParams.get('codeList').slice(0); //assign to codeList a copy of access codes list (that's why is used slice)
     this.numbers = Array.from( //store as many integers (0,1,2,..,codeList.length-1) as the length of codeList
       Array(this.codeList.length),
