@@ -79,20 +79,18 @@ export class ScanPage implements OnInit {
    *    - other values/no value: search for both credentials and tickets
    */
   search(dbString: string, type?: string) {
-    this.spinnerService.createSpinner({
-      spinner: 'bubbles',
-      content: 'Wait for the DB search...',
-    });
-    this.spinnerService.presentSpinner();
+    this.spinnerService.createAndShow(
+      'Wait for the DB search...'
+    );
 
     this.resolveSearch(dbString, type)
       .then(time => {
         this.execTimeService.setTime('dbStringSearchTime', time);
-        this.spinnerService.dismissSpinner();
+        this.spinnerService.dismiss();
         this.goToScanResult(dbString);
       })
       .catch(err => {
-        this.spinnerService.dismissSpinner();
+        this.spinnerService.dismiss();
         console.log(err);
       });
   }

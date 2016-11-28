@@ -49,11 +49,9 @@ export class LogoutComponent {
           text: 'Yes',
           handler: () => {
             // loading spinner showed until logout ends
-            this.spinnerService.createSpinner({
-              spinner: 'bubbles',
-              content: 'Waiting for logout...',
-            });
-            this.spinnerService.presentSpinner();
+            this.spinnerService.createAndShow(
+              'Waiting for logout...',
+            );
 
             this.vfsApiService.doLogout()
               .then(() => {
@@ -64,7 +62,7 @@ export class LogoutComponent {
                 return this.database.clear();
               })
               .then(() => {
-                this.spinnerService.dismissSpinner();
+                this.spinnerService.dismiss();
                 this.app.getRootNav().setRoot(
                   LoginPage,
                   {},
@@ -72,7 +70,7 @@ export class LogoutComponent {
                 );
               })
               .catch(err => {
-                this.spinnerService.dismissSpinner();
+                this.spinnerService.dismiss();
                 // If logout goes wrong, an error message is displayed
                 this.alertCtrl.create({
                   title: 'Logout error',

@@ -6,6 +6,10 @@ import { OrderTransaction } from "../../models/order-transaction";
 import { ManifestEntity } from "../../models/manifest-entity";
 import { Registrant } from "../../models/registrant";
 import { Platform } from "ionic-angular";
+import { Manifest } from "../../models/manifest";
+import { Tickets } from "../../models/tickets";
+import { SpinnerService } from "../utils/spinner-service";
+import { ExecTimeService } from "../exec-time/exec-time-service";
 /**
  * Created by francesco on 04/11/2016.
  */
@@ -22,6 +26,8 @@ export class DatabaseService {
    * @constructor
    */
   constructor(private databaseFactory: MyDatabaseFactory,
+              private spinnerService: SpinnerService,
+              private execTimeService: ExecTimeService,
               private platform: Platform) { }
 
   /**
@@ -105,7 +111,7 @@ export class DatabaseService {
                           scanning_schedule_id TEXT PRIMARY KEY,
                           schedule_name TEXT
                         )` ),
-      this.storage.query( createTablePrx + `manifest (
+      this.storage.query( createTablePrx + `manifests (
                           activated TEXT,
                           credential_type_id TEXT,
                           deactivated TEXT,
@@ -173,7 +179,7 @@ export class DatabaseService {
                           transaction_type TEXT,
                           voided TEXT,
                           FOREIGN KEY(credential_type_id) REFERENCES credentials_types(credential_type_id),
-                          FOREIGN KEY(manifest_id) REFERENCES manifest(manifest_id),
+                          FOREIGN KEY(manifest_id) REFERENCES manifests(manifest_id),
                           FOREIGN KEY(order_id) REFERENCES orders(order_id),
                           FOREIGN KEY(registrant_id) REFERENCES registrants(registrant_id)
                         )` ),
@@ -251,6 +257,129 @@ export class DatabaseService {
       `INSERT INTO ${tableName} VALUES (${Array(values.length+1).join('?,').slice(0,-1)})`,
       values
     );
+  }
+
+  /**
+   * Insert manifest and tickets data in the database
+   * @param {Manifest} manifest - manifest data
+   * @param {Tickets} tickets - tickets data
+   * @returns {PromiseLike<any>} that resolves when all data has been inserted
+   */
+  insertAllData(manifest: Manifest, tickets: Tickets): Promise<any> {
+    let startManifest: number,
+        startTickets:  number = this.execTimeService.startCounting();
+
+    this.spinnerService.setContent('Inserting orders...');
+
+    return this.batchInsertInTable(
+      'orders',
+      tickets.orders
+    )
+      .then(() => {
+        this.execTimeService.setTime(
+          'ticketsTime',
+          this.execTimeService.endCounting(startTickets)
+        );
+        this.spinnerService.setContent('Inserting event...');
+        return this.insertInTable(
+          'event',
+          manifest.event );
+      })
+      .then(() => {
+        this.spinnerService.setContent('Inserting credential types...');
+        return this.batchInsertInTable(
+          'credentials_types',
+          manifest.credentialTypes );
+      })
+      .then(() => {
+        this.spinnerService.setContent('Inserting registrants...');
+        return this.batchInsertInTable(
+          'registrants',
+          manifest.registrants );
+      })
+      .then(() => {
+        this.spinnerService.setContent('Inserting reports...');
+        return this.batchInsertInTable(
+          'reports',
+          manifest.getReports(manifest.reports) );
+      })
+      .then(() => {
+        this.spinnerService.setContent('Inserting zones...');
+        return this.batchInsertInTable(
+          'zones',
+          manifest.zones );
+      })
+      .then(() => {
+        this.spinnerService.setContent('Inserting schedules...');
+        return this.batchInsertInTable(
+          'schedules',
+          manifest.schedules );
+      })
+      .then(() => {
+        this.spinnerService.setContent('Inserting manifest...');
+        startManifest = this.execTimeService.startCounting();
+        return this.batchInsertInTable(
+          'manifests',
+          manifest.manifest );
+      })
+      .then(() => {
+        this.execTimeService.setTime(
+          'manifestTime',
+          this.execTimeService.endCounting(startManifest)
+        );
+        this.spinnerService.setContent('Inserting zones acl...');
+        return this.batchInsertInTable(
+          'zones_acl',
+          manifest.zonesAcl );
+      })
+      .then(() => {
+        this.spinnerService.setContent('Inserting zones acl passes...');
+        return this.batchInsertInTable(
+          'zones_acl_passes',
+          manifest.zonesAclPasses );
+      })
+      .then(() => {
+        this.spinnerService.setContent('Inserting zones scanning points...');
+        return this.batchInsertInTable(
+          'zones_scanning_points',
+          manifest.zonesScanningPoints );
+      })
+      .then(() => {
+        this.spinnerService.setContent('Inserting orders transactions...');
+        startTickets = this.execTimeService.startCounting();
+        return this.batchInsertInTable(
+          'orders_transactions',
+          tickets.ordersTransactions );
+      })
+      .then(() => {
+        this.execTimeService.setTime(
+          'ticketsTime',
+          this.execTimeService.getTime('ticketsTime') +
+          this.execTimeService.endCounting(startTickets)
+        );
+        this.spinnerService.setContent('Inserting reports contents...');
+        return this.batchInsertInTable(
+          'reports_contents',
+          manifest.getReportsContents(manifest.reports) );
+      })
+      .then(() => {
+        this.spinnerService.setContent('Inserting schedules segments...');
+        return this.batchInsertInTable(
+          'schedules_segments',
+          manifest.schedulesSegments );
+      })
+      .then(() => {
+        this.spinnerService.setContent('Inserting scanning exceptions...');
+        return this.batchInsertInTable(
+          'scanning_exceptions',
+          manifest.scanningExceptions);
+      })
+      .then(() => {
+        this.spinnerService.setContent('Inserting scanning exceptions zones acl...');
+        return this.batchInsertInTable(
+          'scanning_exceptions_zones_acl',
+          manifest.scanningExceptionsZonesAcl );
+      });
   }
 
   /**
@@ -355,7 +484,7 @@ export class DatabaseService {
    */
   searchForCredential(credentialId: string): Promise<ManifestEntity> {
     return this.storage.query(
-      'SELECT * FROM manifest WHERE manifest_id = ? LIMIT 1',
+      'SELECT * FROM manifests WHERE manifest_id = ? LIMIT 1',
       [credentialId]
     )
       .then(result => {
@@ -395,7 +524,7 @@ export class DatabaseService {
    */
   selectRandomCredentials(): Promise<string[]> {
     return this.storage.query(
-      'SELECT manifest_id FROM manifest ORDER BY manifest_id LIMIT 2'
+      'SELECT manifest_id FROM manifests ORDER BY manifest_id LIMIT 2'
     )
       .then(result => {
         let rows = result.res.rows;
@@ -431,7 +560,7 @@ export class DatabaseService {
    */
   calculateStats(): Promise<number[]> {
     return Promise.all([
-      this.storage.query('SELECT COUNT(*) as count FROM manifest')
+      this.storage.query('SELECT COUNT(*) as count FROM manifests')
         .then(result => { return result.res.rows.item(0).count }),
       this.storage.query('SELECT COUNT(*) as count FROM orders')
         .then(result => { return result.res.rows.item(0).count }),

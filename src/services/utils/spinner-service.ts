@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  LoadingController,
-  LoadingOptions,
-  Loading,
-  NavOptions
-} from "ionic-angular";
+import { LoadingController, Loading } from "ionic-angular";
 /*
   Generated class for the SpinnerService provider.
 
@@ -15,6 +10,8 @@ import {
 @Injectable()
 export class SpinnerService {
   private spinner: Loading;
+  // spinner content
+  private content: string;
 
   /**
    * @constructor
@@ -23,56 +20,72 @@ export class SpinnerService {
   constructor(private loadingCtrl: LoadingController) { }
 
   /**
-   * Create a new loading spinner with the given options
-   * @param {LoadingOptions} options - support following optional fields:
-   *  {
-   *    - {string} spinner: the name of the svg spinner for the loading indicator
-   *    - {string} content: the html content for the loading indicato
-   *    - {string} cssClass: additional classes for custom styles, separated by spaces
-   *    - {boolean} showBackdrop: whether to show the backdrop (default true)
-   *    - {boolean} dismissOnPageChange: whether to dismiss the indicator when navigating
-    *                                    to a new page (default false)
-   *    - {number} duration: how many milliseconds to wait before hiding the indicator.
-   *                         By default, it will show until dismiss() is called.
-   *  }
+   * Create a new loading spinner
+   * @param {string} spinner: the name of the svg spinner for the loading indicator
+   * @param {string} content: the html content for the loading spinner
    */
-  createSpinner(options: LoadingOptions) {
-    this.spinner = this.loadingCtrl.create(options);
+  create(content: string, spinner: string = 'crescent') {
+    this.spinner = this.loadingCtrl.create({
+      spinner: spinner,
+      content: content
+    });
+    this.content = content;
+  }
+
+  /**
+   * Create and show a loading spinner
+   * @param {string} spinner: the name of the svg spinner for the loading indicator
+   * @param {string} content: the html content for the loading spinner
+   */
+  createAndShow(spinner: string, content: string = 'crescent') {
+    this.create(spinner, content);
+    this.present();
   }
 
   /**
    * Set the spinner textual content
    * @param {string} content - the text to insert
    */
-  setSpinnerContent(content: string) {
+  setContent(content: string) {
     if(this.spinner) {
       this.spinner.setContent(content);
+      this.content = content;
     }
+  }
+
+  /**
+   * @returns {string} - the spinner content
+   */
+  getContent(): string {
+    return this.content;
+  }
+
+  /**
+   * Concatenate spinner content with the given string
+   * @param newContent - the string to concatenate
+   */
+  concatContent(newContent: string) {
+    this.spinner.setContent(
+      this.getContent() + newContent
+    );
   }
 
   /**
    * Present the spinner
    * @param {NavOptions} navOptions - nav options to go with this transition
    */
-  presentSpinner(navOptions?: NavOptions) {
+  present() {
     if(this.spinner) {
-      this.spinner.present(navOptions);
+      this.spinner.present();
     }
   }
 
   /**
    * Dismiss the spinner
-   * @param {any} data - the data to transmit dissming the spinner
-   * @param {any} role - a role property to attach to the spinner
-   * @param {NavOptions} navOptions - nav options to go with this transition
    */
-  dismissSpinner(data?: any, role?: any, navOptions?: NavOptions ) {
+  dismiss() {
     if(this.spinner) {
-      this.spinner.dismiss(
-        data,
-        role,
-        navOptions
-      );
+      this.spinner.dismiss();
     }
   }
 
