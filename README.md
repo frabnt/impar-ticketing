@@ -23,5 +23,5 @@ npm install
 
 4) Run the app. From the project root:
 ```
-ionic serve
+ionic serve --address localhost
 ```
