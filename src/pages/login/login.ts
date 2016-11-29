@@ -8,7 +8,6 @@ import { SpinnerService } from "../../services/utils/spinner-service";
 import { DatabaseService } from "../../services/database/database-service";
 import { Manifest } from "../../models/manifest";
 import { Tickets } from "../../models/tickets";
-import { ExecTimeService } from "../../services/exec-time/exec-time-service";
 import { Storage } from "@ionic/storage";
 /*
   Generated class for the Login page.
@@ -44,7 +43,6 @@ export class LoginPage implements OnInit {
               private storageService: Storage,
               private vfsApiService: VfsApiService,
               private spinnerService: SpinnerService,
-              private execTimeService: ExecTimeService,
               private alertCtrl: AlertController,
               private database: DatabaseService) {
     this.accessCodesList = [];

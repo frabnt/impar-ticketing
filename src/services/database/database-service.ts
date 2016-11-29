@@ -231,7 +231,7 @@ export class DatabaseService {
    * @returns {any[]}
    */
   private objToValuesArray(obj): any[] {
-    return Object.keys(obj).map((key) => obj[key]);
+    return Object.keys(obj).map(key => obj[key]);
   }
 
   /**
@@ -240,7 +240,7 @@ export class DatabaseService {
    * @returns {any[][]}
    */
   private objsToValuesArray(arrObjs: any[]): any[] {
-    return arrObjs.map((obj) => this.objToValuesArray(obj));
+    return arrObjs.map(obj => this.objToValuesArray(obj));
   }
 
   /**

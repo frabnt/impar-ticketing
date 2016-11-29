@@ -1,11 +1,11 @@
 {
-  "name": "ionic-hello-world",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "name": "impar-ticketing-app",
+  "author": "Francesco Benedetto",
   "private": true,
   "scripts": {
     "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve"
+    "ionic:serve": "ionic-app-scripts serve",
+    "start": "ionic serve --address localhost"
   },
   "dependencies": {
     "@angular/common": "2.1.1",
@@ -29,7 +29,7 @@
     "@ionic/app-scripts": "0.0.45",
     "typescript": "2.0.9"
   },
-  "description": "ImParApp: An Ionic project",
+  "description": "ImParApp: A Ionic app implementing a parsing and importing algorithm",
   "cordovaPlugins": [
     "cordova-plugin-device",
     "cordova-plugin-console",
