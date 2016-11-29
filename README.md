@@ -23,5 +23,9 @@ npm install
 
 4) Run the app. From the project root:
 ```
+npm start
+```
+For the same purpose, you can equally run:
+```
 ionic serve --address localhost
 ```
