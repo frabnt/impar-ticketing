@@ -38,14 +38,15 @@ export class ExecTimeService {
   }
 
   /**
-   * Get the time for the given key
+   * Give back the time for the given key
    * @param {string|number} key
-   * @returns {any}
+   * @returns {any} - the value for the given key undefined
+   *                  if the key doesn't exist
    */
   getTime(key: string|number): any {
     if(this.hasKey(key))
       return this.timesMap[key];
-    return undefined;
+    return;
   }
 
   /**

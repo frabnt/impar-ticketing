@@ -55,7 +55,7 @@ export class WelcomePage {
               {},
               { animate: true, direction: 'forward' }
             );
-          }, 1500);
+          }, 1000);
         }
       })
       .catch(err => console.log(err));
