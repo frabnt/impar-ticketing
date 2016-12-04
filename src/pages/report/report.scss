@@ -1,7 +1,9 @@
 page-report {
   font-size: 1.8rem;
 
-  .card-md ion-card-content {
-    font-size: 1.6rem;
+  .card-md {
+    ion-card-content {
+      font-size: 1.6rem;
+    }
   }
 }
