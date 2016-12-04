@@ -59,8 +59,8 @@
         </ion-row>
         <ion-row>
           <ion-col width-50>Is deleted</ion-col>
-          <ion-col width-50 [class.italic]="!manifest.isDeleted">
-            {{manifest.isDeleted || "empty"}}
+          <ion-col width-50 [class.italic]="manifest.isDeleted == null">
+            {{manifest.isDeleted != null ? manifest.isDeleted : "empty"}}
           </ion-col>
         </ion-row>
       </div>
