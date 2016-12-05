@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { App } from "ionic-angular";
+import { App, AlertController } from "ionic-angular";
 import { ScanResultPage } from "../scan-result-tabs/scan-result-tabs";
 import { DatabaseService } from "../../services/database/database-service";
 import { ManifestEntity } from "../../models/manifest-entity";
@@ -37,6 +37,7 @@ export class ScanPage implements OnInit {
   constructor(private execTimeService: ExecTimeService,
               private database: DatabaseService,
               private builder: FormBuilder,
+              private alertCtrl: AlertController,
               private spinnerService: SpinnerService,
               private app: App) {
     this.searchForm = builder.group({
@@ -59,13 +60,24 @@ export class ScanPage implements OnInit {
    * them from the database
    */
   setRandomDBStrings() {
-    this.database.selectRandomCredentials()
-      .then(result => {
-        this.randomCredentials = result;
-      });
-    this.database.selectRandomTickets()
-      .then(result => {
-        this.randomTickets = result;
+    Promise.all([
+      this.database.selectRandomCredentials(),
+      this.database.selectRandomTickets()
+    ])
+      .then(results => {
+        this.randomCredentials = results[0];
+        this.randomTickets = results[1];
+      })
+      .catch(err => {
+        this.alertCtrl.create({
+          title: 'Error',
+          message: `Something goes wrong retrieving random db strings: ${err}`,
+          buttons: [
+            {
+              text: 'Ok'
+            }
+          ]
+        }).present();
       });
   }
 
@@ -94,7 +106,15 @@ export class ScanPage implements OnInit {
       })
       .catch(err => {
         this.spinnerService.dismiss();
-        console.log(err);
+        this.alertCtrl.create({
+          title: 'Error',
+          message: `Something goes wrong during the search: ${err}`,
+          buttons: [
+            {
+              text: 'Ok'
+            }
+          ]
+        }).present();
       });
   }
 

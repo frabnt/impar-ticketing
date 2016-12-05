@@ -41,6 +41,9 @@ export class DatabaseService {
             .getDatabaseInstance({ name: DB_NAME });
         }
         return;
+      })
+      .catch(err => {
+        return this.handleError({ err: err });
       });
   }
 
@@ -49,7 +52,7 @@ export class DatabaseService {
    * @returns {Promise<any>} that resolves once the foreign key support has been enabled
    */
   enableForeignKey(): Promise<any> {
-    return this.storage.query('PRAGMA foreign_keys = ON');
+    return this.query('PRAGMA foreign_keys = ON');
   }
 
   /**
@@ -57,24 +60,24 @@ export class DatabaseService {
    * @returns {Promise<any>} that resolves when all db tables have been created
    */
   createTables(): Promise<any> {
-    let createTablePrx: string = 'CREATE TABLE IF NOT EXISTS ';
+    let creationTablePrx: string = 'CREATE TABLE IF NOT EXISTS ';
 
     return Promise.all([
-      this.storage.query(createTablePrx + `orders (
+      this.query( creationTablePrx + `orders (
                           barcode_id TEXT,
                           deleted TEXT,
                           modified TEXT,
                           order_id TEXT PRIMARY KEY
-                        )`),
-      this.storage.query(createTablePrx + `event (
+                        )` ),
+      this.query( creationTablePrx + `event (
                           date_end TEXT,
                           date_start TEXT,
                           event_description TEXT,
                           event_id TEXT PRIMARY KEY,
                           event_name TEXT,
                           timezone TEXT
-                        )`),
-      this.storage.query( createTablePrx + `credentials_types (
+                        )` ),
+      this.query( creationTablePrx + `credentials_types (
                           credential_desc TEXT,
                           credential_name TEXT,
                           credential_type TEXT,
@@ -87,16 +90,16 @@ export class DatabaseService {
                           tokens_granted INTEGER,
                           validation_type TEXT
                         )` ),
-      this.storage.query( createTablePrx + `registrants (
+      this.query( creationTablePrx + `registrants (
                           name_first TEXT,
                           name_last TEXT,
                           registrant_id TEXT PRIMARY KEY
                         )` ),
-      this.storage.query( createTablePrx + `reports (
+      this.query( creationTablePrx + `reports (
                           report_id TEXT PRIMARY KEY,
                           type TEXT
                         )` ),
-      this.storage.query( createTablePrx + `zones (
+      this.query( creationTablePrx + `zones (
                           is_active INTEGER,
                           is_deleted INTEGER,
                           is_multipeer INTEGER,
@@ -104,14 +107,14 @@ export class DatabaseService {
                           zone_id TEXT PRIMARY KEY,
                           zone_name TEXT
                         )` ),
-      this.storage.query( createTablePrx + `schedules (
+      this.query( creationTablePrx + `schedules (
                           is_active INTEGER,
                           is_deleted INTEGER,
                           modified TEXT,
                           scanning_schedule_id TEXT PRIMARY KEY,
                           schedule_name TEXT
                         )` ),
-      this.storage.query( createTablePrx + `manifests (
+      this.query( creationTablePrx + `manifests (
                           activated TEXT,
                           credential_type_id TEXT,
                           deactivated TEXT,
@@ -124,7 +127,7 @@ export class DatabaseService {
                           validation_type TEXT,
                           FOREIGN KEY(credential_type_id) REFERENCES credential_types(credential_type_id)
                         )` ),
-      this.storage.query( createTablePrx + `zones_acl (
+      this.query( creationTablePrx + `zones_acl (
                           is_deleted INTEGER,
                           is_tokens_acl INTEGER,
                           modified TEXT,
@@ -132,7 +135,7 @@ export class DatabaseService {
                           zone_id TEXT,
                           FOREIGN KEY(zone_id) REFERENCES zones(zone_id)
                         )` ),
-      this.storage.query( createTablePrx + `zones_acl_passes (
+      this.query( creationTablePrx + `zones_acl_passes (
                           credential_type_id TEXT,
                           is_active INTEGER,
                           is_deleted INTEGER,
@@ -146,7 +149,7 @@ export class DatabaseService {
                           FOREIGN KEY(zone_acl_id) REFERENCES zones_acl(zone_acl_id),
                           FOREIGN KEY(scanning_schedule_id) REFERENCES schedules(scanning_schedule_id)
                         )` ),
-      this.storage.query( createTablePrx + `zones_scanning_points (
+      this.query( creationTablePrx + `zones_scanning_points (
                           is_active INTEGER,
                           is_deleted INTEGER,
                           modified TEXT,
@@ -158,7 +161,7 @@ export class DatabaseService {
                           FOREIGN KEY(zone_acl_id) REFERENCES zones_acl(zone_acl_id),
                           FOREIGN KEY(zone_id) REFERENCES zones(zone_id)
                         )` ),
-      this.storage.query( createTablePrx + `orders_transactions (
+      this.query( creationTablePrx + `orders_transactions (
                           activated TEXT,
                           barcode_id TEXT,
                           credential_type_id TEXT,
@@ -183,7 +186,7 @@ export class DatabaseService {
                           FOREIGN KEY(order_id) REFERENCES orders(order_id),
                           FOREIGN KEY(registrant_id) REFERENCES registrants(registrant_id)
                         )` ),
-      this.storage.query( createTablePrx + `reports_contents (
+      this.query( creationTablePrx + `reports_contents (
                           entry_id TEXT,
                           value TEXT,
                           report_id TEXT,
@@ -194,7 +197,7 @@ export class DatabaseService {
                                   credential_type_id,
                                   zone_id )
                         )` ),
-      this.storage.query( createTablePrx + `schedules_segments (
+      this.query( creationTablePrx + `schedules_segments (
                           is_active INTEGER,
                           is_deleted INTEGER,
                           modified TEXT,
@@ -204,7 +207,7 @@ export class DatabaseService {
                           segment_end TEXT,
                           FOREIGN KEY(scanning_schedule_id) REFERENCES schedules(scanning_schedule_id)
                         )` ),
-      this.storage.query( createTablePrx + `scanning_exceptions (
+      this.query( creationTablePrx + `scanning_exceptions (
                           exception_id TEXT PRIMARY KEY,
                           exception_name TEXT,
                           exception_desc TEXT,
@@ -212,7 +215,7 @@ export class DatabaseService {
                           is_deleted INTEGER,
                           is_active INTEGER
                         )` ),
-      this.storage.query( createTablePrx + `scanning_exceptions_zones_acl(
+      this.query( creationTablePrx + `scanning_exceptions_zones_acl(
                           exception_zone_id TEXT PRIMARY KEY,
                           exception_id TEXT,
                           zone_acl_id TEXT,
@@ -226,24 +229,6 @@ export class DatabaseService {
   }
 
   /**
-   * Convert an object into an array of values
-   * @param {Object} obj - object to convert
-   * @returns {any[]}
-   */
-  private objToValuesArray(obj): any[] {
-    return Object.keys(obj).map(key => obj[key]);
-  }
-
-  /**
-   * Convert an objects array into a values 2D-array
-   * @param {Array} arrObjs - objects array to convert
-   * @returns {any[][]}
-   */
-  private objsToValuesArray(arrObjs: any[]): any[] {
-    return arrObjs.map(obj => this.objToValuesArray(obj));
-  }
-
-  /**
    * Insert an object into a table
    * @param {string} tableName - name of the table
    * @param {Object} obj - object to insert
@@ -253,10 +238,19 @@ export class DatabaseService {
     if(!obj)
       return;
     let values = this.objToValuesArray(obj);
-    return this.storage.query(
+    return this.query(
       `INSERT INTO ${tableName} VALUES (${Array(values.length+1).join('?,').slice(0,-1)})`,
       values
     );
+  }
+
+  /**
+   * Convert an object into an array of values
+   * @param {Object} obj - object to convert
+   * @returns {any[]}
+   */
+  private objToValuesArray(obj): any[] {
+    return Object.keys(obj).map(key => obj[key]);
   }
 
   /**
@@ -383,37 +377,6 @@ export class DatabaseService {
   }
 
   /**
-   * Insert multiple objects (of the same type) into a table
-   * @param {string} tableName - name of the table
-   * @param {Object} arrObjs - objects array
-   * @returns {Promise<any>} that resolves once the batch query has been performed
-   */
-  batchQuery(tableName: string, arrObjs: any[]): Promise<any> {
-    if(!arrObjs.length)
-      return;
-
-    let values = this.objsToValuesArray(arrObjs);
-    return this.storage.batch(
-      `INSERT INTO ${tableName} VALUES (${Array(values[0].length + 1).join('?,').slice(0, -1)})`,
-      values
-    );
-  }
-
-  /**
-   * Split an array into smaller chunks
-   * @param arr - the array to split
-   * @param size - the size of the chunk
-   * @returns {Array} - the array of chunks
-   */
-  private chunksArray(arr: any[], size: number): any[] {
-    let result = [];
-    while(arr.length > 0) {
-      result.push(arr.splice(0, size));
-    }
-    return result;
-  }
-
-  /**
    * Insert multiple objects (of the same type) into a table through
    * batch queries. The number of batch queries depends on the array size
    * and is defined by the configured value of MAX_BATCH_SIZE property
@@ -437,12 +400,53 @@ export class DatabaseService {
   }
 
   /**
+   * Split an array into smaller chunks
+   * @param arr - the array to split
+   * @param size - the size of the chunk
+   * @returns {Array} - the array of chunks
+   */
+  private chunksArray(arr: any[], size: number): any[] {
+    let result = [];
+    while(arr.length > 0) {
+      result.push(arr.splice(0, size));
+    }
+    return result;
+  }
+
+  /**
+   * Insert multiple objects (of the same type) into a table
+   * @param {string} tableName - name of the table
+   * @param {Object} arrObjs - objects array
+   * @returns {Promise<any>} that resolves once the batch query has been performed
+   */
+  batchQuery(tableName: string, arrObjs: any[]): Promise<any> {
+    if(!arrObjs.length)
+      return;
+
+    let values = this.objsToValuesArray(arrObjs);
+    return this.storage.batch(
+      `INSERT INTO ${tableName} VALUES (${Array(values[0].length + 1).join('?,').slice(0, -1)})`,
+      values
+    )
+      .catch(this.handleError);
+  }
+
+  /**
+   * Convert an objects array into a values 2D-array
+   * @param {Array} arrObjs - objects array to convert
+   * @returns {any[][]}
+   */
+  private objsToValuesArray(arrObjs: any[]): any[] {
+    return arrObjs.map(obj => this.objToValuesArray(obj));
+  }
+
+  /**
    * Search for a ticket in the database
    * @param {string} ticketId - the ticket to search
    * @returns {Promise<OrderTransaction>} that resolves with the ticket object
    */
   searchForTicket(ticketId: string): Promise<OrderTransaction> {
-    return this.storage.query(
+    return this.query(
       'SELECT * FROM orders_transactions WHERE transaction_id = ? LIMIT 1',
       [ticketId]
     )
@@ -463,7 +467,7 @@ export class DatabaseService {
    * @returns {Promise<OrderTransaction>} that resolves with the ticket object
    */
   searchForTicketByManifestId(manifestId: string): Promise<OrderTransaction> {
-    return this.storage.query(
+    return this.query(
       'SELECT * FROM orders_transactions WHERE manifest_id = ? LIMIT 1',
       [manifestId]
     )
@@ -483,7 +487,7 @@ export class DatabaseService {
    * @returns {Promise<ManifestEntity>} that resolves with the credential object
    */
   searchForCredential(credentialId: string): Promise<ManifestEntity> {
-    return this.storage.query(
+    return this.query(
       'SELECT * FROM manifests WHERE manifest_id = ? LIMIT 1',
       [credentialId]
     )
@@ -503,7 +507,7 @@ export class DatabaseService {
    * @returns {Promise<Registrant>} that resolves with the registrant object
    */
   searchForRegistrant(registrantId: string): Promise<Registrant> {
-    return this.storage.query(
+    return this.query(
       'SELECT * FROM registrants WHERE registrant_id = ? LIMIT 1',
       [registrantId]
     )
@@ -523,7 +527,7 @@ export class DatabaseService {
    *                              containing manifest_id values
    */
   selectRandomCredentials(): Promise<string[]> {
-    return this.storage.query(
+    return this.query(
       'SELECT manifest_id FROM manifests ORDER BY manifest_id LIMIT 2'
     )
       .then(result => {
@@ -541,7 +545,7 @@ export class DatabaseService {
    *                             containing transaction_id values
    */
   selectRandomTickets(): Promise<string[]> {
-    return this.storage.query(
+    return this.query(
       'SELECT transaction_id FROM orders_transactions ORDER BY transaction_id LIMIT 2'
     )
       .then(result => {
@@ -560,11 +564,11 @@ export class DatabaseService {
    */
   calculateStats(): Promise<number[]> {
     return Promise.all([
-      this.storage.query('SELECT COUNT(*) as count FROM manifests')
+      this.query('SELECT COUNT(*) as count FROM manifests')
         .then(result => { return result.res.rows.item(0).count }),
-      this.storage.query('SELECT COUNT(*) as count FROM orders')
+      this.query('SELECT COUNT(*) as count FROM orders')
         .then(result => { return result.res.rows.item(0).count }),
-      this.storage.query('SELECT COUNT(*) as count FROM orders_transactions')
+      this.query('SELECT COUNT(*) as count FROM orders_transactions')
         .then(result => { return result.res.rows.item(0).count })
     ]);
   }
@@ -579,7 +583,34 @@ export class DatabaseService {
         // Resetting storage after deleting the database
         this.storage = undefined;
         return;
-      });
+      })
+      .catch(this.handleError);
+  }
+
+  /**
+   * Perform an arbitrary SQL operation on the database
+   *
+   * @param {string} query - the query to run
+   * @param {array} params - the additional params to use for query placeholders
+   * @return {Promise<any>} that resolves or rejects with an object of the form
+   *                        { tx: Transaction, res: Result (or err)}
+   */
+  private query(query: string, params = []): Promise<any> {
+    return this.storage.query(query, params)
+      .catch(this.handleError);
+  }
+
+  /**
+   * Arrange the error message to return
+   * @param {any} error
+   * @returns {Promise<string>} that resolves with a string embedding the error msg
+   */
+  private handleError(error: any) {
+    return Promise.reject(
+      error.err.message ?
+        error.err.message :
+        'Database error'
+    );
   }
 
 }

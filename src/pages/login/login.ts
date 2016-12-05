@@ -100,12 +100,11 @@ export class LoginPage implements OnInit {
         this.goToHome();
       })
       .catch(err => {
-        console.log(err);
         this.spinnerService.dismiss();
         // If login goes wrong, an error message is displayed
         this.alertCtrl.create({
           title: 'Login error',
-          message: `Error! Something goes wrong during login: ${err.err.message}`,
+          message: `Something goes wrong during login: ${err}`,
           buttons: [
             {
               text: 'Ok'

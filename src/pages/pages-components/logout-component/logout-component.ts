@@ -74,7 +74,7 @@ export class LogoutComponent {
                 // If logout goes wrong, an error message is displayed
                 this.alertCtrl.create({
                   title: 'Logout error',
-                  message: 'Error! Something goes wrong during logout.',
+                  message: `Something goes wrong during logout: ${err}`,
                   buttons: [
                     {
                       text: 'Ok'

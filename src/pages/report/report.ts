@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from "../../services/database/database-service";
 import { ExecTimeService } from "../../services/exec-time/exec-time-service";
+import { AlertController } from "ionic-angular";
 
 @Component({
   selector: 'page-report',
@@ -18,7 +19,8 @@ export class ReportPage implements OnInit {
    * @param {ExecTimeService} execTimeService
    */
   constructor(private databaseService: DatabaseService,
-              private execTimeService: ExecTimeService) {
+              private execTimeService: ExecTimeService,
+              private alertCtrl: AlertController) {
     let manifestTime = execTimeService.getTime('manifestTime'),
          ticketsTime = execTimeService.getTime('ticketsTime');
 
@@ -41,7 +43,15 @@ export class ReportPage implements OnInit {
         this.totalTickets = stats[1] + stats[2];
       })
       .catch(err => {
-        console.error("Unable to retrieve stats.");
+        this.alertCtrl.create({
+          title: 'Error',
+          message: `Something goes wrong retrieving stats: ${err}`,
+          buttons: [
+            {
+              text: 'Ok'
+            }
+          ]
+        }).present();
       });
   }
 
