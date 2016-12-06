@@ -9,6 +9,7 @@ import { DatabaseService } from "../../services/database/database-service";
 import { Manifest } from "../../models/manifest";
 import { Tickets } from "../../models/tickets";
 import { Storage } from "@ionic/storage";
+import { DBMappingService } from "../../services/db-mapping/db-mapping-service";
 /*
   Generated class for the Login page.
 
@@ -44,7 +45,8 @@ export class LoginPage implements OnInit {
               private vfsApiService: VfsApiService,
               private spinnerService: SpinnerService,
               private alertCtrl: AlertController,
-              private database: DatabaseService) {
+              private database: DatabaseService,
+              private mappingService: DBMappingService) {
     this.accessCodesList = [];
     this.loginForm = builder.group({
       'accessCode': ['', Validators.required]
@@ -90,7 +92,7 @@ export class LoginPage implements OnInit {
         ]);
       })
       .then(results => {
-        return this.database.insertAllData(
+        return this.mappingService.mapApiData(
           results[0],
           results[1]
         );

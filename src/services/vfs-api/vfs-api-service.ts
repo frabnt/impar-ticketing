@@ -31,7 +31,7 @@ export class VfsApiService {
    * @param {Http} http
    */
   constructor(private http: Http,
-              private localStorageService: Storage) { }
+              private storageService: Storage) { }
 
   /**
    * Store API token and event ID returned by the server after a successful authentication.
@@ -45,8 +45,8 @@ export class VfsApiService {
     this.eventID = eventID;
 
     return Promise.all([
-      this.localStorageService.set('apiToken', apiToken),
-      this.localStorageService.set('eventID', eventID)
+      this.storageService.set('apiToken', apiToken),
+      this.storageService.set('eventID', eventID)
     ]);
   }
 
@@ -59,8 +59,8 @@ export class VfsApiService {
       return Promise.resolve([this.apiToken, this.eventID]);
 
     return Promise.all([
-      this.localStorageService.get('apiToken'),
-      this.localStorageService.get('eventID')
+      this.storageService.get('apiToken'),
+      this.storageService.get('eventID')
     ]);
   }
 
@@ -74,8 +74,8 @@ export class VfsApiService {
     this.eventID = undefined;
 
     return Promise.all([
-      this.localStorageService.remove('apiToken'),
-      this.localStorageService.remove('eventID')
+      this.storageService.remove('apiToken'),
+      this.storageService.remove('eventID')
     ]);
   }
 

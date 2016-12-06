@@ -6,10 +6,6 @@ import { OrderTransaction } from "../../models/order-transaction";
 import { ManifestEntity } from "../../models/manifest-entity";
 import { Registrant } from "../../models/registrant";
 import { Platform } from "ionic-angular";
-import { Manifest } from "../../models/manifest";
-import { Tickets } from "../../models/tickets";
-import { SpinnerService } from "../utils/spinner-service";
-import { ExecTimeService } from "../exec-time/exec-time-service";
 /**
  * Created by francesco on 04/11/2016.
  */
@@ -26,8 +22,6 @@ export class DatabaseService {
    * @constructor
    */
   constructor(private databaseFactory: MyDatabaseFactory,
-              private spinnerService: SpinnerService,
-              private execTimeService: ExecTimeService,
               private platform: Platform) { }
 
   /**
@@ -254,129 +248,6 @@ export class DatabaseService {
   }
 
   /**
-   * Insert manifest and tickets data in the database
-   * @param {Manifest} manifest - manifest data
-   * @param {Tickets} tickets - tickets data
-   * @returns {PromiseLike<any>} that resolves when all data has been inserted
-   */
-  insertAllData(manifest: Manifest, tickets: Tickets): Promise<any> {
-    let startManifest: number,
-        startTickets:  number = this.execTimeService.startCounting();
-
-    this.spinnerService.setContent('Inserting orders...');
-
-    return this.batchInsertInTable(
-      'orders',
-      tickets.orders
-    )
-      .then(() => {
-        this.execTimeService.setTime(
-          'ticketsTime',
-          this.execTimeService.endCounting(startTickets)
-        );
-        this.spinnerService.setContent('Inserting event...');
-        return this.insertInTable(
-          'event',
-          manifest.event );
-      })
-      .then(() => {
-        this.spinnerService.setContent('Inserting credential types...');
-        return this.batchInsertInTable(
-          'credentials_types',
-          manifest.credentialTypes );
-      })
-      .then(() => {
-        this.spinnerService.setContent('Inserting registrants...');
-        return this.batchInsertInTable(
-          'registrants',
-          manifest.registrants );
-      })
-      .then(() => {
-        this.spinnerService.setContent('Inserting reports...');
-        return this.batchInsertInTable(
-          'reports',
-          manifest.getReports(manifest.reports) );
-      })
-      .then(() => {
-        this.spinnerService.setContent('Inserting zones...');
-        return this.batchInsertInTable(
-          'zones',
-          manifest.zones );
-      })
-      .then(() => {
-        this.spinnerService.setContent('Inserting schedules...');
-        return this.batchInsertInTable(
-          'schedules',
-          manifest.schedules );
-      })
-      .then(() => {
-        this.spinnerService.setContent('Inserting manifest...');
-        startManifest = this.execTimeService.startCounting();
-        return this.batchInsertInTable(
-          'manifests',
-          manifest.manifest );
-      })
-      .then(() => {
-        this.execTimeService.setTime(
-          'manifestTime',
-          this.execTimeService.endCounting(startManifest)
-        );
-        this.spinnerService.setContent('Inserting zones acl...');
-        return this.batchInsertInTable(
-          'zones_acl',
-          manifest.zonesAcl );
-      })
-      .then(() => {
-        this.spinnerService.setContent('Inserting zones acl passes...');
-        return this.batchInsertInTable(
-          'zones_acl_passes',
-          manifest.zonesAclPasses );
-      })
-      .then(() => {
-        this.spinnerService.setContent('Inserting zones scanning points...');
-        return this.batchInsertInTable(
-          'zones_scanning_points',
-          manifest.zonesScanningPoints );
-      })
-      .then(() => {
-        this.spinnerService.setContent('Inserting orders transactions...');
-        startTickets = this.execTimeService.startCounting();
-        return this.batchInsertInTable(
-          'orders_transactions',
-          tickets.ordersTransactions );
-      })
-      .then(() => {
-        this.execTimeService.setTime(
-          'ticketsTime',
-          this.execTimeService.getTime('ticketsTime') +
-          this.execTimeService.endCounting(startTickets)
-        );
-        this.spinnerService.setContent('Inserting reports contents...');
-        return this.batchInsertInTable(
-          'reports_contents',
-          manifest.getReportsContents(manifest.reports) );
-      })
-      .then(() => {
-        this.spinnerService.setContent('Inserting schedules segments...');
-        return this.batchInsertInTable(
-          'schedules_segments',
-          manifest.schedulesSegments );
-      })
-      .then(() => {
-        this.spinnerService.setContent('Inserting scanning exceptions...');
-        return this.batchInsertInTable(
-          'scanning_exceptions',
-          manifest.scanningExceptions);
-      })
-      .then(() => {
-        this.spinnerService.setContent('Inserting scanning exceptions zones acl...');
-        return this.batchInsertInTable(
-          'scanning_exceptions_zones_acl',
-          manifest.scanningExceptionsZonesAcl );
-      });
-  }
-
-  /**
    * Insert multiple objects (of the same type) into a table through
    * batch queries. The number of batch queries depends on the array size
    * and is defined by the configured value of MAX_BATCH_SIZE property
@@ -384,33 +255,21 @@ export class DatabaseService {
    * @param {Object} arrObjs - objects array
    * @returns {Promise<any>} that resolves when all batch queries have been performed
    */
-  batchInsertInTable(tableName: string, arrObjs: any[]): Promise<any> {
-    // Split the array into smaller chunks
-    let chunks = this.chunksArray(arrObjs, DatabaseService.MAX_BATCH_SIZE),
-      result = Promise.resolve(); // To start the chain
+  chunkedBatchInsert(tableName: string, arrObjs: any[]): Promise<any> {
+    let self = this;
 
-    // building the promises chain
-    chunks.map(chunk => {
-      result = result.then(() => {
-        return this.batchQuery(tableName, chunk);
-      });
+    return new Promise<any>(function processChunk(resolve: Function) {
+      // Extract next chunk
+      const chunk: any[] = arrObjs.splice(0, DatabaseService.MAX_BATCH_SIZE);
+      // If there are no remaining chunks, the promise is resolved
+      if (!chunk.length) {
+        resolve();
+      } else {
+        // Batch insert passing the current chunk
+        self.batchQuery(tableName, chunk)
+          .then(() => processChunk(resolve));
+      }
     });
-
-    return result;
-  }
-
-  /**
-   * Split an array into smaller chunks
-   * @param arr - the array to split
-   * @param size - the size of the chunk
-   * @returns {Array} - the array of chunks
-   */
-  private chunksArray(arr: any[], size: number): any[] {
-    let result = [];
-    while(arr.length > 0) {
-      result.push(arr.splice(0, size));
-    }
-    return result;
   }
 
   /**
@@ -589,9 +448,8 @@ export class DatabaseService {
 
   /**
    * Perform an arbitrary SQL operation on the database
-   *
    * @param {string} query - the query to run
-   * @param {array} params - the additional params to use for query placeholders
+   * @param {Array} params - the additional params to use for query placeholders
    * @return {Promise<any>} that resolves or rejects with an object of the form
    *                        { tx: Transaction, res: Result (or err)}
    */

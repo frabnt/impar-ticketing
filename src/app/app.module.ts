@@ -28,6 +28,7 @@ import { ExecTimeService } from "../services/exec-time/exec-time-service";
 import { WindowRefService } from "../services/window-ref/window-ref-service";
 import { MyDatabaseFactory } from "../services/database/my-database-factory";
 import { Storage } from "@ionic/storage";
+import { DBMappingService } from "../services/db-mapping/db-mapping-service";
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { Storage } from "@ionic/storage";
     ExecTimeService,
     WindowRefService,
     MyDatabaseFactory,
-    Storage
+    Storage,
+    DBMappingService
   ]
 })
 export class AppModule {}
