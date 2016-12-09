@@ -257,19 +257,22 @@ export class DatabaseService {
    * @returns {Promise<any>} that resolves when all batch queries have been performed
    */
   chunkedBatchInsert(tableName: string, arrObjs: any[]): Promise<any> {
-    let self = this;
-
-    return new Promise<any>(function processChunk(resolve: Function) {
-      // Extract next chunk
-      const chunk: any[] = arrObjs.splice(0, DatabaseService.MAX_BATCH_SIZE);
-      // If there are no remaining chunks, the promise is resolved
-      if (!chunk.length) {
-        resolve();
-      } else {
-        // Batch insert passing the current chunk
-        self.batchQuery(tableName, chunk)
-          .then(() => processChunk(resolve));
-      }
+    return new Promise<any>((resolve: Function, reject: Function) => {
+      // function invoked recursively on each chunk
+      let processChunk = () => {
+        // Extract next chunk
+        const chunk: any[] = arrObjs.splice(0, DatabaseService.MAX_BATCH_SIZE);
+        // If there are no remaining chunks, the promise is resolved
+        if (chunk.length) {
+          // Let's do a batch insert passing the current chunk
+          this.batchQuery(tableName, chunk)
+            .then(() => processChunk())
+            .catch(err => reject(err));
+        } else {
+          resolve();
+        }
+      };
+      processChunk();
     });
   }
 
