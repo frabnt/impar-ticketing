@@ -4,8 +4,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import { Tickets } from "../../models/tickets";
 import { Manifest } from "../../models/manifest";
-import { Deserialize } from "cerialize";
 import { Storage } from "@ionic/storage";
+import { DecoratorSerDesService } from "../ser-des/decorator-ser-des-service";
 /*
   Generated class for the VfsApiService provider.
 
@@ -31,6 +31,7 @@ export class VfsApiService {
    * @param {Http} http
    */
   constructor(private http: Http,
+              private serDesService: DecoratorSerDesService,
               private storageService: Storage) { }
 
   /**
@@ -162,7 +163,7 @@ export class VfsApiService {
             }
           )
         )
-          .map( res => Deserialize(res.json(), Manifest) )
+          .map( res => this.serDesService.deserialize(res.json(), Manifest) )
           .toPromise();
       }).catch(this.handleError);
   }
@@ -187,7 +188,7 @@ export class VfsApiService {
             }
           )
         )
-          .map( res => Deserialize(res.json(), Tickets) )
+          .map( res => this.serDesService.deserialize(res.json(), Tickets) )
           .toPromise();
       }).catch(this.handleError);
   }

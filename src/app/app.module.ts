@@ -29,6 +29,7 @@ import { WindowRefService } from "../services/window-ref/window-ref-service";
 import { MyDatabaseFactory } from "../services/database/my-database-factory";
 import { Storage } from "@ionic/storage";
 import { DBMappingService } from "../services/db-mapping/db-mapping-service";
+import { DecoratorSerDesService } from "../services/ser-des/decorator-ser-des-service";
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { DBMappingService } from "../services/db-mapping/db-mapping-service";
     WindowRefService,
     MyDatabaseFactory,
     Storage,
-    DBMappingService
+    DBMappingService,
+    DecoratorSerDesService
   ]
 })
 export class AppModule {}

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { ReportPage } from '../report/report';
 import { ScanPage } from "../scan/scan";
 

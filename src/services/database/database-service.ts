@@ -1,11 +1,11 @@
 import { AbstractSqlStorage } from "./abstract-sql-storage";
 import { MyDatabaseFactory } from "./my-database-factory";
 import { Injectable } from "@angular/core";
-import { Deserialize } from "cerialize";
 import { OrderTransaction } from "../../models/order-transaction";
 import { ManifestEntity } from "../../models/manifest-entity";
 import { Registrant } from "../../models/registrant";
 import { Platform } from "ionic-angular";
+import { DecoratorSerDesService } from "../ser-des/decorator-ser-des-service";
 /**
  * Created by francesco on 04/11/2016.
  */
@@ -22,6 +22,7 @@ export class DatabaseService {
    * @constructor
    */
   constructor(private databaseFactory: MyDatabaseFactory,
+              private serDesService: DecoratorSerDesService,
               private platform: Platform) { }
 
   /**
@@ -313,7 +314,7 @@ export class DatabaseService {
         if(!result.res.rows.length)
           return;
         //deserializing query result
-        return Deserialize(
+        return this.serDesService.deserialize(
           result.res.rows.item(0),
           OrderTransaction
         );
@@ -333,7 +334,7 @@ export class DatabaseService {
       .then(result => {
         if(!result.res.rows.length)
           return;
-        return Deserialize(
+        return this.serDesService.deserialize(
           result.res.rows.item(0),
           OrderTransaction
         );
@@ -353,7 +354,7 @@ export class DatabaseService {
       .then(result => {
         if(!result.res.rows.length)
           return;
-        return Deserialize(
+        return this.serDesService.deserialize(
           result.res.rows.item(0),
           ManifestEntity
         );
@@ -373,7 +374,7 @@ export class DatabaseService {
       .then(result => {
         if(!result.res.rows.length)
           return;
-        return Deserialize(
+        return this.serDesService.deserialize(
           result.res.rows.item(0),
           Registrant
         );
