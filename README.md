@@ -19,7 +19,7 @@ npm install ionic -g
 3) Clone the repo and navigate to the project root:
 
 ```
-npm install ionic -g
+git clone https://fb920024@bitbucket.org/fb920024/impar-ticketing.git
 cd impar-ticketing
 ```
 
