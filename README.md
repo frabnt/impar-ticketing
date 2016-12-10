@@ -11,17 +11,24 @@ A Ionic app implementing a parsing and importing algorithm with high performance
 
 1) Download and install latest version of Node.js from the [official site](https://nodejs.org/it/)
 
-2) Install Ionic 2 cli using npm command: 
+2) Install Ionic 2 cli globally using npm command: 
 ```
 npm install ionic -g
 ```
 
-3) Install project dependencies. From the project root run: 
+3) Clone the repo and navigate to the project root:
+
+```
+git clone https://fb920024@bitbucket.org/fb920024/impar-ticketing.git
+cd impar-ticketing
+```
+
+4) Install project dependencies. From the project root run: 
 ```
 npm install
 ```
 
-4) Run the app. From the project root:
+5) Run the app. From the project root:
 ```
 npm start
 ```
