@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ExecTimeService {
-  private timesMap: { [key:string]:number } = {};
+  private timesMap: Map<string, number> = new Map();
 
   /**
    * @constructor
@@ -33,8 +33,8 @@ export class ExecTimeService {
    * @param {string|number} key
    * @param {any} value
    */
-  setTime(key: string|number, value: any) {
-    this.timesMap[key] = value;
+  setTime(key: string, value: number) {
+    this.timesMap.set(key, value);
   }
 
   /**
@@ -43,20 +43,8 @@ export class ExecTimeService {
    * @returns {any} - the value for the given key undefined
    *                  if the key doesn't exist
    */
-  getTime(key: string|number): any {
-    if(this.hasKey(key))
-      return this.timesMap[key];
-    return;
-  }
-
-  /**
-   * Check if times map has the given key
-   * @param {string|number} key
-   * @returns {boolean}
-   */
-  private hasKey(key: string|number): boolean {
-    return Object.keys(this.timesMap)
-        .indexOf( key.toString() ) > -1;
+  getTime(key: string): any {
+    return this.timesMap.get(key);
   }
 
 }
