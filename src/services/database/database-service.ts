@@ -1,5 +1,5 @@
-import { AbstractSqlStorage } from "./abstract-sql-storage";
-import { MyDatabaseFactory } from "./my-database-factory";
+import { AbstractSqlStorage } from "./sql-storage/abstract-sql-storage";
+import { MyDatabaseFactory } from "./database-factory/my-database-factory";
 import { Injectable } from "@angular/core";
 import { OrderTransaction } from "../../models/order-transaction";
 import { ManifestEntity } from "../../models/manifest-entity";

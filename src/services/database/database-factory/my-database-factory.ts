@@ -1,9 +1,9 @@
-import { AbstractSqlStorage } from "./abstract-sql-storage";
-import { SQLiteStorage } from "./sqlite-storage";
-import { WebSQLStorage } from "./websql-storage";
+import { AbstractSqlStorage } from "../sql-storage/abstract-sql-storage";
+import { SQLiteStorage } from "../sql-storage/sqlite-storage";
+import { WebSQLStorage } from "../sql-storage/websql-storage";
 import { DatabaseFactory } from "./database-factory";
 import { Injectable } from "@angular/core";
-import { WindowRefService } from "../window-ref/window-ref-service";
+import { WindowRefService } from "../../window-ref/window-ref-service";
 /**
  * Created by francesco on 17/11/2016.
  *

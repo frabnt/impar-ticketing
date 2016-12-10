@@ -1,5 +1,5 @@
 import { AbstractSqlStorage } from "./abstract-sql-storage";
-import { WindowRefService } from "../window-ref/window-ref-service";
+import { WindowRefService } from "../../window-ref/window-ref-service";
 import { ReflectiveInjector } from "@angular/core";
 /**
  * Created by francesco on 04/11/2016.
