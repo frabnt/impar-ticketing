@@ -20,8 +20,6 @@ import { WelcomePage } from "../pages/welcome/welcome";
 import { VfsApiService } from "../services/vfs-api/vfs-api-service";
 import { SQLite } from "ionic-native";
 import { DatabaseService } from "../services/database/database-service";
-import { NumberPipe } from "../pipes/number-pipe";
-import { TimePipe } from "../pipes/time-pipe";
 import { ToggleEllipsis } from "../directives/toggle-ellipsis";
 import { SpinnerService } from "../services/utils/spinner-service";
 import { ExecTimeService } from "../services/exec-time/exec-time-service";
@@ -50,8 +48,6 @@ import { DecoratorSerDesService } from "../services/ser-des/decorator-ser-des-se
     SearchInfoComponent,
     PopoverComponent,
     PopoverMenu,
-    NumberPipe,
-    TimePipe,
     ToggleEllipsis
   ],
   imports: [
