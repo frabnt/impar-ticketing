@@ -16,7 +16,7 @@ const DB_NAME: string = 'impar_storage';
 export class DatabaseService {
   private storage: AbstractSqlStorage;
   // Max number of multiple insert
-  private static MAX_BATCH_SIZE: number = 40000;
+  private maxBatchSize: number = 40000;
 
   /**
    * @constructor
@@ -26,14 +26,22 @@ export class DatabaseService {
               private platform: Platform) { }
 
   /**
+   * Set max number of insert to run in a batch query
+   * @param size - the number of insert
+   */
+  setBatchSize(size: number) {
+    this.maxBatchSize = size;
+  }
+
+  /**
    * Open the database
    */
-  openDatabase(): Promise<any> {
+  openDatabase(dbName: string = DB_NAME): Promise<any> {
     return this.platform.ready()
       .then(() => {
         if(!this.storage) {
           this.storage = this.databaseFactory
-            .getDatabaseInstance({ name: DB_NAME });
+            .getDatabaseInstance({ name: dbName });
         }
         return;
       })
@@ -261,7 +269,7 @@ export class DatabaseService {
       // function invoked recursively on each chunk
       let processChunk = () => {
         // Extract next chunk
-        const chunk: any[] = arrObjs.splice(0, DatabaseService.MAX_BATCH_SIZE);
+        const chunk: any[] = arrObjs.splice(0, this.maxBatchSize);
         // If there are no remaining chunks, the promise is resolved
         if (chunk.length) {
           // Let's do a batch insert passing the current chunk
@@ -457,7 +465,7 @@ export class DatabaseService {
    * @return {Promise<any>} that resolves or rejects with an object of the form
    *                        { tx: Transaction, res: Result (or err)}
    */
-  private query(query: string, params = []): Promise<any> {
+  query(query: string, params = []): Promise<any> {
     return this.storage.query(query, params)
       .catch(this.handleError);
   }

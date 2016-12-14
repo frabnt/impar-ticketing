@@ -1,5 +1,5 @@
 import { DecoratorSerDesService } from "./decorator-ser-des-service";
-import { MOCK_MANIFEST, MOCK_TICKETS } from "../../mocks";
+import { MOCK_MANIFEST, MOCK_TICKETS } from "../vfs-api/mock-data";
 import { Manifest } from "../../models/manifest";
 import * as cerialize from "cerialize";
 import { Tickets } from "../../models/tickets";

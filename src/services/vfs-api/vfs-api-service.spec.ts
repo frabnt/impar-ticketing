@@ -3,17 +3,19 @@ import {
   getTestBed,
   async
 } from '@angular/core/testing';
+
 import {
   Headers, BaseRequestOptions,
   Response, HttpModule, Http, XHRBackend, RequestMethod
 } from '@angular/http';
+
 import { ResponseOptions } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { VfsApiService } from "./vfs-api-service";
 import { StorageMock } from "../../mocks";
 import { Storage } from "@ionic/storage";
-import { MOCK_MANIFEST } from '../../mocks';
-import { MOCK_TICKETS } from '../../mocks';
+import { MOCK_MANIFEST } from './mock-data';
+import { MOCK_TICKETS } from './mock-data';
 import { Manifest } from "../../models/manifest";
 import { Tickets } from "../../models/tickets";
 import { DecoratorSerDesService } from "../ser-des/decorator-ser-des-service";
@@ -195,8 +197,8 @@ describe('Services: Vfs-api-service', () => {
         expect(result).not.toBeNull();
         expect(result instanceof Tickets).toBeTruthy();
 
-        expect(result.orders.length).toEqual(4);
-        expect(result.ordersTransactions.length).toEqual(4);
+        expect(result.orders.length).toEqual(8);
+        expect(result.ordersTransactions.length).toEqual(8);
       });
   }));
 
