@@ -1,5 +1,5 @@
 import { DBMappingService } from "./db-mapping-service";
-import { async, TestBed, getTestBed } from "@angular/core/testing";
+import { TestBed } from "@angular/core/testing";
 import { SpinnerService } from "../utils/spinner-service";
 import { MockSpinnerService } from "../utils/mock-spinner-service";
 import { MockExecTimeService } from "../exec-time/mock-exec-time-service";
@@ -17,7 +17,7 @@ import { MOCK_MANIFEST, MOCK_TICKETS } from "../vfs-api/mock-data";
 describe('Services: DB-mapping-service', () => {
   let dbMappingService: DBMappingService;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         DBMappingService,
@@ -27,10 +27,10 @@ describe('Services: DB-mapping-service', () => {
       ]
     });
 
-    dbMappingService = getTestBed().get(DBMappingService);
-  }));
+    dbMappingService = TestBed.get(DBMappingService);
+  });
 
-  it('should map API data', (done) => {
+  it('should map API data', done => {
     spyOn(MockSpinnerService.prototype, 'setContent').and.callThrough();
     spyOn(MockExecTimeService.prototype, 'startCounting').and.callThrough();
     spyOn(MockExecTimeService.prototype, 'endCounting').and.callThrough();

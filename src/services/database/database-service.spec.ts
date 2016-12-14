@@ -1,4 +1,4 @@
-import { async, TestBed, getTestBed } from "@angular/core/testing";
+import { async, TestBed } from "@angular/core/testing";
 import { Platform } from "ionic-angular";
 import { PlatformMock } from '../../mocks';
 import { DatabaseService } from "./database-service";
@@ -20,7 +20,8 @@ import { DecoratorSerDesService } from "../ser-des/decorator-ser-des-service";
 describe('Services: Database-service', () => {
   let databaseService: DatabaseService;
 
-  beforeEach(async(() => {
+  // Synchronous beforeEach
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         DatabaseService,
@@ -31,7 +32,11 @@ describe('Services: Database-service', () => {
       ]
     });
 
-    databaseService = getTestBed().get(DatabaseService);
+    databaseService = TestBed.get(DatabaseService);
+  });
+
+  // Asynchronous beforeEach
+  beforeEach(async(() => {
     databaseService.openDatabase('test_db');
   }));
 
@@ -44,7 +49,7 @@ describe('Services: Database-service', () => {
       });
   });
 
-  it('should add the event object to the event table', (done) => {
+  it('should add the event object to the event table', done => {
     databaseService.insertInTable(
       'event',
       {
@@ -72,7 +77,7 @@ describe('Services: Database-service', () => {
       });
   });
 
-  it('should perform a batch query', (done) => {
+  it('should perform a batch query', done => {
     let ordersTransactions: OrderTransaction[] = Deserialize(MOCK_TICKETS, Tickets).ordersTransactions;
 
     databaseService.batchQuery('orders_transactions', ordersTransactions)
@@ -87,7 +92,7 @@ describe('Services: Database-service', () => {
       });
   });
 
-  it('should perform a chunked batch query', (done) => {
+  it('should perform a chunked batch query', done => {
     spyOn(databaseService, 'batchQuery').and.callThrough();
 
 
@@ -101,7 +106,7 @@ describe('Services: Database-service', () => {
       });
   });
 
-  it('should retrieve the searched ticket', (done) => {
+  it('should retrieve the searched ticket', done => {
     databaseService.searchForTicket('transaction-8967')
       .then((result: OrderTransaction) => {
         expect(result.orderId).toBe('order-8967');
@@ -128,7 +133,7 @@ describe('Services: Database-service', () => {
       });
   });
 
-  it('should retrieve the searched credential', (done) => {
+  it('should retrieve the searched credential', done => {
     databaseService.searchForCredential('manifest-5')
       .then((result: ManifestEntity) => {
       expect(result.manifestId).toBe('manifest-5');
@@ -146,7 +151,7 @@ describe('Services: Database-service', () => {
       });
   });
 
-  it('should retrieve the inserted registrant through related searching method', (done) => {
+  it('should retrieve the inserted registrant through related searching method', done => {
     databaseService.insertInTable(
       'registrants',
       {
@@ -166,7 +171,7 @@ describe('Services: Database-service', () => {
       });
   });
 
-  it('should retrieve the ticket searching it by manifest id', (done) => {
+  it('should retrieve the ticket searching it by manifest id', done => {
     databaseService.searchForTicketByManifestId('manifest-5679')
       .then((result: OrderTransaction) => {
         expect(result.orderId).toBe('order-8967');
@@ -193,7 +198,7 @@ describe('Services: Database-service', () => {
       });
   });
 
-  it('should retrieve random credentials', (done) => {
+  it('should retrieve random credentials', done => {
     databaseService.selectRandomCredentials()
       .then(result => {
         expect(result.length).toBe(2);
@@ -203,7 +208,7 @@ describe('Services: Database-service', () => {
       });
   });
 
-  it('should retrieve random tickets', (done) => {
+  it('should retrieve random tickets', done => {
     databaseService.selectRandomTickets()
       .then(result => {
         expect(result.length).toBe(2);
@@ -213,7 +218,7 @@ describe('Services: Database-service', () => {
       });
   });
 
-  it('should give back current stats', (done) => {
+  it('should give back current stats', done => {
     databaseService.calculateStats()
       .then(results => {
         expect(results[0]).toBe(7);
@@ -223,7 +228,7 @@ describe('Services: Database-service', () => {
       })
   });
 
-  it('should clear the database', (done) => {
+  it('should clear the database', done => {
     databaseService.clear().then(res => {
       expect(res).toBeUndefined();
       done();

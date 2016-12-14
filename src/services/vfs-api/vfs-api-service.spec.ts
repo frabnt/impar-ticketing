@@ -1,8 +1,4 @@
-import {
-  TestBed,
-  getTestBed,
-  async
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import {
   Headers, BaseRequestOptions,
@@ -27,7 +23,7 @@ describe('Services: Vfs-api-service', () => {
 
   let mockBackend: MockBackend;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         VfsApiService,
@@ -48,11 +44,11 @@ describe('Services: Vfs-api-service', () => {
         HttpModule
       ]
     });
-    mockBackend = getTestBed().get(MockBackend);
-  }));
+    mockBackend = TestBed.get(MockBackend);
+  });
 
-  it('should store credentials', async(() => {
-    getTestBed().get(VfsApiService)
+  it('should store credentials', done => {
+    TestBed.get(VfsApiService)
       .storeCredentials('myApiToken', 'myEventID')
         .then(results => {
           expect(results[0]).toEqual({
@@ -63,8 +59,10 @@ describe('Services: Vfs-api-service', () => {
             key: 'eventID',
             value: 'myEventID'
           });
+
+          done();
         });
-  }));
+  });
 
   it('should do login and return stored key-value pairs', done => {
     let vfsApiService: VfsApiService;
@@ -86,7 +84,7 @@ describe('Services: Vfs-api-service', () => {
           )));
       });
 
-    vfsApiService = getTestBed().get(VfsApiService);
+    vfsApiService = TestBed.get(VfsApiService);
     expect(vfsApiService).toBeDefined();
 
     vfsApiService.doLogin('testAC')
@@ -112,7 +110,7 @@ describe('Services: Vfs-api-service', () => {
         ));
       });
 
-    getTestBed().get(VfsApiService).doLogout()
+    TestBed.get(VfsApiService).doLogout()
       .then(results => {
         expect(results[0]).toEqual({
           key: 'apiToken'
@@ -124,7 +122,7 @@ describe('Services: Vfs-api-service', () => {
       });
   });
 
-  it('should retrieve manifest and return deserialized object', async(() => {
+  it('should retrieve manifest and return deserialized object', done => {
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         expect(connection.request.method).toBe(RequestMethod.Get);
@@ -139,17 +137,19 @@ describe('Services: Vfs-api-service', () => {
           )));
       });
 
-    getTestBed().get(VfsApiService).getManifest()
+    TestBed.get(VfsApiService).getManifest()
       .then(result => {
         expect(result).not.toBeNull();
         expect(result instanceof Manifest).toBeTruthy();
         expect(result).toEqual(
-          getTestBed().get(DecoratorSerDesService).deserialize(MOCK_MANIFEST, Manifest)
+          TestBed.get(DecoratorSerDesService).deserialize(MOCK_MANIFEST, Manifest)
         );
-      });
-  }));
 
-  it('should retrieve tickets and return deserialized object', async(() => {
+        done();
+      });
+  });
+
+  it('should retrieve tickets and return deserialized object', done => {
     mockBackend.connections.subscribe(
       (connection: MockConnection) => {
         expect(connection.request.method).toBe(RequestMethod.Get);
@@ -164,17 +164,19 @@ describe('Services: Vfs-api-service', () => {
           )));
       });
 
-    getTestBed().get(VfsApiService).getTickets(1)
+    TestBed.get(VfsApiService).getTickets(1)
       .then(result => {
         expect(result).not.toBeNull();
         expect(result instanceof Tickets).toBeTruthy();
         expect(result).toEqual(
-          getTestBed().get(DecoratorSerDesService).deserialize(MOCK_TICKETS, Tickets)
+          TestBed.get(DecoratorSerDesService).deserialize(MOCK_TICKETS, Tickets)
         );
-      });
-  }));
 
-  it('should retrieve paginated tickets and return deserialized object', async(() => {
+        done();
+      });
+  });
+
+  it('should retrieve paginated tickets and return deserialized object', done => {
     let page = 1;
 
     mockBackend.connections.subscribe(
@@ -192,14 +194,16 @@ describe('Services: Vfs-api-service', () => {
           )));
       });
 
-    getTestBed().get(VfsApiService).getAllTickets()
+    TestBed.get(VfsApiService).getAllTickets()
       .then(result => {
         expect(result).not.toBeNull();
         expect(result instanceof Tickets).toBeTruthy();
 
         expect(result.orders.length).toEqual(8);
         expect(result.ordersTransactions.length).toEqual(8);
+
+        done();
       });
-  }));
+  });
 
 });
