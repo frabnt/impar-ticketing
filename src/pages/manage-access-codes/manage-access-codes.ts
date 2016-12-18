@@ -62,10 +62,10 @@ export class ModifyAccessCodePage {
   /**
    * Save access codes list in the storage
    */
-  save() {
-    this.storageService.set('accessCodes', this.codeList)
+  save(): Promise<any> {
+    return this.storageService.set('accessCodes', this.codeList)
       .then(() => {
-        this.view.dismiss(this.codeList);
+        return this.view.dismiss(this.codeList);
       })
       .catch(err => {
         this.alertCtrl.create({
@@ -78,6 +78,7 @@ export class ModifyAccessCodePage {
           ]
         }).present();
         this.view.dismiss();
+        return Promise.reject(err);
       });
   }
 
