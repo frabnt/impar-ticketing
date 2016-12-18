@@ -21,9 +21,9 @@ describe('Services: DB-mapping-service', () => {
     TestBed.configureTestingModule({
       providers: [
         DBMappingService,
-        {provide: ExecTimeService,  useClass: MockExecTimeService},
-        {provide: DatabaseService, useClass: MockDatabaseService},
-        {provide: SpinnerService, useClass: MockSpinnerService},
+        { provide: ExecTimeService,  useClass: MockExecTimeService },
+        { provide: DatabaseService, useClass: MockDatabaseService },
+        { provide: SpinnerService, useClass: MockSpinnerService },
       ]
     });
 

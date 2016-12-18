@@ -8,7 +8,7 @@ import {
 import { ResponseOptions } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { VfsApiService } from "./vfs-api-service";
-import { StorageMock } from "../../mocks";
+import { MockStorage } from "../../mocks";
 import { Storage } from "@ionic/storage";
 import { MOCK_MANIFEST } from './mock-data';
 import { MOCK_TICKETS } from './mock-data';
@@ -28,7 +28,7 @@ describe('Services: Vfs-api-service', () => {
       providers: [
         VfsApiService,
         DecoratorSerDesService,
-        { provide: Storage, useClass: StorageMock },
+        { provide: Storage, useClass: MockStorage },
         MockBackend,
         BaseRequestOptions,
         {

@@ -1,6 +1,6 @@
 import { async, TestBed } from "@angular/core/testing";
 import { Platform } from "ionic-angular";
-import { PlatformMock } from '../../mocks';
+import { MockPlatform } from '../../mocks';
 import { DatabaseService } from "./database-service";
 import { MyDatabaseFactory } from "./database-factory/my-database-factory";
 import { MockDatabaseFactory } from "./database-factory/mock-database-factory";
@@ -28,7 +28,7 @@ describe('Services: Database-service', () => {
         WindowRefService,
         DecoratorSerDesService,
         { provide: MyDatabaseFactory, useClass: MockDatabaseFactory },
-        { provide: Platform,  useClass: PlatformMock }
+        { provide: Platform,  useClass: MockPlatform }
       ]
     });
 

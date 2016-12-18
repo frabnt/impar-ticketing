@@ -1,91 +1,172 @@
+import { ManifestEntity } from "./models/manifest-entity";
+import { OrderTransaction } from "./models/order-transaction";
+import { Registrant } from "./models/registrant";
 /**
  * Created by francesco on 13/12/2016.
  */
 
+
 // IONIC MOCKs:
 
-export class ConfigMock {
-
-  public get(): any {
+// Config
+export class MockConfig {
+  get(): any {
     return '';
   }
 
-  public getBoolean(): boolean {
+  getBoolean(): boolean {
     return true;
   }
 
-  public getNumber(): number {
+  getNumber(): number {
     return 1;
   }
 }
 
-export class FormMock {
-  public register(): any {
-    return true;
+// Platform
+export class MockPlatform {
+  ready(): Promise<any> {
+    return Promise.resolve();
   }
 }
 
-export class NavMock {
+// Storage
+export class MockStorage {
+  static TEST_KEYS: string[] = ['apiToken', 'eventID', 'accessCodes'];
 
-  public pop(): any {
-    return new Promise(function(resolve: Function): void {
-      resolve();
-    });
-  }
+  get(key: string): Promise<any> {
+    let res: any;
 
-  public push(): any {
-    return new Promise(function(resolve: Function): void {
-      resolve();
-    });
-  }
-
-  public getActive(): any {
-    return {
-      'instance': {
-        'model': 'something',
-      },
-    };
-  }
-
-  public setRoot(): any {
-    return true;
-  }
-}
-
-export class PlatformMock {
-  public ready(): any {
-    return new Promise((resolve: Function) => {
-      resolve();
-    });
-  }
-}
-
-export class MenuMock {
-  public close(): any {
-    return new Promise((resolve: Function) => {
-      resolve();
-    });
-  }
-}
-
-export class StorageMock {
-  public static TEST_KEYS: string[] = ['key0', 'key1', 'key2'];
-
-  public get(key: string): Promise<any> {
-    let res: string;
-
-    for(let index in StorageMock.TEST_KEYS) {
-      if(key === StorageMock.TEST_KEYS[index])
-        res = 'val' + index;
+    switch (key) {
+      case MockStorage.TEST_KEYS[0]:
+        res = 'api-token';
+        break;
+      case MockStorage.TEST_KEYS[1]:
+        res = 'event-id';
+        break;
+      case MockStorage.TEST_KEYS[2]:
+        res = ['code-1', 'code-2'];
+        break;
+      default:
+        res = ' should not be here';
     }
     return Promise.resolve(res);
   }
 
-  public set(key: string, value: any): Promise<any> {
+  set(key: string, value: any): Promise<any> {
     return Promise.resolve({key, value});
   }
 
-  public remove(key: string) {
+  remove(key: string): Promise<any> {
     return Promise.resolve({key});
+  }
+}
+
+// NavParams
+export class MockNavParams {
+  static PARAMS = [
+    'manifest', 'ticket',
+    'registrant', 'searchSuccessful',
+    'dbString', 'codeList'];
+
+  get(param: string): any {
+    let res: any;
+
+    switch(param) {
+      case MockNavParams.PARAMS[0]:
+        res = new ManifestEntity();
+        res.activated = '2017-01-01 15:25:36';
+        res.credentialTypeId = 'cred-type-id';
+        res.deactivated = '2017-01-01 23:25:36';
+        res.deactivationReason = 'deactivation reason';
+        res.isDeleted = 0;
+        res.manifestId = 'manifest-id';
+        res.modified = null;
+        res.scanCode = 'scan-code';
+        res.scanStatus = 'scan-status';
+        res.validationType = 'DIRECTIONAL';
+        break;
+      case MockNavParams.PARAMS[1]:
+        res = new OrderTransaction();
+        res.activated = '2017-01-01 14:25:36';
+        res.barcodeId= '%STGRP5GKZS';
+        res.credentialTypeId = 'cred-type-id';
+        res.deactivated = '2017-03-01 15:34:57';
+        res.deactivationReason = 'deactivation-reason';
+        res.deleted = null;
+        res.identifier = 'identifier';
+        res.lastScanMode = null;
+        res.manifestId = 'manifest-id';
+        res.modified = null;
+        res.oneDay = null;
+        res.orderId = 'order-id';
+        res.registrantId = 'registrant-1';
+        res.scanStatus = 0;
+        res.tokensGranted = -1;
+        res.tokensUsed = 0;
+        res.transactionId = 'transaction-1';
+        res.transactionType = 'TICKET';
+        res.voided = '2017-02-26 13:25:36';
+        break;
+      case MockNavParams.PARAMS[2]:
+        res = new Registrant();
+        res.nameFirst = 'Michele';
+        res.nameLast = 'Bartoli';
+        res.registrantId = 'registrant-1';
+        break;
+      case MockNavParams.PARAMS[3]:
+        res = true;
+        break;
+      case MockNavParams.PARAMS[4]:
+        res = 'searched-string';
+        break;
+      case MockNavParams.PARAMS[5]:
+        res = ['code-1', 'code-2'];
+        break;
+      default:
+        res = 'should not be here';
+    }
+
+    return res;
+  }
+}
+
+// ViewController
+export class MockViewController {
+  dismiss(data?: any): Promise<any> {
+    return Promise.resolve(data);
+  }
+  _setHeader() {}
+  _setNavbar() {}
+  _setIONContent() {}
+  _setIONContentRef() {}
+}
+
+// AlertController
+export class MockAlertController {
+  create(options: any): any {
+    return new MockLoading();
+  }
+}
+
+// LoadingController
+export class MockLoadingController {
+  create(options = {}): any {
+    return new MockLoading();
+  }
+}
+
+// Loading
+export class MockLoading {
+  present(): Promise<any> {
+    return Promise.resolve();
+  }
+
+  setContent(content: string) {
+    return content;
+  }
+
+  dismiss(): Promise<any> {
+    return Promise.resolve();
   }
 }
