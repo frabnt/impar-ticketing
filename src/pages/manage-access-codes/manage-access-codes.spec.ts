@@ -80,7 +80,7 @@ describe('Pages: Manage-access-codes', () => {
   it('should add a new access code to the list', () => {
     spyOn(comp, 'setModified');
     comp.addCode('new-code');
-    
+
     expect(comp.setModified).toHaveBeenCalledTimes(1);
 
     expect(comp.codeList.slice(-1).pop()).toBe('new-code');
