@@ -34,5 +34,5 @@ npm start
 ```
 For the same purpose, you can equally run:
 ```
-ionic serve --address localhost
+ionic serve
 ```

@@ -6,7 +6,7 @@
   "scripts": {
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve",
-    "start": "ionic serve --address localhost",
+    "start": "ionic serve",
     "test": "ng test --code-coverage"
   },
   "dependencies": {
