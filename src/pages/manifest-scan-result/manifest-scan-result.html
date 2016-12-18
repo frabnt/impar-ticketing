@@ -88,8 +88,8 @@
         </ion-row>
         <ion-row>
           <ion-col width-50>Scan status</ion-col>
-          <ion-col width-50 [class.italic]="!manifest.scanStatus">
-            {{manifest.scanStatus || "empty"}}
+          <ion-col width-50 [class.italic]="manifest.scanStatus == null">
+            {{manifest.scanStatus != null ? manifest.scanStatus : "empty"}}
           </ion-col>
         </ion-row>
         <ion-row>

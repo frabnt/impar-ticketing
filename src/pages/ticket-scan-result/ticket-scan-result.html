@@ -120,20 +120,20 @@
       <div *ngSwitchCase="'tableTab3'">
         <ion-row>
           <ion-col width-50>Scan status</ion-col>
-          <ion-col width-50 [class.italic]="!orderTransaction.scanStatus">
-            {{orderTransaction.scanStatus || "empty"}}
+          <ion-col width-50 [class.italic]="orderTransaction.scanStatus == null">
+            {{orderTransaction.scanStatus != null ? orderTransaction.scanStatus : "empty"}}
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col width-50>Tokens granted</ion-col>
-          <ion-col width-50 [class.italic]="!orderTransaction.tokensGranted">
-            {{orderTransaction.tokensGranted || "empty"}}
+          <ion-col width-50 [class.italic]="orderTransaction.tokensGranted == null">
+            {{orderTransaction.tokensGranted != null ? orderTransaction.tokensGranted : "empty"}}
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col width-50>Token used</ion-col>
-          <ion-col width-50 [class.italic]="!orderTransaction.tokensUsed">
-            {{orderTransaction.tokensUsed || "empty"}}
+          <ion-col width-50 [class.italic]="orderTransaction.tokensUsed == null">
+            {{orderTransaction.tokensUsed != null ? orderTransaction.tokensUsed : "empty"}}
           </ion-col>
         </ion-row>
         <ion-row>
