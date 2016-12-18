@@ -12,7 +12,7 @@ describe('Services: Exec-time-service', () => {
   });
 
   it('should create exec time service', () => {
-    expect(execTimeService).not.toBeNull();
+    expect(execTimeService).toBeTruthy();
   });
 
   it('should return the time linked to the key if the key exists', () => {
@@ -26,7 +26,10 @@ describe('Services: Exec-time-service', () => {
 
   it('should call getTime method of Date object twice', () => {
     spyOn(Date.prototype, 'getTime');
-    execTimeService.endCounting( execTimeService.startCounting() );
+    let startTime = execTimeService.startCounting();
+
+    expect(Date.prototype.getTime).toHaveBeenCalledTimes(1);
+    execTimeService.endCounting( startTime );
     expect(Date.prototype.getTime).toHaveBeenCalledTimes(2);
   });
 

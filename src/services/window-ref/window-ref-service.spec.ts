@@ -4,6 +4,7 @@ import { WindowRefService } from "./window-ref-service";
  */
 
 describe('Services: Window-ref-service', () => {
+
   let windowRefService: WindowRefService;
 
   beforeEach(() => {
@@ -13,4 +14,5 @@ describe('Services: Window-ref-service', () => {
   it('should return the native window object', () => {
     expect(windowRefService.nativeWindow).toBe(window);
   });
+
 });

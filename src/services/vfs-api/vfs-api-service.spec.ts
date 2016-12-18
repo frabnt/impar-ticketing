@@ -2,10 +2,12 @@ import { TestBed } from '@angular/core/testing';
 
 import {
   Headers, BaseRequestOptions,
-  Response, HttpModule, Http, XHRBackend, RequestMethod
+  Response, HttpModule, Http,
+  XHRBackend, RequestMethod,
+  ResponseOptionsArgs,
+  ResponseOptions
 } from '@angular/http';
 
-import { ResponseOptions } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { VfsApiService } from "./vfs-api-service";
 import { MockStorage } from "../../mocks";
@@ -22,6 +24,29 @@ import { DecoratorSerDesService } from "../ser-des/decorator-ser-des-service";
 describe('Services: Vfs-api-service', () => {
 
   let mockBackend: MockBackend;
+  let vfsApiService: VfsApiService;
+  let reqUrl: string;
+  let reqMethod: RequestMethod;
+
+  function setErrorResponse(mockBackend: MockBackend, errMsg: string) {
+    mockBackend.connections.subscribe(
+      (connection: MockConnection) => {
+        connection.mockError(new Error(errMsg));
+      });
+  }
+
+  function setSuccessResponse(backend: MockBackend, respOptions: ResponseOptionsArgs = {}) {
+    backend.connections.subscribe(
+      (connection: MockConnection) => {
+        reqUrl = connection.request.url;
+        reqMethod = connection.request.method;
+
+        connection.mockRespond(new Response(
+          new ResponseOptions(
+            respOptions
+          )));
+      });
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -45,165 +70,256 @@ describe('Services: Vfs-api-service', () => {
       ]
     });
     mockBackend = TestBed.get(MockBackend);
+    vfsApiService = TestBed.get(VfsApiService);
   });
 
   it('should store credentials', done => {
-    TestBed.get(VfsApiService)
+    vfsApiService
       .storeCredentials('myApiToken', 'myEventID')
+      .then(results => {
+        expect(results[0]).toEqual({
+          key: 'apiToken',
+          value: 'myApiToken'
+        });
+        expect(results[1]).toEqual({
+          key: 'eventID',
+          value: 'myEventID'
+        });
+
+        done();
+      });
+  });
+
+  describe('should return stored credentials', () => {
+    beforeEach(() => {
+      spyOn(MockStorage.prototype, 'get').and.callThrough();
+    });
+
+    it('should need to retrieve credentials from the storage', done => {
+      vfsApiService.getCredentials()
         .then(results => {
+          expect(MockStorage.prototype.get).toHaveBeenCalledTimes(2);
+          expect(MockStorage.prototype.get).toHaveBeenCalledWith('apiToken');
+          expect(MockStorage.prototype.get).toHaveBeenCalledWith('eventID');
+
+          expect(results[0]).toBe('api-token');
+          expect(results[1]).toBe('event-id');
+
+          done();
+        });
+    });
+
+    it('should not need to retrieve credentials from the storage', done => {
+      vfsApiService.storeCredentials('api-tok', 'ev-id')
+        .then(() => {
+          return vfsApiService.getCredentials();
+        })
+        .then(results => {
+          expect(MockStorage.prototype.get).not.toHaveBeenCalled();
+          expect(results[0]).toBe('api-tok');
+          expect(results[1]).toBe('ev-id');
+
+          done();
+        });
+    });
+  });
+
+  it('should reset credentials', done => {
+    spyOn(MockStorage.prototype, 'remove').and.callThrough();
+
+    vfsApiService.resetCredentials()
+      .then(results => {
+        expect(MockStorage.prototype.remove).toHaveBeenCalledTimes(2);
+        expect(MockStorage.prototype.remove).toHaveBeenCalledWith('apiToken');
+        expect(MockStorage.prototype.remove).toHaveBeenCalledWith('eventID');
+
+        expect(results[0]).toEqual({key: 'apiToken'});
+        expect(results[1]).toEqual({key: 'eventID'});
+
+        done();
+      });
+  });
+
+  describe('should perform login', () => {
+    it('should do login and return stored key-value pairs', done => {
+      setSuccessResponse(
+        mockBackend,
+        {
+          headers: new Headers({
+            'X-VENDINI-API-TOKEN': 'my-token',
+            'X-VENDINI-EVENT-ID': 'my-event-id'
+          })
+        }
+      );
+
+      expect(vfsApiService).toBeTruthy();
+
+      vfsApiService.doLogin('testAC')
+        .then(results => {
+          expect(reqUrl).toBe('https://vfs.staging.vendini.com/api/v1/auth/registration');
+          expect(reqMethod).toBe(RequestMethod.Post);
+
+          expect( results[0].value ).toEqual('my-token');
+          expect( results[0].key ).toEqual('apiToken');
+          expect( results[1].value ).toEqual('my-event-id');
+          expect( results[1].key ).toEqual('eventID');
+
+          done();
+        });
+    });
+
+    it('should return an error message if login fails', done => {
+      setErrorResponse(mockBackend, 'error during login');
+
+      vfsApiService.doLogin('testAC')
+        .catch(err => {
+          expect(err).toBe('error during login');
+          done();
+        });
+    });
+  });
+
+  describe('should perform logout', () => {
+    it('should do logout and return removed keys', done => {
+      setSuccessResponse(mockBackend);
+
+      vfsApiService.doLogout()
+        .then(results => {
+          expect(reqUrl).toBe('https://vfs.staging.vendini.com/api/v1/auth/registration');
+          expect(reqMethod).toBe(RequestMethod.Delete);
+
           expect(results[0]).toEqual({
-            key: 'apiToken',
-            value: 'myApiToken'
+            key: 'apiToken'
           });
           expect(results[1]).toEqual({
-            key: 'eventID',
-            value: 'myEventID'
+            key: 'eventID'
           });
 
           done();
         });
-  });
+    });
 
-  it('should do login and return stored key-value pairs', done => {
-    let vfsApiService: VfsApiService;
+    it('should return an error message if logout fails', done => {
+      setErrorResponse(mockBackend, 'error during logout');
 
-    mockBackend.connections.subscribe(
-      (connection: MockConnection) => {
-        expect(connection.request.method).toBe(RequestMethod.Post);
-        expect(connection.request.url).toEqual(
-          'https://vfs.staging.vendini.com/api/v1/auth/registration'
-        );
-
-        connection.mockRespond(new Response(
-          new ResponseOptions({
-              headers: new Headers({
-                'X-VENDINI-API-TOKEN': 'my-token',
-                'X-VENDINI-EVENT-ID': 'my-event-id'
-              })
-            }
-          )));
-      });
-
-    vfsApiService = TestBed.get(VfsApiService);
-    expect(vfsApiService).toBeDefined();
-
-    vfsApiService.doLogin('testAC')
-      .then(results => {
-        expect( results[0].value ).toEqual('my-token');
-        expect( results[0].key ).toEqual('apiToken');
-        expect( results[1].value ).toEqual('my-event-id');
-        expect( results[1].key ).toEqual('eventID');
-        done();
-      });
-  });
-
-  it('should do logout and return removed keys', done => {
-    mockBackend.connections.subscribe(
-      (connection: MockConnection) => {
-        expect(connection.request.method).toBe(RequestMethod.Delete);
-        expect(connection.request.url).toEqual(
-          'https://vfs.staging.vendini.com/api/v1/auth/registration'
-        );
-
-        connection.mockRespond(new Response(
-          new ResponseOptions({ })
-        ));
-      });
-
-    TestBed.get(VfsApiService).doLogout()
-      .then(results => {
-        expect(results[0]).toEqual({
-          key: 'apiToken'
+      vfsApiService.doLogout()
+        .catch(err => {
+          expect(err).toBe('error during logout');
+          done();
         });
-        expect(results[1]).toEqual({
-          key: 'eventID'
+    });
+  });
+
+  describe('should retrieve manifest', () => {
+    it('should retrieve manifest and return deserialized object', done => {
+      setSuccessResponse(
+        mockBackend,
+        { body: MOCK_MANIFEST }
+      );
+
+      vfsApiService.getManifest()
+        .then(result => {
+          expect(reqUrl).toBe('https://vfs.staging.vendini.com/api/v1/scanning/sync');
+          expect(reqMethod).toBe(RequestMethod.Get);
+
+          expect(result).toBeTruthy();
+          expect(result instanceof Manifest).toBeTruthy();
+          expect(result).toEqual(
+            TestBed.get(DecoratorSerDesService).deserialize(MOCK_MANIFEST, Manifest)
+          );
+
+          done();
         });
-        done();
-      });
+    });
+
+    it('should return an error message if the request for manifest fails', done => {
+      setErrorResponse(mockBackend, 'error retrieving manifest');
+
+      vfsApiService.getManifest()
+        .then(() => {
+          console.log("no error");
+          done();
+        })
+        .catch(err => {
+          expect(err).toBe('error retrieving manifest');
+          done();
+        });
+    });
   });
 
-  it('should retrieve manifest and return deserialized object', done => {
-    mockBackend.connections.subscribe(
-      (connection: MockConnection) => {
-        expect(connection.request.method).toBe(RequestMethod.Get);
-        expect(connection.request.url).toEqual(
-          'https://vfs.staging.vendini.com/api/v1/scanning/sync'
-        );
+  describe('should retrieve tickets', () => {
+    it('should retrieve tickets and return deserialized object', done => {
+      setSuccessResponse(
+        mockBackend,
+        { body: MOCK_TICKETS }
+      );
 
-        connection.mockRespond(new Response(
-          new ResponseOptions({
-              body: MOCK_MANIFEST
-            }
-          )));
-      });
+      vfsApiService.getTickets(1)
+        .then(result => {
+          expect(reqUrl).toBe('https://vfs.staging.vendini.com/api/v1/scanning/tickets?items=20000&page=1');
+          expect(reqMethod).toBe(RequestMethod.Get);
 
-    TestBed.get(VfsApiService).getManifest()
-      .then(result => {
-        expect(result).not.toBeNull();
-        expect(result instanceof Manifest).toBeTruthy();
-        expect(result).toEqual(
-          TestBed.get(DecoratorSerDesService).deserialize(MOCK_MANIFEST, Manifest)
-        );
+          expect(result).not.toBeNull();
+          expect(result instanceof Tickets).toBeTruthy();
+          expect(result).toEqual(
+            TestBed.get(DecoratorSerDesService).deserialize(MOCK_TICKETS, Tickets)
+          );
 
-        done();
-      });
+          done();
+        });
+    });
+
+    it('should show an error message if the request for tickets fails', done => {
+      setErrorResponse(mockBackend, 'error retrieving tickets');
+
+      vfsApiService.getTickets(1)
+        .catch(err => {
+          expect(err).toBe('error retrieving tickets');
+          done();
+        });
+    });
   });
 
-  it('should retrieve tickets and return deserialized object', done => {
-    mockBackend.connections.subscribe(
-      (connection: MockConnection) => {
-        expect(connection.request.method).toBe(RequestMethod.Get);
-        expect(connection.request.url).toEqual(
-          'https://vfs.staging.vendini.com/api/v1/scanning/tickets?items=20000&page=1'
-        );
+  describe('should retrieve paginated tickets', () => {
+    it('should retrieve paginated tickets and return deserialized object', done => {
+      let page = 1;
 
-        connection.mockRespond(new Response(
-          new ResponseOptions({
-              body: MOCK_TICKETS
-            }
-          )));
-      });
+      mockBackend.connections.subscribe(
+        (connection: MockConnection) => {
+          expect(connection.request.method).toBe(RequestMethod.Get);
+          expect(connection.request.url).toEqual(
+            `https://vfs.staging.vendini.com/api/v1/scanning/tickets?items=20000&page=${page}`
+          );
+          page++;
 
-    TestBed.get(VfsApiService).getTickets(1)
-      .then(result => {
-        expect(result).not.toBeNull();
-        expect(result instanceof Tickets).toBeTruthy();
-        expect(result).toEqual(
-          TestBed.get(DecoratorSerDesService).deserialize(MOCK_TICKETS, Tickets)
-        );
+          connection.mockRespond(new Response(
+            new ResponseOptions({
+                body: MOCK_TICKETS
+              }
+            )));
+        });
 
-        done();
-      });
-  });
+      vfsApiService.getAllTickets()
+        .then(result => {
+          expect(result).not.toBeNull();
+          expect(result instanceof Tickets).toBeTruthy();
 
-  it('should retrieve paginated tickets and return deserialized object', done => {
-    let page = 1;
+          expect(result.orders.length).toEqual(8);
+          expect(result.ordersTransactions.length).toEqual(8);
 
-    mockBackend.connections.subscribe(
-      (connection: MockConnection) => {
-        expect(connection.request.method).toBe(RequestMethod.Get);
-        expect(connection.request.url).toEqual(
-          `https://vfs.staging.vendini.com/api/v1/scanning/tickets?items=20000&page=${page}`
-        );
-        page++;
+          done();
+        });
+    });
 
-        connection.mockRespond(new Response(
-          new ResponseOptions({
-              body: MOCK_TICKETS
-            }
-          )));
-      });
+    it('should show an error message if the request for paginated tickets fails', done => {
+      setErrorResponse(mockBackend, 'error retrieving tickets');
 
-    TestBed.get(VfsApiService).getAllTickets()
-      .then(result => {
-        expect(result).not.toBeNull();
-        expect(result instanceof Tickets).toBeTruthy();
-
-        expect(result.orders.length).toEqual(8);
-        expect(result.ordersTransactions.length).toEqual(8);
-
-        done();
-      });
+      vfsApiService.getAllTickets()
+        .catch(err => {
+          expect(err).toBe('error retrieving tickets');
+          done();
+        });
+    });
   });
 
 });

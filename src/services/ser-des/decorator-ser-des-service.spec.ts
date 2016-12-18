@@ -9,6 +9,7 @@ import { Event } from "../../models/event";
  */
 
 describe('Services: decorator-ser-des-service', () => {
+
   let serDesService: DecoratorSerDesService;
 
   beforeEach(() => {
@@ -48,4 +49,5 @@ describe('Services: decorator-ser-des-service', () => {
 
     expect(cerialize.Serialize).toHaveBeenCalledTimes(2);
   });
+
 });

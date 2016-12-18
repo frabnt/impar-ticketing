@@ -1,4 +1,4 @@
-import { async, TestBed } from "@angular/core/testing";
+import { TestBed } from "@angular/core/testing";
 import { Platform } from "ionic-angular";
 import { MockPlatform } from '../../mocks';
 import { DatabaseService } from "./database-service";
@@ -18,6 +18,7 @@ import { DecoratorSerDesService } from "../ser-des/decorator-ser-des-service";
  */
 
 describe('Services: Database-service', () => {
+
   let databaseService: DatabaseService;
 
   // Synchronous beforeEach
@@ -36,18 +37,20 @@ describe('Services: Database-service', () => {
   });
 
   // Asynchronous beforeEach
-  beforeEach(async(() => {
-    databaseService.openDatabase('test_db');
-  }));
+  beforeEach(done => {
+    databaseService.openDatabase('test_db').then(() => {
+      done();
+    });
+  });
 
-  it('should create tables', (done) => {
+  it('should create tables', done => {
     databaseService.createTables()
       .then(res => {
         // 16 tables
         expect(res.length).toBe(16);
         done();
       });
-  });
+  }, 5000);
 
   it('should add the event object to the event table', done => {
     databaseService.insertInTable(
@@ -95,7 +98,6 @@ describe('Services: Database-service', () => {
   it('should perform a chunked batch query', done => {
     spyOn(databaseService, 'batchQuery').and.callThrough();
 
-
     let manifests: ManifestEntity[] = Deserialize(MOCK_MANIFEST, Manifest).manifest;
     databaseService.setBatchSize(2);
 
@@ -136,18 +138,18 @@ describe('Services: Database-service', () => {
   it('should retrieve the searched credential', done => {
     databaseService.searchForCredential('manifest-5')
       .then((result: ManifestEntity) => {
-      expect(result.manifestId).toBe('manifest-5');
-      expect(result.modified).toBe('2015-04-18 09:04:14');
-      expect(result.isDeleted).toBe(0);
-      expect(result.scanCode).toBe('04FFB932A04080');
-      expect(result.activated).toBe('2015-03-30 00:57:47');
-      expect(result.deactivated).toBeNull();
-      expect(result.deactivationReason).toBeNull();
-      expect(result.credentialTypeId).toBe('frbf-ceioceow-33nj-434ijin3m');
-      expect(result.scanStatus).toBe(0);
-      expect(result.validationType).toBe('RFID');
+        expect(result.manifestId).toBe('manifest-5');
+        expect(result.modified).toBe('2015-04-18 09:04:14');
+        expect(result.isDeleted).toBe(0);
+        expect(result.scanCode).toBe('04FFB932A04080');
+        expect(result.activated).toBe('2015-03-30 00:57:47');
+        expect(result.deactivated).toBeNull();
+        expect(result.deactivationReason).toBeNull();
+        expect(result.credentialTypeId).toBe('frbf-ceioceow-33nj-434ijin3m');
+        expect(result.scanStatus).toBe(0);
+        expect(result.validationType).toBe('RFID');
 
-      done();
+        done();
       });
   });
 
@@ -228,12 +230,68 @@ describe('Services: Database-service', () => {
       })
   });
 
+  describe('should perform an arbitrary SQL operation', () => {
+    it('should create a table', done => {
+      databaseService.query('CREATE TABLE IF NOT EXISTS test_table (col_first INTEGER, col_second TEXT)')
+        .then(() => {
+          return databaseService.query(
+            `SELECT name FROM sqlite_master WHERE type=? and name=?`,
+            ['table', 'test_table']
+          );
+        })
+        .then(result => {
+          expect(result.res.rows.item(0).name).toEqual('test_table');
+          done();
+        });
+    });
+
+    it('should insert a record in a table', done => {
+      databaseService.query('INSERT INTO test_table VALUES (?,?)', [5, 'someText'])
+        .then(() => {
+          return databaseService.query('SELECT col_first as colFirst, col_second as colSecond FROM test_table');
+        })
+        .then(result => {
+          let item = result.res.rows.item(0);
+          expect(item.colFirst).toBe(5);
+          expect(item.colSecond).toBe('someText');
+
+          done();
+        });
+    });
+
+    it('should update records in a table', done => {
+      databaseService
+        .query('UPDATE test_table SET col_first=?, col_second=?', [6, 'someOtherText'])
+        .then(() => {
+          return databaseService
+            .query('SELECT col_first as colFirst, col_second as colSecond FROM test_table');
+        }).then(result => {
+          let item = result.res.rows.item(0);
+          expect(item.colFirst).toBe(6);
+          expect(item.colSecond).toBe('someOtherText');
+
+          done();
+        });
+    });
+
+    it('should delete records from a table', done => {
+      databaseService
+        .query('DELETE FROM test_table WHERE col_first=?', [6])
+        .then(() => {
+          return databaseService
+            .query('SELECT COUNT(*) as count FROM test_table');
+        }).then(result => {
+          expect(result.res.rows.item(0).count).toBe(0);
+          done();
+        });
+    });
+  });
+
   it('should clear the database', done => {
     databaseService.clear().then(res => {
       expect(res).toBeUndefined();
       done();
     });
-  });
+  }, 5000);
 
 });
-
