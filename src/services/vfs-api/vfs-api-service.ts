@@ -204,7 +204,7 @@ export class VfsApiService {
 
     return Promise.all<Tickets, Tickets[]>([
       firstPage,
-      firstPage.then((res) => {
+      firstPage.then(res => {
         return Promise.all(
           Array.from(
             Array(res.pagination.lastPage - 1),
