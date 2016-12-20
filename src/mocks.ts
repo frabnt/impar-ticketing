@@ -28,6 +28,7 @@ export class MockPlatform {
   ready(): Promise<any> {
     return Promise.resolve();
   }
+  registerBackButtonAction() {}
 }
 
 // Storage
@@ -167,6 +168,13 @@ export class MockLoading {
   }
 
   dismiss(): Promise<any> {
+    return Promise.resolve();
+  }
+}
+
+// NavController
+export class MockNavController {
+  setRoot(options: {}): Promise<any> {
     return Promise.resolve();
   }
 }

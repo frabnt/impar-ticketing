@@ -31,7 +31,7 @@ export class WelcomePage {
    * If not, the user is redirected to login page
    */
   ionViewDidLoad() {
-    return this.platform.ready()
+    this.platform.ready()
       .then(() => {
         return Promise.all([
           this.storageService.get('apiToken'),
@@ -49,13 +49,11 @@ export class WelcomePage {
           );
         }
         else {
-          setTimeout(() => {
-            this.navCtrl.setRoot(
-              LoginPage,
-              {},
-              { animate: true, direction: 'forward' }
-            );
-          }, 1000);
+          this.navCtrl.setRoot(
+            LoginPage,
+            {},
+            { animate: true, direction: 'forward' }
+          );
         }
       })
       .catch(err => console.log(err));
