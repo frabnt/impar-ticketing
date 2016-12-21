@@ -9,7 +9,7 @@ import { LogoComponent } from "../pages/pages-components/logo-component/logo-com
 import { ScanPage } from "../pages/scan/scan";
 import { LogoutComponent } from "../pages/pages-components/logout-component/logout-component";
 import { ScanResultPage } from "../pages/scan-result-tabs/scan-result-tabs";
-import { SearchInfoComponent } from "../pages/pages-components/search-info-component/search-info";
+import { SearchInfoComponent } from "../pages/pages-components/search-info-component/search-info-component";
 import { TimeScanResultPage } from "../pages/time-scan-result/time-scan-result";
 import { TicketScanResultPage } from "../pages/ticket-scan-result/ticket-scan-result";
 import { ManifestScanResultPage } from "../pages/manifest-scan-result/manifest-scan-result";

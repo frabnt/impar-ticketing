@@ -1,17 +1,12 @@
-import {
-  async, TestBed,
-  ComponentFixture,
-  fakeAsync, tick
-} from "@angular/core/testing";
+import { async, TestBed, ComponentFixture, fakeAsync, tick } from "@angular/core/testing";
+import { ReportPage } from "./report";
 
 import {
-  App, Config, Form, Platform,
-  PopoverController, Keyboard, DomController,
+  App, Config, Platform, Keyboard, DomController,
   MenuController, AlertController, IonicModule
 } from "ionic-angular";
 
-import { ReportPage } from "./report";
-import { MockAlertController, MockLoading } from "../../mocks";
+import { MockAlertController, MockLoading, MockPlatform } from "../../mocks";
 import { DatabaseService } from "../../services/database/database-service";
 import { MockDatabaseService } from "../../services/database/mock-database-service";
 import { ExecTimeService } from "../../services/exec-time/exec-time-service";
@@ -40,9 +35,9 @@ describe('Pages: Report', () => {
         LogoutComponent
       ],
       providers: [
-        App, Config, Form, Platform,
-        PopoverController, Keyboard,
+        App, Config, Keyboard,
         DomController, MenuController,
+        { provide: Platform, useClass: MockPlatform },
         { provide: VfsApiService, useClass: MockVfsApiService },
         { provide: AlertController, useClass: MockAlertController },
         { provide: SpinnerService, useClass: MockSpinnerService },

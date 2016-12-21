@@ -2,18 +2,15 @@ import { TestBed, ComponentFixture, async } from "@angular/core/testing";
 import { RegistrantScanResultPage } from "./registrant-scan-result";
 import { LogoComponent } from "../pages-components/logo-component/logo-component";
 import { PopoverComponent } from "../pages-components/popover-component/popover-component";
-import { SearchInfoComponent } from "../pages-components/search-info-component/search-info";
+import { SearchInfoComponent } from "../pages-components/search-info-component/search-info-component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import {
-  App, MenuController,
-  Platform, Config, Keyboard,
-  IonicModule, NavParams,
-  PopoverController, Form,
-  DomController
+  App, MenuController, Platform, Config, Keyboard, IonicModule,
+  NavParams, PopoverController, DomController
 }  from 'ionic-angular';
 
-import { MockNavParams } from "../../mocks";
+import { MockNavParams, MockPlatform } from "../../mocks";
 import { DebugElement } from "@angular/core";
 import { Registrant } from "../../models/registrant";
 import { By } from "@angular/platform-browser";
@@ -21,7 +18,7 @@ import { By } from "@angular/platform-browser";
  * Created by francesco on 14/12/2016.
  */
 
-describe('Pages: Manifest-scan-result', () => {
+describe('Pages: Registrant-scan-result', () => {
 
   let comp: RegistrantScanResultPage;
   let fixture: ComponentFixture<RegistrantScanResultPage>;
@@ -36,9 +33,9 @@ describe('Pages: Manifest-scan-result', () => {
         SearchInfoComponent
       ],
       providers: [
-        App, Platform, Config, Form,
-        PopoverController, Keyboard,
-        DomController, MenuController,
+        App, Config, PopoverController,
+        Keyboard, DomController, MenuController,
+        { provide: Platform, useClass: MockPlatform },
         { provide: NavParams, useClass: MockNavParams }
       ],
       imports: [

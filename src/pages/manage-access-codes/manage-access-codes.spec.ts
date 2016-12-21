@@ -3,18 +3,12 @@ import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import {
-  App, MenuController,
-  Platform, Config, Keyboard,
-  IonicModule, NavParams,
-  PopoverController, Form,
-  DomController, ViewController,
-  AlertController, GestureController,
+  App, MenuController, Platform, Config, Keyboard, IonicModule, NavParams, Form,
+  DomController, ViewController, AlertController, GestureController,
 }  from 'ionic-angular';
 
 import {
-  MockNavParams, MockStorage,
-  MockViewController,
-  MockAlertController
+  MockNavParams, MockStorage, MockViewController, MockPlatform, MockAlertController
 } from "../../mocks";
 
 import { LogoComponent } from "../pages-components/logo-component/logo-component";
@@ -35,10 +29,10 @@ describe('Pages: Manage-access-codes', () => {
         ModifyAccessCodePage
       ],
       providers: [
-        App, Platform, Config, Form,
-        PopoverController, Keyboard,
-        DomController, MenuController,
-        GestureController,
+        App, Config, Form,
+        Keyboard, DomController,
+        MenuController, GestureController,
+        { provide: Platform, useClass: MockPlatform },
         { provide: ViewController, useClass: MockViewController },
         { provide: AlertController, useClass: MockAlertController },
         { provide: Storage, useClass: MockStorage },

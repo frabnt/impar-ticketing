@@ -2,18 +2,15 @@ import { TestBed, ComponentFixture, async } from "@angular/core/testing";
 import { ManifestScanResultPage } from "./manifest-scan-result";
 import { LogoComponent } from "../pages-components/logo-component/logo-component";
 import { PopoverComponent } from "../pages-components/popover-component/popover-component";
-import { SearchInfoComponent } from "../pages-components/search-info-component/search-info";
+import { SearchInfoComponent } from "../pages-components/search-info-component/search-info-component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import {
-  App, MenuController,
-  Platform, Config, Keyboard,
-  IonicModule, NavParams,
-  PopoverController, Form,
-  DomController
+  App, MenuController, Platform, Config, Keyboard, IonicModule,
+  NavParams, PopoverController, DomController
 }  from 'ionic-angular';
 
-import { MockNavParams } from "../../mocks";
+import { MockNavParams, MockPlatform } from "../../mocks";
 import { DebugElement } from "@angular/core";
 import { ManifestEntity } from "../../models/manifest-entity";
 import { By } from "@angular/platform-browser";
@@ -36,9 +33,9 @@ describe('Pages: Manifest-scan-result', () => {
         SearchInfoComponent
       ],
       providers: [
-        App, Platform, Config, Form,
-        PopoverController, Keyboard,
-        DomController, MenuController,
+        App, Config, PopoverController,
+        Keyboard, DomController, MenuController,
+        { provide: Platform, useClass: MockPlatform },
         { provide: NavParams, useClass: MockNavParams }
       ],
       imports: [

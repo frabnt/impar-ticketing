@@ -4,16 +4,15 @@ import { ExecTimeService } from "../../services/exec-time/exec-time-service";
 import { MockExecTimeService } from "../../services/exec-time/mock-exec-time-service";
 
 import {
-  NavParams, IonicModule, Config, App,
-  Platform, MenuController, PopoverController,
-  Keyboard, Form, DomController
+  NavParams, IonicModule, Config, App, Platform, Keyboard,
+  MenuController, PopoverController, DomController
 } from "ionic-angular";
 
 import { MockNavParams } from "../../mocks";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LogoComponent } from "../pages-components/logo-component/logo-component";
 import { PopoverComponent } from "../pages-components/popover-component/popover-component";
-import { SearchInfoComponent } from "../pages-components/search-info-component/search-info";
+import { SearchInfoComponent } from "../pages-components/search-info-component/search-info-component";
 import { DebugElement } from "@angular/core";
 import { By } from "@angular/platform-browser";
 /**
@@ -34,7 +33,7 @@ describe('Pages: Time-scan-result', () => {
         SearchInfoComponent
       ],
       providers: [
-        App, Platform, Config, Form,
+        App, Config, Platform,
         PopoverController, Keyboard,
         DomController, MenuController,
         { provide: ExecTimeService, useClass: MockExecTimeService },

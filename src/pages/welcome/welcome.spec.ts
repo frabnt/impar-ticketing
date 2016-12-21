@@ -1,16 +1,11 @@
-import {
-  async, TestBed,
-  ComponentFixture,
-  fakeAsync, tick
-} from "@angular/core/testing";
+import { async, TestBed, ComponentFixture, fakeAsync, tick } from "@angular/core/testing";
+import { WelcomePage } from "./welcome";
 
 import {
-  NavController, Platform, App,
-  Config, Form, PopoverController, Keyboard,
-  MenuController, DomController, IonicModule
+  NavController, Platform, App, Config, Form, PopoverController,
+  Keyboard, MenuController, DomController, IonicModule
 } from "ionic-angular";
 
-import { WelcomePage } from "./welcome";
 import { MockStorage, MockNavController, MockPlatform } from "../../mocks";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Storage } from "@ionic/storage";
