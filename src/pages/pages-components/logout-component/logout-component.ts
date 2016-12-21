@@ -12,7 +12,7 @@ import { SpinnerService } from "../../../services/utils/spinner-service";
   selector: 'logout',
   template:
     `
-      <button ion-button clear (click)="logout()">
+      <button ion-button clear (click)="showLogoutConfirmation()">
         <ng-content></ng-content>
       </button>
     `
@@ -37,7 +37,7 @@ export class LogoutComponent {
    * Show a confirmation alert and accomplish or not the
    * logout basing on user choice
    */
-  logout() {
+  showLogoutConfirmation() {
     this.alertCtrl.create({
       title: 'Logout',
       message: 'Do you really want to log out?',
@@ -48,44 +48,52 @@ export class LogoutComponent {
         {
           text: 'Yes',
           handler: () => {
-            // loading spinner showed until logout ends
-            this.spinnerService.createAndShow(
-              'Waiting for logout...',
-            );
-
-            this.vfsApiService.doLogout()
-              .then(() => {
-                return this.database.openDatabase();
-              })
-              .then(() => {
-                // Once opened, the database is deleted
-                return this.database.clear();
-              })
-              .then(() => {
-                this.spinnerService.dismiss();
-                this.app.getRootNav().setRoot(
-                  LoginPage,
-                  {},
-                  {animate: true, direction: 'forward'}
-                );
-              })
-              .catch(err => {
-                this.spinnerService.dismiss();
-                // If logout goes wrong, an error message is displayed
-                this.alertCtrl.create({
-                  title: 'Logout error',
-                  message: `Something goes wrong during logout: ${err}`,
-                  buttons: [
-                    {
-                      text: 'Ok'
-                    }
-                  ]
-                }).present();
-              });
+            this.performLogout();
           }
         }
       ]
     }).present();
+  }
+
+  /**
+   * Perform logout, clear the database and redirect to
+   * home page
+   */
+  performLogout() {
+    // loading spinner showed until logout ends
+    this.spinnerService.createAndShow(
+      'Waiting for logout...',
+    );
+
+    this.vfsApiService.doLogout()
+      .then(() => {
+        return this.database.openDatabase();
+      })
+      .then(() => {
+        // Once opened, the database is deleted
+        return this.database.clear();
+      })
+      .then(() => {
+        this.spinnerService.dismiss();
+        this.app.getRootNav().setRoot(
+          LoginPage,
+          {},
+          {animate: true, direction: 'forward'}
+        );
+      })
+      .catch(err => {
+        this.spinnerService.dismiss();
+        // If logout goes wrong, an error message is displayed
+        this.alertCtrl.create({
+          title: 'Logout error',
+          message: `Something goes wrong during logout: ${err}`,
+          buttons: [
+            {
+              text: 'Ok'
+            }
+          ]
+        }).present();
+      });
   }
 
 }
