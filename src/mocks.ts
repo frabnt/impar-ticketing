@@ -177,4 +177,26 @@ export class MockNavController {
   setRoot(options: {}): Promise<any> {
     return Promise.resolve();
   }
+
+  pop(opts?: any, done?: Function): Promise<any> {
+    return Promise.resolve();
+  }
+
+  push(page: any, params?: any, opts?: any, done?: Function): Promise<any> {
+    return Promise.resolve();
+  }
+}
+
+// PopoverController
+export class MockPopoverController {
+  create(component: any, data?: {}, opts?: any): MockPopover {
+    return new MockPopover();
+  }
+}
+
+// Popover
+export class MockPopover {
+  present(navOptions?: any): Promise<any> {
+    return Promise.resolve();
+  }
 }
