@@ -51,19 +51,11 @@ export class ScanPage implements OnInit {
   ngOnInit() {
     this.database.openDatabase()
       .then(() => {
-        this.setRandomDBStrings();
-      });
-  }
-
-  /**
-   * Set random credentials and tickets retrieving
-   * them from the database
-   */
-  setRandomDBStrings() {
-    Promise.all([
-      this.database.selectRandomCredentials(),
-      this.database.selectRandomTickets()
-    ])
+        return Promise.all([
+          this.database.selectRandomCredentials(),
+          this.database.selectRandomTickets()
+        ]);
+      })
       .then(results => {
         this.randomCredentials = results[0];
         this.randomTickets = results[1];

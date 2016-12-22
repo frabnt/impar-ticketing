@@ -37,21 +37,32 @@ export class MockDatabaseService {
 
   searchForTicket(ticketId: string): Promise<OrderTransaction> {
     let ticket: OrderTransaction = new OrderTransaction();
+    ticket.transactionId = ticketId;
+    ticket.manifestId = 'manifest-id';
+    ticket.registrantId = 'registrant-id';
+
     return Promise.resolve(ticket);
   }
 
   searchForTicketByManifestId(manifestId: string): Promise<OrderTransaction> {
     let ticket: OrderTransaction = new OrderTransaction();
+    ticket.manifestId = manifestId;
+    ticket.registrantId = 'registrant-id';
+
     return Promise.resolve(ticket);
   }
 
   searchForCredential(credentialId: string): Promise<ManifestEntity> {
     let credential: ManifestEntity = new ManifestEntity();
+    credential.manifestId = credentialId;
+
     return Promise.resolve(credential);
   }
 
   searchForRegistrant(registrantId: string): Promise<Registrant> {
     let registrant: Registrant = new Registrant();
+    registrant.registrantId = registrantId;
+
     return Promise.resolve(registrant);
   }
 

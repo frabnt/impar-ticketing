@@ -14,6 +14,7 @@ import {
   Platform, Config, Keyboard,
   Form, IonicModule, PopoverController
 }  from 'ionic-angular';
+import { MockConfig } from "./mocks";
 /**
  * Created by francesco on 13/12/2016.
  */
@@ -70,7 +71,7 @@ export class TestUtils {
         MenuController,
         NavController,
         PopoverController,
-        Config,
+        { provide: Config, useClass: MockConfig },
       ],
       imports: [
         FormsModule,
