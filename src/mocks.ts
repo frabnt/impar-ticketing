@@ -200,3 +200,21 @@ export class MockPopover {
     return Promise.resolve();
   }
 }
+
+// ModalController
+export class MockModalController {
+  create(component: any, data?: any, opts?: any): MockModal {
+    return new MockModal();
+  }
+}
+
+// Modal
+export class MockModal {
+  present(): Promise<any> {
+    return Promise.resolve();
+  }
+
+  onDidDismiss(callback: Function) {
+    //do-nothing
+  }
+}

@@ -20,6 +20,8 @@ import { VfsApiService } from "../../services/vfs-api/vfs-api-service";
 import { MockVfsApiService } from "../../services/vfs-api/mock-vfs-api-service";
 import { ScanResult } from "../../models/scan-result";
 import { ScanResultPage } from "../scan-result-tabs/scan-result-tabs";
+import { DebugElement } from "@angular/core";
+import { By } from "@angular/platform-browser";
 /**
  * Created by francesco on 21/12/2016.
  */
@@ -101,6 +103,19 @@ describe('Pages: Scan', () => {
 
       expect(MockAlertController.prototype.create).toHaveBeenCalledTimes(1);
       expect(MockLoading.prototype.present).toHaveBeenCalledTimes(1);
+    }));
+
+    it('should map random credentials and tickets in the view', fakeAsync(() => {
+      comp.ngOnInit();
+      tick();
+
+      fixture.detectChanges();
+      let de: DebugElement[] = fixture.debugElement.queryAll(By.css('ion-row > button:first-child'));
+
+      expect(de[0].nativeElement.textContent.trim()).toBe('Credential 1');
+      expect(de[1].nativeElement.textContent.trim()).toBe('Credential 2');
+      expect(de[2].nativeElement.textContent.trim()).toBe('Ticket 1');
+      expect(de[3].nativeElement.textContent.trim()).toBe('Ticket 2');
     }));
 
   });

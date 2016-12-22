@@ -11,7 +11,7 @@ export class MockSpinnerService {
   }
 
   createAndShow(spinner: string, content: string = 'crescent') {
-    console.info("creating and show spinner");
+    // create and show the spinner
   }
 
   setContent(content: string) {
