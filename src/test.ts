@@ -8,12 +8,14 @@ import 'zone.js/dist/async-test';
 import 'zone.js/dist/fake-async-test';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TestBed } from "@angular/core/testing";
+import { getTestBed, TestBed } from '@angular/core/testing';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+
 import {
-  App, MenuController, NavController,
-  Platform, Config, Keyboard,
-  Form, IonicModule, PopoverController
+  App, MenuController, NavController, Platform, Config, Keyboard,
+  Form, IonicModule, PopoverController, DomController
 }  from 'ionic-angular';
+
 import { MockConfig } from "./mocks";
 /**
  * Created by francesco on 13/12/2016.
@@ -24,25 +26,21 @@ declare var __karma__: any;
 declare var require: any;
 
 // Prevent Karma from running prematurely.
-__karma__.loaded = function (): any { /* no op */};
+__karma__.loaded = function (): void {
+  // noop
+};
 
-Promise.all([
-  System.import('@angular/core/testing'),
-  System.import('@angular/platform-browser-dynamic/testing'),
-])
 // First, initialize the Angular testing environment.
-  .then(([testing, testingBrowser]) => {
-    testing.getTestBed().initTestEnvironment(
-      testingBrowser.BrowserDynamicTestingModule,
-      testingBrowser.platformBrowserDynamicTesting()
-    );
-  })
-  // Then we find all the tests.
-  .then(() => require.context('./', true, /\.spec\.ts/))
-  // And load the modules.
-  .then(context => context.keys().map(context))
-  // Finally, start Karma to run the tests.
-  .then(__karma__.start, __karma__.error);
+getTestBed().initTestEnvironment(
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting(),
+);
+// Then we find all the tests.
+let context: any = require.context('./', true, /\.spec\.ts/);
+// And load the modules.
+context.keys().map(context);
+// Finally, start Karma to run the tests.
+__karma__.start();
 
 export class TestUtils {
 
@@ -64,13 +62,8 @@ export class TestUtils {
         ...components,
       ],
       providers: [
-        App,
-        Platform,
-        Form,
-        Keyboard,
-        MenuController,
-        NavController,
-        PopoverController,
+        App, Platform, Form, Keyboard, MenuController,
+        NavController, PopoverController, DomController,
         { provide: Config, useClass: MockConfig },
       ],
       imports: [
