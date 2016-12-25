@@ -12,7 +12,7 @@ import { LoginPage } from "../login/login";
 
 @Component({
   selector: 'page-welcome',
-  templateUrl: 'welcome.html'
+  templateUrl: './welcome.html'
 })
 export class WelcomePage {
 

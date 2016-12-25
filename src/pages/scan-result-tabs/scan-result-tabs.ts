@@ -10,7 +10,7 @@ import { ScanResult } from "../../models/scan-result";
  */
 
 @Component({
-  templateUrl: 'scan-result-tabs.html'
+  templateUrl: './scan-result-tabs.html'
 })
 export class ScanResultPage {
   // this tells the tabs component which Pages

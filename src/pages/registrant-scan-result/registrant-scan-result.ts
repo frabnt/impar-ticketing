@@ -10,7 +10,7 @@ import { NavParams } from "ionic-angular";
 
 @Component({
   selector: 'page-registrant-scan-result',
-  templateUrl: 'registrant-scan-result.html'
+  templateUrl: './registrant-scan-result.html'
 })
 export class RegistrantScanResultPage {
   registrant: Registrant;

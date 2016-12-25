@@ -6,7 +6,7 @@ import { ViewController, App } from 'ionic-angular';
 
 @Component({
   selector: 'page-popover-menu',
-  templateUrl: 'popover-menu.html'
+  templateUrl: './popover-menu.html'
 })
 export class PopoverMenu {
 

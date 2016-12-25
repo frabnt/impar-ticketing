@@ -10,7 +10,7 @@ import { NavParams } from "ionic-angular";
 
 @Component({
   selector: 'page-manifest-scan-result',
-  templateUrl: 'manifest-scan-result.html'
+  templateUrl: './manifest-scan-result.html'
 })
 export class ManifestScanResultPage {
   tableTabs: string = 'tableTab1'; // table tabs

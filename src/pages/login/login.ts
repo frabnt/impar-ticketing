@@ -19,7 +19,7 @@ import { DBMappingService } from "../../services/db-mapping/db-mapping-service";
 
 @Component({
   selector: 'page-login',
-  templateUrl: 'login.html'
+  templateUrl: './login.html'
 })
 export class LoginPage implements OnInit {
   accessCode: string;

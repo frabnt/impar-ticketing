@@ -10,7 +10,7 @@ import { Storage } from "@ionic/storage";
 
 @Component({
   selector: 'page-manage-access-code',
-  templateUrl: 'manage-access-codes.html'
+  templateUrl: './manage-access-codes.html'
 })
 export class ModifyAccessCodePage {
   codeList: string[]; //it store access code list

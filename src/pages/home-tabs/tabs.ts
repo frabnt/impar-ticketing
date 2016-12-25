@@ -3,7 +3,7 @@ import { ReportPage } from '../report/report';
 import { ScanPage } from "../scan/scan";
 
 @Component({
-  templateUrl: 'tabs.html'
+  templateUrl: './tabs.html'
 })
 export class HomeTabs {
   // this tells the tabs component which Pages

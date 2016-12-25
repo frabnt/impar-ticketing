@@ -5,7 +5,7 @@ import { AlertController } from "ionic-angular";
 
 @Component({
   selector: 'page-report',
-  templateUrl: 'report.html'
+  templateUrl: './report.html'
 })
 export class ReportPage implements OnInit {
   totalManifest: number = 0;

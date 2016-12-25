@@ -17,7 +17,7 @@ import { ScanResult } from "../../models/scan-result";
 
 @Component({
   selector: 'page-scan',
-  templateUrl: 'scan.html'
+  templateUrl: './scan.html'
 })
 export class ScanPage implements OnInit {
   randomCredentials: string[] = [];

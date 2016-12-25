@@ -10,7 +10,7 @@ import { NavParams } from "ionic-angular";
 
 @Component({
   selector: 'page-ticket-scan-result',
-  templateUrl: 'ticket-scan-result.html'
+  templateUrl: './ticket-scan-result.html'
 })
 export class TicketScanResultPage {
   tableTabs: string = 'tableTab1'; // table tabs

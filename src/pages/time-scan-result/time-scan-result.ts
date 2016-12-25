@@ -10,7 +10,7 @@ import { NavParams } from "ionic-angular";
 
 @Component({
   selector: 'page-time-scan-result',
-  templateUrl: 'time-scan-result.html'
+  templateUrl: './time-scan-result.html'
 })
 export class TimeScanResultPage {
   searchTime: number;
