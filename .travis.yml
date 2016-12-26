@@ -43,4 +43,4 @@ after_failure:
 
 after_success:
   # Send coverage info off to cloud ppl
-  - cat coverage/lcov.info | ./node_modules/.bin/codecov
+  - bash <(curl -s https://codecov.io/bash)
