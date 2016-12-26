@@ -35,7 +35,7 @@ before_script:
   - sh -e /etc/init.d/xvfb start
 
 script:
-  - ng test --watch=false                # unit tests
+  - - ng test --watch=false  --code-coverage # unit tests
 
 after_failure:
   - cat $TRAVIS_BUILD_DIR/python_serve.log
@@ -43,4 +43,4 @@ after_failure:
 
 after_success:
   # Send coverage info off to cloud ppl
-  - cat coverage/coverage.lcov | ./node_modules/.bin/codecov
+  - - ./node_modules/.bin/codecov
