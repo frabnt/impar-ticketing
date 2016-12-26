@@ -28,7 +28,7 @@
     "zone.js": "0.6.26"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "0.0.47",
+    "@ionic/app-scripts": "0.0.48",
     "@types/jasmine": "2.5.38",
     "@types/node": "6.0.42",
     "angular-cli": "1.0.0-beta.24",
@@ -43,7 +43,7 @@
     "ts-node": "1.7.2",
     "tslint": "4.1.1",
     "tslint-eslint-rules": "3.2.0",
-    "typescript": "2.0.9"
+    "typescript": "2.0.10"
   },
   "description": "ImParApp: A Ionic app implementing a parsing and importing algorithm",
   "cordovaPlugins": [
