@@ -35,7 +35,7 @@ before_script:
   - sh -e /etc/init.d/xvfb start
 
 script:
-  - - ng test --watch=false  --code-coverage # unit tests
+  - ng test --watch=false  --code-coverage # unit tests
 
 after_failure:
   - cat $TRAVIS_BUILD_DIR/python_serve.log
