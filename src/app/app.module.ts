@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { IonicApp, IonicModule } from 'ionic-angular';
+import { NgModule, ErrorHandler } from '@angular/core';
+import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { ReportPage } from '../pages/report/report';
 import { HomeTabs } from '../pages/home-tabs/tabs';
@@ -80,7 +80,10 @@ import { DecoratorSerDesService } from "../services/ser-des/decorator-ser-des-se
     MyDatabaseFactory,
     Storage,
     DBMappingService,
-    DecoratorSerDesService
+    DecoratorSerDesService,
+    // Tell Angular ErrorHandling class that it should
+    // be using the IonicErrorHandler class for any errors
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
 export class AppModule {}
