@@ -16,7 +16,7 @@ const DB_NAME: string = 'impar_storage';
 export class DatabaseService {
   private storage: AbstractSqlStorage;
   // Max number of multiple insert
-  private maxBatchSize: number = 40000;
+  private maxBatchSize: number = 20000;
 
   /**
    * @constructor
