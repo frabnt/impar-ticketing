@@ -256,7 +256,7 @@ describe('Services: Vfs-api-service', () => {
 
       vfsApiService.getTickets(1)
         .then(result => {
-          expect(reqUrl).toBe('https://vfs.staging.vendini.com/api/v1/scanning/tickets?items=20000&page=1');
+          expect(reqUrl).toBe('https://vfs.staging.vendini.com/api/v1/scanning/tickets?items=25000&page=1');
           expect(reqMethod).toBe(RequestMethod.Get);
 
           expect(result).not.toBeNull();
@@ -288,7 +288,7 @@ describe('Services: Vfs-api-service', () => {
         (connection: MockConnection) => {
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url).toEqual(
-            `https://vfs.staging.vendini.com/api/v1/scanning/tickets?items=20000&page=${page}`
+            `https://vfs.staging.vendini.com/api/v1/scanning/tickets?items=25000&page=${page}`
           );
           page++;
 
