@@ -37,8 +37,8 @@ export class SpinnerService {
    * @param {string} spinner: the name of the svg spinner for the loading indicator
    * @param {string} content: the html content for the loading spinner
    */
-  createAndShow(spinner: string, content: string = 'crescent') {
-    this.create(spinner, content);
+  createAndShow(content: string, spinner: string = 'crescent') {
+    this.create(content, spinner);
     this.present();
   }
 

@@ -174,7 +174,7 @@ export class VfsApiService {
    * @param {number} items - number of page items to retrieve
    * @returns {Promise<Tickets>} that resolves with the tickets object
    */
-  getTickets(page: number, items: number = 20000): Promise<Tickets> {
+  getTickets(page: number, items: number = 25000): Promise<Tickets> {
     return this.getCredentials()
       .then(results => {
         return this.http.get(
@@ -200,7 +200,7 @@ export class VfsApiService {
    * @returns {Promise<Tickets>} that resolves with the tickets object
    */
   getAllTickets(items?: number): Promise<Tickets> {
-    let firstPage = this.getTickets(1);
+    let firstPage = this.getTickets(1, items);
 
     return Promise.all<Tickets, Tickets[]>([
       firstPage,
