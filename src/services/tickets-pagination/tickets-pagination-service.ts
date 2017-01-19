@@ -43,7 +43,7 @@ export class TicketsPaginationService {
    * Retrieve remaining tickets pages
    * @returns {Promise<any>}
    */
-  manageTicketsPagination(): Promise<any> {
+  private manageTicketsPagination(): Promise<any> {
     let currentPage = 1;
 
     return new Promise<any>((resolve: Function, reject: Function) => {
