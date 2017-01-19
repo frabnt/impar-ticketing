@@ -28,6 +28,7 @@ import { MyDatabaseFactory } from "../services/database/database-factory/my-data
 import { Storage } from "@ionic/storage";
 import { DBMappingService } from "../services/db-mapping/db-mapping-service";
 import { DecoratorSerDesService } from "../services/ser-des/decorator-ser-des-service";
+import { TicketsPaginationService } from "../services/tickets-pagination/tickets-pagination-service";
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { DecoratorSerDesService } from "../services/ser-des/decorator-ser-des-se
     Storage,
     DBMappingService,
     DecoratorSerDesService,
+    TicketsPaginationService,
     // Tell Angular ErrorHandling class that it should
     // be using the IonicErrorHandler class for any errors
     {provide: ErrorHandler, useClass: IonicErrorHandler}

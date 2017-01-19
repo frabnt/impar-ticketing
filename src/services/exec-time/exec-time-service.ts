@@ -38,6 +38,17 @@ export class ExecTimeService {
   }
 
   /**
+   * Add the given value to the current value of the given key
+   * @param key
+   * @param value
+   */
+  addTime(key: string, value: number) {
+    // Retrieve the current value
+    let currTime = this.timesMap.get(key) || 0;
+    this.timesMap.set(key, currTime + value);
+  }
+
+  /**
    * Give back the time for the given key
    * @param {string|number} key
    * @returns {any} - the value for the given key undefined

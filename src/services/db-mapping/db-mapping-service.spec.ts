@@ -31,7 +31,7 @@ describe('Services: DB-mapping-service', () => {
     dbMappingService = TestBed.get(DBMappingService);
   });
 
-  describe('should map API data', () => {
+  /*describe('should map API data', () => {
     let manifest: Manifest = Deserialize(MOCK_MANIFEST, Manifest),
       tickets: Tickets = Deserialize(MOCK_TICKETS, Tickets);
 
@@ -89,6 +89,6 @@ describe('Services: DB-mapping-service', () => {
         manifest.schedules
       );
     });
-  });
+  });*/
 
 });

@@ -7,9 +7,9 @@ import { VfsApiService } from "../../services/vfs-api/vfs-api-service";
 import { SpinnerService } from "../../services/utils/spinner-service";
 import { DatabaseService } from "../../services/database/database-service";
 import { Manifest } from "../../models/manifest";
-import { Tickets } from "../../models/tickets";
 import { Storage } from "@ionic/storage";
 import { DBMappingService } from "../../services/db-mapping/db-mapping-service";
+import { TicketsPaginationService } from "../../services/tickets-pagination/tickets-pagination-service";
 /*
   Generated class for the Login page.
 
@@ -46,7 +46,8 @@ export class LoginPage implements OnInit {
               private spinnerService: SpinnerService,
               private alertCtrl: AlertController,
               private database: DatabaseService,
-              private mappingService: DBMappingService) {
+              private mappingService: DBMappingService,
+              private ticketsPagService: TicketsPaginationService) {
     this.accessCodesList = [];
     this.loginForm = builder.group({
       'accessCode': ['', Validators.required]
@@ -85,17 +86,15 @@ export class LoginPage implements OnInit {
         return this.database.createTables();
       })
       .then(() => {
-        this.spinnerService.setContent('Retrieving and deserializing data...');
-        return Promise.all<Manifest, Tickets>([
-          this.vfsApiService.getManifest(),
-          this.vfsApiService.getAllTickets()
-        ]);
+        this.spinnerService.setContent('Retrieving and deserializing manifest data...');
+        return this.vfsApiService.getManifest();
       })
-      .then(results => {
-        return this.mappingService.mapApiData(
-          results[0],
-          results[1]
-        );
+      .then((manifest: Manifest) => {
+        this.spinnerService.setContent('Mapping manifest data...');
+        return this.mappingService.mapManifestData(manifest);
+      })
+      .then(() => {
+        return this.ticketsPagService.getAllTickets();
       })
       .then(() => {
         return this.goToHome();

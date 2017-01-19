@@ -4,6 +4,7 @@ import { LoginPage } from "../../login/login";
 import { VfsApiService} from "../../../services/vfs-api/vfs-api-service";
 import { DatabaseService } from "../../../services/database/database-service";
 import { SpinnerService } from "../../../services/utils/spinner-service";
+import { ExecTimeService } from "../../../services/exec-time/exec-time-service";
 /**
  * Created by francesco on 16/10/2016.
  */
@@ -31,7 +32,8 @@ export class LogoutComponent {
               private alertCtrl: AlertController,
               private spinnerService: SpinnerService,
               private vfsApiService: VfsApiService,
-              private database: DatabaseService){ }
+              private database: DatabaseService,
+              private execTime: ExecTimeService){ }
 
   /**
    * Show a confirmation alert and accomplish or not the
@@ -74,7 +76,9 @@ export class LogoutComponent {
         return this.database.clear();
       })
       .then(() => {
+        this.execTime.setTime('ticketsTime', 0);
         this.spinnerService.dismiss();
+
         this.app.getRootNav().setRoot(
           LoginPage,
           {},
