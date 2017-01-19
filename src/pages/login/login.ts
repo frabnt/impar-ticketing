@@ -98,8 +98,7 @@ export class LoginPage implements OnInit {
         );
       })
       .then(() => {
-        this.spinnerService.dismiss();
-        this.goToHome();
+        return this.goToHome();
       })
       .catch(err => {
         this.spinnerService.dismiss();
@@ -117,14 +116,23 @@ export class LoginPage implements OnInit {
   }
 
   /**
-   * Navigate to home page
+   * Retrieve stats and navigate to home page
    */
-  goToHome() {
-    this.navCtrl.setRoot(
-      HomeTabs,
-      {},
-      {animate: true, direction: 'forward'}
-    );
+  goToHome(): Promise<any> {
+    // Update spinner content
+    this.spinnerService.setContent('Calculating stats...');
+    // Retrieving stats need to be passed to Report page
+    return this.database.calculateStats()
+      .then(stats => {
+        // Dismiss the spinner before entering in Report page
+        this.spinnerService.dismiss();
+
+        return this.navCtrl.setRoot(
+          HomeTabs,
+          { totalManifest: stats[0], totalTickets: stats[1] },
+          { animate: true, direction: 'forward' }
+        );
+      });
   }
 
   /**

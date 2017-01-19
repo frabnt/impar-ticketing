@@ -435,11 +435,23 @@ export class DatabaseService {
    */
   calculateStats(): Promise<number[]> {
     return Promise.all([
-      this.query('SELECT COUNT(*) as count FROM manifests')
+      this.query(`SELECT ( (SELECT COUNT(*) FROM manifests) +
+                           (SELECT COUNT(*) FROM event) +
+                           (SELECT COUNT(*) FROM credentials_types) +
+                           (SELECT COUNT(*) FROM registrants) +
+                           (SELECT COUNT(*) FROM reports) +
+                           (SELECT COUNT(*) FROM zones) +
+                           (SELECT COUNT(*) FROM schedules) +
+                           (SELECT COUNT(*) FROM zones_acl) +
+                           (SELECT COUNT(*) FROM zones_acl_passes) +
+                           (SELECT COUNT(*) FROM zones_scanning_points) +
+                           (SELECT COUNT(*) FROM reports_contents) +
+                           (SELECT COUNT(*) FROM schedules_segments) +
+                           (SELECT COUNT(*) FROM scanning_exceptions) +
+                           (SELECT COUNT(*) FROM scanning_exceptions_zones_acl) ) AS count`)
         .then(result => { return result.res.rows.item(0).count }),
-      this.query('SELECT COUNT(*) as count FROM orders')
-        .then(result => { return result.res.rows.item(0).count }),
-      this.query('SELECT COUNT(*) as count FROM orders_transactions')
+      this.query(`SELECT ( (SELECT COUNT(*) FROM orders) +
+                           (SELECT COUNT(*) FROM orders_transactions) ) AS count`)
         .then(result => { return result.res.rows.item(0).count })
     ]);
   }

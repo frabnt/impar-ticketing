@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DatabaseService } from "../../services/database/database-service";
 import { ExecTimeService } from "../../services/exec-time/exec-time-service";
-import { AlertController } from "ionic-angular";
+import { NavParams } from "ionic-angular";
 
 @Component({
   selector: 'page-report',
@@ -15,44 +14,29 @@ export class ReportPage implements OnInit {
 
   /**
    * @constructor
-   * @param {DatabaseService} databaseService
+   * @param {NavParams} navParams
    * @param {ExecTimeService} execTimeService
    */
-  constructor(private databaseService: DatabaseService,
-              private execTimeService: ExecTimeService,
-              private alertCtrl: AlertController) {
-    let manifestTime = execTimeService.getTime('manifestTime'),
-         ticketsTime = execTimeService.getTime('ticketsTime');
+  constructor(private navParams: NavParams,
+              private execTimeService: ExecTimeService) { }
+
+  /**
+   * Retrieving stats, i.e. mapping time and
+   * total number of entities (manifest and tickets)
+   */
+  ngOnInit() {
+    // Retrieving time stats
+    let manifestTime = this.execTimeService.getTime('manifestTime'),
+      ticketsTime = this.execTimeService.getTime('ticketsTime');
 
     if(typeof manifestTime !== 'undefined')
       this.manifestTime = manifestTime;
     if(typeof ticketsTime !== 'undefined')
       this.ticketsTime = ticketsTime;
-  }
 
-  /**
-   * Calculate stats using database service
-   */
-  ngOnInit() {
-    this.databaseService.openDatabase()
-      .then(() => {
-        return this.databaseService.calculateStats();
-      })
-      .then(stats => {
-        this.totalManifest = stats[0];
-        this.totalTickets = stats[1] + stats[2];
-      })
-      .catch(err => {
-        this.alertCtrl.create({
-          title: 'Error',
-          message: `Something goes wrong retrieving stats: ${err}`,
-          buttons: [
-            {
-              text: 'Ok'
-            }
-          ]
-        }).present();
-      });
+    // Retrieving total number of tickets and manifest
+    this.totalManifest = this.navParams.get('totalManifest');
+    this.totalTickets = this.navParams.get('totalTickets');
   }
 
 }

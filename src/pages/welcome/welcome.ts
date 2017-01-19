@@ -3,6 +3,7 @@ import { NavController, Platform } from 'ionic-angular';
 import { Storage } from "@ionic/storage";
 import { HomeTabs } from "../home-tabs/tabs";
 import { LoginPage } from "../login/login";
+import { DatabaseService } from "../../services/database/database-service";
 /*
   Generated class for the Welcome page.
 
@@ -24,6 +25,7 @@ export class WelcomePage {
    */
   constructor(private navCtrl: NavController,
               private platform: Platform,
+              private databaseService: DatabaseService,
               private storageService: Storage) {}
 
   /**
@@ -42,11 +44,18 @@ export class WelcomePage {
         // If API token and event ID are set, user hasn't performed logout yet
         // so is currently authenticated
         if(res[0] && res[1]) {
-          this.navCtrl.setRoot(
-            HomeTabs,
-            {},
-            { animate: true, direction: 'forward' }
-          );
+          // Retrieving stats need to be passed to Report page
+          return this.databaseService.openDatabase()
+            .then(() => {
+              return this.databaseService.calculateStats();
+            })
+            .then(stats => {
+              return this.navCtrl.setRoot(
+                HomeTabs,
+                { totalManifest: stats[0], totalTickets: stats[1] },
+                { animate: true, direction: 'forward' }
+              );
+            });
         }
         else {
           this.navCtrl.setRoot(
