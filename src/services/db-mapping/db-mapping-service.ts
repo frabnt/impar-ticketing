@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { Manifest } from "../../models/manifest";
 import { Tickets } from "../../models/tickets";
 import { ExecTimeService } from "../exec-time/exec-time-service";
-import { SpinnerService } from "../utils/spinner-service";
 import { DatabaseService } from "../database/database-service";
 /**
  * Created by francesco on 05/12/2016.
@@ -12,7 +11,6 @@ import { DatabaseService } from "../database/database-service";
 export class DBMappingService {
 
   constructor(private execTimeService: ExecTimeService,
-              private spinnerService: SpinnerService,
               private databaseService: DatabaseService) {}
 
   /**

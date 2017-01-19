@@ -19,6 +19,10 @@ export class MockExecTimeService {
     //do-nothing
   }
 
+  addTime(key: string, value: number) {
+    //do-nothing
+  }
+
   getTime(key: string): number {
     if(MockExecTimeService.TEST_KEYS.indexOf(key) > -1)
       return 1000;

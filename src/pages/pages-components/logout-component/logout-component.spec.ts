@@ -10,6 +10,8 @@ import { MockVfsApiService } from "../../../services/vfs-api/mock-vfs-api-servic
 import { DatabaseService } from "../../../services/database/database-service";
 import { MockDatabaseService } from "../../../services/database/mock-database-service";
 import { LoginPage } from "../../login/login";
+import { ExecTimeService } from "../../../services/exec-time/exec-time-service";
+import { MockExecTimeService } from "../../../services/exec-time/mock-exec-time-service";
 
 /**
  * Created by francesco on 20/12/2016.
@@ -31,7 +33,8 @@ describe('Pages-components: Logout', () => {
         { provide: VfsApiService, useClass: MockVfsApiService },
         { provide: DatabaseService, useClass: MockDatabaseService },
         { provide: SpinnerService, useClass: MockSpinnerService },
-        { provide: AlertController, useClass: MockAlertController }
+        { provide: AlertController, useClass: MockAlertController },
+        { provide: ExecTimeService, useClass: MockExecTimeService }
       ],
       imports: [
         FormsModule,
@@ -70,6 +73,8 @@ describe('Pages-components: Logout', () => {
       spyOn(MockDatabaseService.prototype, 'openDatabase').and.callThrough();
       spyOn(MockDatabaseService.prototype, 'clear').and.callThrough();
 
+      spyOn(MockExecTimeService.prototype, 'setTime');
+
       spyOn(App.prototype, 'getRootNav').and.returnValue(new MockNavController());
       spyOn(MockNavController.prototype, 'setRoot');
 
@@ -92,6 +97,11 @@ describe('Pages-components: Logout', () => {
     it('should open and clear the database', () => {
       expect(MockDatabaseService.prototype.openDatabase).toHaveBeenCalledTimes(1);
       expect(MockDatabaseService.prototype.clear).toHaveBeenCalledTimes(1);
+    });
+
+    it('should reset tickets mapping time', () => {
+      expect(MockExecTimeService.prototype.setTime).toHaveBeenCalledTimes(1);
+      expect(MockExecTimeService.prototype.setTime).toHaveBeenCalledWith('ticketsTime', 0);
     });
 
     it('should set login page as root page', () => {

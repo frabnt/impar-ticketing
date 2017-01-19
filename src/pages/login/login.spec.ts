@@ -22,11 +22,11 @@ import { MockDBMappingService } from "../../services/db-mapping/mock-db-mapping-
 import { HomeTabs } from "../home-tabs/tabs";
 import { ModifyAccessCodePage } from "../manage-access-codes/manage-access-codes";
 import { Deserialize } from "cerialize";
-import { MOCK_MANIFEST, MOCK_TICKETS } from "../../services/vfs-api/mock-data";
+import { MOCK_MANIFEST } from "../../services/vfs-api/mock-data";
 import { Manifest } from "../../models/manifest";
-import { Tickets } from "../../models/tickets";
 import { DebugElement } from "@angular/core";
 import { By } from "@angular/platform-browser";
+import { TicketsPaginationService } from "../../services/tickets-pagination/tickets-pagination-service";
 /**
  * Created by francesco on 22/12/2016.
  */
@@ -50,6 +50,7 @@ describe('Pages: Login', () => {
       providers: [
         App, Config, Keyboard, FormBuilder,
         DomController, MenuController, Form,
+        TicketsPaginationService,
         { provide: ModalController, useClass: MockModalController },
         { provide: NavController, useClass: MockNavController },
         { provide: Storage, useClass: MockStorage },
@@ -99,13 +100,16 @@ describe('Pages: Login', () => {
 
       beforeEach(fakeAsync(() => {
         spyOn(MockVfsApiService.prototype, 'doLogin').and.callThrough();
-        spyOn(MockDBMappingService.prototype, 'mapApiData').and.callThrough();
+        spyOn(MockDBMappingService.prototype, 'mapManifestData').and.callThrough();
+
+        spyOn(TicketsPaginationService.prototype, 'getAllTickets').and.callFake(() => {
+          return Promise.resolve();
+        });
 
         spyOn(MockDatabaseService.prototype, 'openDatabase').and.callThrough();
         spyOn(MockDatabaseService.prototype, 'createTables').and.callThrough();
 
         spyOn(MockVfsApiService.prototype, 'getManifest').and.callThrough();
-        spyOn(MockVfsApiService.prototype, 'getAllTickets').and.callThrough();
 
         spyOn(MockSpinnerService.prototype, 'createAndShow');
         spyOn(MockSpinnerService.prototype, 'setContent');
@@ -128,14 +132,12 @@ describe('Pages: Login', () => {
 
       it('should retrieve tickets and manifest data', () => {
         expect(MockVfsApiService.prototype.getManifest).toHaveBeenCalledTimes(1);
-        expect(MockVfsApiService.prototype.getAllTickets).toHaveBeenCalledTimes(1);
       });
 
       it('should map retrieved data in the database', () => {
-        expect(MockDBMappingService.prototype.mapApiData).toHaveBeenCalledTimes(1);
-        expect(MockDBMappingService.prototype.mapApiData).toHaveBeenCalledWith(
-          Deserialize(MOCK_MANIFEST, Manifest),
-          Deserialize(MOCK_TICKETS, Tickets)
+        expect(MockDBMappingService.prototype.mapManifestData).toHaveBeenCalledTimes(1);
+        expect(MockDBMappingService.prototype.mapManifestData).toHaveBeenCalledWith(
+          Deserialize(MOCK_MANIFEST, Manifest)
         );
       });
 
@@ -145,9 +147,10 @@ describe('Pages: Login', () => {
           'Waiting for login...'
         );
 
-        expect(MockSpinnerService.prototype.setContent).toHaveBeenCalledTimes(2);
+        expect(MockSpinnerService.prototype.setContent).toHaveBeenCalledTimes(3);
         expect(MockSpinnerService.prototype.setContent).toHaveBeenCalledWith('Creating tables...');
-        expect(MockSpinnerService.prototype.setContent).toHaveBeenCalledWith('Retrieving and deserializing data...');
+        expect(MockSpinnerService.prototype.setContent).toHaveBeenCalledWith('Retrieving and deserializing manifest data...');
+        expect(MockSpinnerService.prototype.setContent).toHaveBeenCalledWith('Mapping manifest data...');
       });
 
       it('should redirect to the home page', () => {

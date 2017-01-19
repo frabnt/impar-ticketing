@@ -15,6 +15,8 @@ import { DatabaseService } from "../../services/database/database-service";
 import { MockDatabaseService } from "../../services/database/mock-database-service";
 import { VfsApiService } from "../../services/vfs-api/vfs-api-service";
 import { MockVfsApiService } from "../../services/vfs-api/mock-vfs-api-service";
+import { ExecTimeService } from "../../services/exec-time/exec-time-service";
+import { MockExecTimeService } from "../../services/exec-time/mock-exec-time-service";
 /**
  * Created by francesco on 20/12/2016.
  */
@@ -32,6 +34,7 @@ describe('Pages: Popover-menu', () => {
       ],
       providers: [
         App, Config, Form, DomController, GestureController,
+        { provide: ExecTimeService, useClass: MockExecTimeService },
         { provide: Platform, useClass: MockPlatform },
         { provide: NavController, useClass: MockNavController },
         { provide: VfsApiService, useClass: MockVfsApiService },

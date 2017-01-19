@@ -5,7 +5,11 @@ import { Tickets } from "../../models/tickets";
  */
 
 export class MockDBMappingService {
-  mapApiData(manifest: Manifest, tickets: Tickets): Promise<any> {
+  mapManifestData(manifest: Manifest): Promise<any> {
+    return Promise.resolve();
+  }
+
+  mapTicketsData(tickets: Tickets): Promise<any> {
     return Promise.resolve();
   }
 }

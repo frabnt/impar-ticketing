@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { Tickets } from "../../models/tickets";
 import { VfsApiService } from "../vfs-api/vfs-api-service";
 import { DBMappingService } from "../db-mapping/db-mapping-service";
-import { Pagination } from "../../models/pagination";
 import { SpinnerService } from "../utils/spinner-service";
 /**
  * Created by francesco on 19/01/2017.
@@ -25,7 +24,7 @@ export class TicketsPaginationService {
     this.spinnerService.setContent('Retrieving and deserializing tickets (Page 1)');
 
     // Get first tickets page
-    return this.vfsApiService.getTickets(1, 10000)
+    return this.vfsApiService.getTickets(1)
       .then((firstTicketsPage: Tickets) => {
         // Set last page
         this.lastPage = firstTicketsPage.pagination.lastPage;
@@ -56,7 +55,7 @@ export class TicketsPaginationService {
           this.spinnerService.setContent(`Retrieving and deserializing tickets (Page ${currentPage})`);
 
           // Get and map the next page
-          this.vfsApiService.getTickets(currentPage, 10000)
+          this.vfsApiService.getTickets(currentPage)
             .then((tickets: Tickets) => {
               // Update last page from pagination info of current page
               this.lastPage = tickets.pagination.lastPage;
