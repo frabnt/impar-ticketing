@@ -109,7 +109,6 @@ describe('Pages: Login', () => {
 
         spyOn(MockSpinnerService.prototype, 'createAndShow');
         spyOn(MockSpinnerService.prototype, 'setContent');
-        spyOn(MockSpinnerService.prototype, 'dismiss');
         spyOn(comp, 'goToHome');
 
         comp.login('my-code');
@@ -149,8 +148,6 @@ describe('Pages: Login', () => {
         expect(MockSpinnerService.prototype.setContent).toHaveBeenCalledTimes(2);
         expect(MockSpinnerService.prototype.setContent).toHaveBeenCalledWith('Creating tables...');
         expect(MockSpinnerService.prototype.setContent).toHaveBeenCalledWith('Retrieving and deserializing data...');
-
-        expect(MockSpinnerService.prototype.dismiss).toHaveBeenCalledTimes(1);
       });
 
       it('should redirect to the home page', () => {
@@ -198,17 +195,18 @@ describe('Pages: Login', () => {
 
   });
 
-  it('should redirect to home page', () => {
+  it('should redirect to home page', fakeAsync(() => {
     spyOn(MockNavController.prototype, 'setRoot');
     comp.goToHome();
+    tick();
 
     expect(MockNavController.prototype.setRoot).toHaveBeenCalledTimes(1);
     expect(MockNavController.prototype.setRoot).toHaveBeenCalledWith(
       HomeTabs,
-      {},
+      { totalManifest: 2, totalTickets: 5 },
       {animate: true, direction: 'forward'}
     );
-  });
+  }));
 
   it('should present a modal window', () => {
     spyOn(MockModalController.prototype, 'create').and.callThrough();

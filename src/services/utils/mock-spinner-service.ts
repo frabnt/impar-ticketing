@@ -10,7 +10,7 @@ export class MockSpinnerService {
     //create the spinner
   }
 
-  createAndShow(spinner: string, content: string = 'crescent') {
+  createAndShow(content: string, spinner: string = 'crescent') {
     // create and show the spinner
   }
 

@@ -81,7 +81,7 @@ export class MockDatabaseService {
   }
 
   calculateStats(): Promise<number[]> {
-    return Promise.resolve([2, 1, 1]);
+    return Promise.resolve([2, 5]);
   }
 
   clear(): Promise<any> {

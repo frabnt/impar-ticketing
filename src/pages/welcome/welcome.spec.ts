@@ -13,6 +13,8 @@ import { By } from "@angular/platform-browser";
 import { DebugElement } from "@angular/core";
 import { HomeTabs } from "../home-tabs/tabs";
 import { LoginPage } from "../login/login";
+import { DatabaseService } from "../../services/database/database-service";
+import { MockDatabaseService } from "../../services/database/mock-database-service";
 /**
  * Created by francesco on 19/12/2016.
  */
@@ -33,7 +35,8 @@ describe('Pages: Welcome', () => {
         DomController, MenuController,
         { provide: Platform, useClass: MockPlatform },
         { provide: Storage, useClass: MockStorage },
-        { provide: NavController, useClass: MockNavController }
+        { provide: NavController, useClass: MockNavController },
+        { provide: DatabaseService, useClass: MockDatabaseService }
       ],
       imports: [
         FormsModule,
@@ -74,7 +77,7 @@ describe('Pages: Welcome', () => {
       expect(MockNavController.prototype.setRoot).toHaveBeenCalledTimes(1);
       expect(MockNavController.prototype.setRoot).toHaveBeenCalledWith(
         HomeTabs,
-        {},
+        {totalManifest: 2, totalTickets: 5},
         { animate: true, direction: 'forward' }
       );
     }));

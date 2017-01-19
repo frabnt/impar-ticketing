@@ -3,12 +3,10 @@ import { ReportPage } from "./report";
 
 import {
   App, Config, Platform, Keyboard, DomController,
-  MenuController, AlertController, IonicModule
+  MenuController, AlertController, IonicModule, NavParams
 } from "ionic-angular";
 
-import { MockAlertController, MockLoading, MockPlatform } from "../../mocks";
-import { DatabaseService } from "../../services/database/database-service";
-import { MockDatabaseService } from "../../services/database/mock-database-service";
+import { MockAlertController, MockPlatform, MockNavParams } from "../../mocks";
 import { ExecTimeService } from "../../services/exec-time/exec-time-service";
 import { MockExecTimeService } from "../../services/exec-time/mock-exec-time-service";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -18,6 +16,8 @@ import { MockSpinnerService } from "../../services/utils/mock-spinner-service";
 import { SpinnerService } from "../../services/utils/spinner-service";
 import { VfsApiService } from "../../services/vfs-api/vfs-api-service";
 import { MockVfsApiService } from "../../services/vfs-api/mock-vfs-api-service";
+import {DatabaseService} from "../../services/database/database-service";
+import {MockDatabaseService} from "../../services/database/mock-database-service";
 /**
  * Created by francesco on 19/12/2016.
  */
@@ -37,11 +37,12 @@ describe('Pages: Report', () => {
       providers: [
         App, Config, Keyboard,
         DomController, MenuController,
+        { provide: DatabaseService, useClass: MockDatabaseService },
         { provide: Platform, useClass: MockPlatform },
         { provide: VfsApiService, useClass: MockVfsApiService },
         { provide: AlertController, useClass: MockAlertController },
         { provide: SpinnerService, useClass: MockSpinnerService },
-        { provide: DatabaseService, useClass: MockDatabaseService },
+        { provide: NavParams, useClass: MockNavParams },
         { provide: ExecTimeService, useClass: MockExecTimeService }
       ],
       imports: [
@@ -52,6 +53,9 @@ describe('Pages: Report', () => {
     })
       .compileComponents().then(() => {
         spyOn(MockExecTimeService.prototype, 'getTime').and.callThrough();
+        spyOn(MockNavParams.prototype, 'get').and.callFake(() => {
+          return 3;
+        });
 
         fixture = TestBed.createComponent(ReportPage);
         comp = fixture.componentInstance;
@@ -62,16 +66,31 @@ describe('Pages: Report', () => {
     expect(comp).toBeTruthy();
   });
 
-  it('should retrieve the time to perform tickets and manifest mapping', () => {
-    expect(MockExecTimeService.prototype.getTime).toHaveBeenCalledTimes(2);
-    expect(MockExecTimeService.prototype.getTime).toHaveBeenCalledWith('ticketsTime');
-    expect(MockExecTimeService.prototype.getTime).toHaveBeenCalledWith('manifestTime');
+  describe('should retrieve stats', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
 
-    expect(comp.manifestTime).toBe(1000);
-    expect(comp.ticketsTime).toBe(1000);
+    it('should retrieve the time to perform tickets and manifest mapping', () => {
+      expect(MockExecTimeService.prototype.getTime).toHaveBeenCalledTimes(2);
+      expect(MockExecTimeService.prototype.getTime).toHaveBeenCalledWith('ticketsTime');
+      expect(MockExecTimeService.prototype.getTime).toHaveBeenCalledWith('manifestTime');
+
+      expect(comp.manifestTime).toBe(1000);
+      expect(comp.ticketsTime).toBe(1000);
+    });
+
+    it('should retrieve total number of manifest and tickets', () => {
+      expect(MockNavParams.prototype.get).toHaveBeenCalledTimes(2);
+      expect(MockNavParams.prototype.get).toHaveBeenCalledWith('totalManifest');
+      expect(MockNavParams.prototype.get).toHaveBeenCalledWith('totalTickets');
+
+      expect(comp.totalManifest).toBe(3);
+      expect(comp.totalTickets).toBe(3);
+    });
   });
 
-  describe('should retrieve stats', () => {
+  /*describe('should retrieve stats', () => {
     beforeEach(() => {
       spyOn(MockDatabaseService.prototype, 'calculateStats').and.callThrough();
     });
@@ -101,6 +120,6 @@ describe('Pages: Report', () => {
       expect(MockAlertController.prototype.create).toHaveBeenCalledTimes(1);
       expect(MockLoading.prototype.present).toHaveBeenCalledTimes(1);
     }));
-  });
+  });*/
 
 });

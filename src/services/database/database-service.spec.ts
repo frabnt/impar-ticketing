@@ -223,9 +223,8 @@ describe('Services: Database-service', () => {
   it('should give back current stats', done => {
     databaseService.calculateStats()
       .then(results => {
-        expect(results[0]).toBe(7);
-        expect(results[1]).toBe(0);
-        expect(results[2]).toBe(2);
+        expect(results[0]).toBe(9);
+        expect(results[1]).toBe(2);
         done();
       })
   });
