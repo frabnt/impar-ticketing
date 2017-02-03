@@ -54,9 +54,10 @@ describe('Pages: Login', () => {
         { provide: ModalController, useClass: MockModalController },
         { provide: NavController, useClass: MockNavController },
         { provide: Storage, useClass: MockStorage },
+        { provide: Platform, useClass: MockPlatform },
         { provide: DBMappingService, useClass: MockDBMappingService },
         { provide: VfsApiService, useClass: MockVfsApiService },
-        { provide: Platform, useClass: MockPlatform },
+
         { provide: AlertController, useClass: MockAlertController },
         { provide: SpinnerService, useClass: MockSpinnerService },
         { provide: DatabaseService, useClass: MockDatabaseService },

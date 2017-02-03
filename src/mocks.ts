@@ -1,6 +1,9 @@
 import { ManifestEntity } from "./models/manifest-entity";
 import { OrderTransaction } from "./models/order-transaction";
 import { Registrant } from "./models/registrant";
+import { EventListenerOptions } from "ionic-angular/platform/platform";
+import { EventEmitter, ElementRef } from "@angular/core";
+import { NavOptions, Content, Header, Navbar } from "ionic-angular";
 /**
  * Created by francesco on 13/12/2016.
  */
@@ -23,12 +26,38 @@ export class MockConfig {
   }
 }
 
+declare var document: any;
+
 // Platform
 export class MockPlatform {
-  ready(): Promise<any> {
-    return Promise.resolve();
+  ready(): Promise<string> {
+    return Promise.resolve('READY');
   }
-  registerBackButtonAction() {}
+
+  public registerBackButtonAction(fn: Function, priority?: number): Function {
+    return (() => true);
+  }
+
+  public hasFocus(ele: HTMLElement): boolean {
+    return true;
+  }
+
+  public doc(): HTMLDocument {
+    return document;
+  }
+
+  public registerListener(ele: any, eventName: string, callback: any,
+                          opts: EventListenerOptions, unregisterListenersCollection?: Function[]): Function {
+    return ((ev?: UIEvent) => {});
+  }
+
+  public win(): Window {
+    return window;
+  }
+
+  public raf(callback: any): number {
+    return 1;
+  }
 }
 
 // Storage
@@ -134,13 +163,16 @@ export class MockNavParams {
 
 // ViewController
 export class MockViewController {
-  dismiss(data?: any): Promise<any> {
+  readReady: EventEmitter<any> = new EventEmitter<any>();
+  writeReady: EventEmitter<any> = new EventEmitter<any>();
+
+  dismiss(data?: any, role?: any, navOptions?: NavOptions): Promise<any> {
     return Promise.resolve(data);
   }
-  _setHeader() {}
-  _setNavbar() {}
-  _setIONContent() {}
-  _setIONContentRef() {}
+  _setIONContent(content: Content): void {}
+  _setIONContentRef(elementRef: ElementRef): void {}
+  _setHeader(directive: Header): void {}
+  _setNavbar(directive: Navbar): void {}
 }
 
 // AlertController

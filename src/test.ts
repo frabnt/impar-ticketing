@@ -16,7 +16,7 @@ import {
   Form, IonicModule, PopoverController, DomController
 }  from 'ionic-angular';
 
-import { MockConfig } from "./mocks";
+import {MockConfig, MockPlatform} from "./mocks";
 /**
  * Created by francesco on 13/12/2016.
  */
@@ -36,7 +36,7 @@ getTestBed().initTestEnvironment(
   platformBrowserDynamicTesting(),
 );
 // Then we find all the tests.
-let context: any = require.context('./', true, /\.spec\.ts/);
+const context: any = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
 // Finally, start Karma to run the tests.
@@ -47,7 +47,6 @@ export class TestUtils {
   public static beforeEachCompiler(components: Array<any>): Promise<{fixture: any, instance: any}> {
     return TestUtils.configureIonicTestingModule(components)
       .compileComponents().then(() => {
-      TestBed
         let fixture: any = TestBed.createComponent(components[0]);
         return {
           fixture: fixture,
@@ -62,9 +61,10 @@ export class TestUtils {
         ...components,
       ],
       providers: [
-        App, Platform, Form, Keyboard, MenuController,
+        App, Form, Keyboard, MenuController,
         NavController, PopoverController, DomController,
         { provide: Config, useClass: MockConfig },
+        { provide: Platform, useClass: MockPlatform }
       ],
       imports: [
         FormsModule,

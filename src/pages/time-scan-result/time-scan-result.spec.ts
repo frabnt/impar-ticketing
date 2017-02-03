@@ -8,7 +8,7 @@ import {
   MenuController, PopoverController, DomController
 } from "ionic-angular";
 
-import { MockNavParams } from "../../mocks";
+import { MockNavParams, MockPlatform } from "../../mocks";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LogoComponent } from "../pages-components/logo-component/logo-component";
 import { PopoverComponent } from "../pages-components/popover-component/popover-component";
@@ -33,9 +33,10 @@ describe('Pages: Time-scan-result', () => {
         SearchInfoComponent
       ],
       providers: [
-        App, Config, Platform,
+        App, Config,
         PopoverController, Keyboard,
         DomController, MenuController,
+        { provide: Platform, useClass: MockPlatform },
         { provide: ExecTimeService, useClass: MockExecTimeService },
         { provide: NavParams, useClass: MockNavParams }
       ],
