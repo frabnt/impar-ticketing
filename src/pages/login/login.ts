@@ -22,7 +22,6 @@ import { TicketsPaginationService } from "../../services/tickets-pagination/tick
   templateUrl: './login.html'
 })
 export class LoginPage implements OnInit {
-  accessCode: string;
   accessCodesList: string[]; //store access codes list
   loginForm: FormGroup; //used to manage login form
 

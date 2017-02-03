@@ -21,14 +21,15 @@
 
 <ion-content padding>
   <form [formGroup]="searchForm"
-        (ngSubmit)="search(searchedDBString)"
+        (ngSubmit)="search(searchForm.get('searchedDBString').value)"
         novalidate>
     <ion-item>
-      <ion-input type="text" placeholder="Credential or ticket..."
-                 formControlName="searchedDBString"
-                 [(ngModel)]="searchedDBString"></ion-input>
+      <ion-input type="text"
+                 placeholder="Credential or ticket..."
+                 formControlName="searchedDBString"></ion-input>
     </ion-item>
-    <button ion-button class='margin-top mx-width-60'
+    <button ion-button
+            class='margin-top mx-width-60'
             outline color='secondary_custom'
             [disabled]="!searchForm.controls['searchedDBString'].valid">
       Search

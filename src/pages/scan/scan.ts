@@ -23,8 +23,7 @@ export class ScanPage implements OnInit {
   randomCredentials: string[] = [];
   randomTickets: string[] = [];
   searchForm: FormGroup;
-  searchedDBString: string;
-  scanResult: ScanResult;
+  scanResult: ScanResult; // the result of tha scan operation
 
   /**
    * @constructor

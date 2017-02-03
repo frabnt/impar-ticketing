@@ -1,4 +1,4 @@
-import { async, TestBed, ComponentFixture, fakeAsync, tick } from "@angular/core/testing";
+import { async, TestBed, ComponentFixture } from "@angular/core/testing";
 import { ReportPage } from "./report";
 
 import {
@@ -16,8 +16,8 @@ import { MockSpinnerService } from "../../services/utils/mock-spinner-service";
 import { SpinnerService } from "../../services/utils/spinner-service";
 import { VfsApiService } from "../../services/vfs-api/vfs-api-service";
 import { MockVfsApiService } from "../../services/vfs-api/mock-vfs-api-service";
-import {DatabaseService} from "../../services/database/database-service";
-import {MockDatabaseService} from "../../services/database/mock-database-service";
+import { DatabaseService } from "../../services/database/database-service";
+import { MockDatabaseService } from "../../services/database/mock-database-service";
 /**
  * Created by francesco on 19/12/2016.
  */
