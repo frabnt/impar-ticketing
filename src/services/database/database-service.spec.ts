@@ -108,8 +108,8 @@ describe('Services: Database-service', () => {
       });
   });
 
-  it('should retrieve the searched ticket', done => {
-    databaseService.searchForTicket('transaction-8967')
+  it('should retrieve the searched ticket by barcode-id', done => {
+    databaseService.searchForTicket('%STGRP5GKZS')
       .then((result: OrderTransaction) => {
         expect(result.orderId).toBe('order-8967');
         expect(result.transactionId).toBe('transaction-8967');
@@ -135,13 +135,31 @@ describe('Services: Database-service', () => {
       });
   });
 
-  it('should retrieve the searched credential', done => {
-    databaseService.searchForCredential('manifest-5')
+  it('should retrieve the searched credential by scan-code', done => {
+    databaseService.searchForCredential('CCCED031P04MNB')
       .then((result: ManifestEntity) => {
         expect(result.manifestId).toBe('manifest-5');
         expect(result.modified).toBe('2015-04-18 09:04:14');
         expect(result.isDeleted).toBe(0);
-        expect(result.scanCode).toBe('04FFB932A04080');
+        expect(result.scanCode).toBe('CCCED031P04MNB');
+        expect(result.activated).toBe('2015-03-30 00:57:47');
+        expect(result.deactivated).toBeNull();
+        expect(result.deactivationReason).toBeNull();
+        expect(result.credentialTypeId).toBe('frbf-ceioceow-33nj-434ijin3m');
+        expect(result.scanStatus).toBe(0);
+        expect(result.validationType).toBe('RFID');
+
+        done();
+      });
+  });
+
+  it('should retrieve the searched credential by id', done => {
+    databaseService.searchForCredentialById('manifest-5')
+      .then((result: ManifestEntity) => {
+        expect(result.manifestId).toBe('manifest-5');
+        expect(result.modified).toBe('2015-04-18 09:04:14');
+        expect(result.isDeleted).toBe(0);
+        expect(result.scanCode).toBe('CCCED031P04MNB');
         expect(result.activated).toBe('2015-03-30 00:57:47');
         expect(result.deactivated).toBeNull();
         expect(result.deactivationReason).toBeNull();
@@ -204,8 +222,8 @@ describe('Services: Database-service', () => {
     databaseService.selectRandomCredentials()
       .then(result => {
         expect(result.length).toBe(2);
-        expect(result[0]).toBe('manifest-1');
-        expect(result[1]).toBe('manifest-2');
+        expect(result[0]).toBe('04FFB932A04080');
+        expect(result[1]).toBe('15HTB945CK4276');
         done();
       });
   });
@@ -214,8 +232,8 @@ describe('Services: Database-service', () => {
     databaseService.selectRandomTickets()
       .then(result => {
         expect(result.length).toBe(2);
-        expect(result[0]).toBe('transaction-8967');
-        expect(result[1]).toBe('transaction-9967');
+        expect(result[0]).toBe('%STGRP5GKZS');
+        expect(result[1]).toBe('%PGTRP5TXZS');
         done();
       });
   });

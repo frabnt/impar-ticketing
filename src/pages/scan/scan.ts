@@ -146,13 +146,13 @@ export class ScanPage implements OnInit {
   /**
    * Search for a ticket in the database. It also searches for
    * credential and registrant linked to that ticket
-   * @param {string} ticketId - the ticket to search
+   * @param {string} barcodeId - the barcode of the searched ticket
    * @returns {PromiseLike<number>} that resolves with the time to perform the ticket search
    */
-  searchForTicket(ticketId: string): Promise<number> {
+  searchForTicket(barcodeId: string): Promise<number> {
     let time: number = this.execTimeService.startCounting();
 
-    return this.database.searchForTicket(ticketId)
+    return this.database.searchForTicket(barcodeId)
       .then(ticket => {
         if(!ticket)
           return;
@@ -162,7 +162,7 @@ export class ScanPage implements OnInit {
         this.scanResult.isSearchSuccessful = true;
         // Searching for manifest and registrant linked to the ticket
         return Promise.all<ManifestEntity, Registrant>([
-          this.database.searchForCredential(ticket.manifestId),
+          this.database.searchForCredentialById(ticket.manifestId),
           this.database.searchForRegistrant(ticket.registrantId)
         ]);
       })
@@ -180,13 +180,13 @@ export class ScanPage implements OnInit {
   /**
    * Search for a credential in the database. It also searches for
    * ticket and registrant linked to that credential
-   * @param {string} credentialId - the credential to search
+   * @param {string} scanCode - the scan code of the searched credential
    * @returns {PromiseLike<number>} that resolves with the time to perform the credential search
    */
-  searchForCredential(credentialId: string): Promise<number> {
+  searchForCredential(scanCode: string): Promise<number> {
     let time: number = this.execTimeService.startCounting();
 
-    return this.database.searchForCredential(credentialId)
+    return this.database.searchForCredential(scanCode)
       .then(credential => {
         if(!credential)
           return;

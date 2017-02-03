@@ -313,13 +313,13 @@ export class DatabaseService {
 
   /**
    * Search for a ticket in the database
-   * @param {string} ticketId - the ticket to search
+   * @param {string} barcodeId - the barcode id of the searched ticket
    * @returns {Promise<OrderTransaction>} that resolves with the ticket object
    */
-  searchForTicket(ticketId: string): Promise<OrderTransaction> {
+  searchForTicket(barcodeId: string): Promise<OrderTransaction> {
     return this.query(
-      'SELECT * FROM orders_transactions WHERE transaction_id = ? LIMIT 1',
-      [ticketId]
+      'SELECT * FROM orders_transactions WHERE barcode_id = ? LIMIT 1',
+      [barcodeId]
     )
       .then(result => {
         if(!result.res.rows.length)
@@ -334,7 +334,7 @@ export class DatabaseService {
 
   /**
    * Search for a ticket by manifest id
-   * @param {string} manifestId - the manifest to search in tickets table
+   * @param {string} manifestId - the manifest id linked to the searched ticket
    * @returns {Promise<OrderTransaction>} that resolves with the ticket object
    */
   searchForTicketByManifestId(manifestId: string): Promise<OrderTransaction> {
@@ -354,10 +354,30 @@ export class DatabaseService {
 
   /**
    * Search for a credential in the database
-   * @param {string} credentialId - the credential to search
+   * @param {string} scanCode - the scan code of the searched credential
    * @returns {Promise<ManifestEntity>} that resolves with the credential object
    */
-  searchForCredential(credentialId: string): Promise<ManifestEntity> {
+  searchForCredential(scanCode: string): Promise<ManifestEntity> {
+    return this.query(
+      'SELECT * FROM manifests WHERE scan_code = ? LIMIT 1',
+      [scanCode]
+    )
+      .then(result => {
+        if(!result.res.rows.length)
+          return;
+        return this.serDesService.deserialize(
+          result.res.rows.item(0),
+          ManifestEntity
+        );
+      });
+  }
+
+  /**
+   * Search for a credential in the database
+   * @param {string} credentialId - the id of the searched credential
+   * @returns {Promise<ManifestEntity>} that resolves with the credential object
+   */
+  searchForCredentialById(credentialId: string): Promise<ManifestEntity> {
     return this.query(
       'SELECT * FROM manifests WHERE manifest_id = ? LIMIT 1',
       [credentialId]
@@ -374,7 +394,7 @@ export class DatabaseService {
 
   /**
    * Search for a registrant in the database
-   * @param {string} registrantId - the registrant to search
+   * @param {string} registrantId - the id of the searched registrant
    * @returns {Promise<Registrant>} that resolves with the registrant object
    */
   searchForRegistrant(registrantId: string): Promise<Registrant> {
@@ -395,17 +415,17 @@ export class DatabaseService {
   /**
    * Select two random credentials from the database
    * @returns {Promise<string[]>} that resolves with the string array
-   *                              containing manifest_id values
+   *                              containing credentials scan_code values
    */
   selectRandomCredentials(): Promise<string[]> {
     return this.query(
-      'SELECT manifest_id FROM manifests ORDER BY manifest_id LIMIT 2'
+      'SELECT scan_code FROM manifests ORDER BY manifest_id LIMIT 2'
     )
       .then(result => {
         let rows = result.res.rows;
         return [
-          rows.item(0).manifest_id,
-          rows.item(1).manifest_id
+          rows.item(0).scan_code,
+          rows.item(1).scan_code
         ];
       });
   }
@@ -413,17 +433,17 @@ export class DatabaseService {
   /**
    * Select two random tickets from the database
    * @return {Promise<string[]>} that resolves with the string array
-   *                             containing transaction_id values
+   *                             containing tickets barcode_id values
    */
   selectRandomTickets(): Promise<string[]> {
     return this.query(
-      'SELECT transaction_id FROM orders_transactions ORDER BY transaction_id LIMIT 2'
+      'SELECT barcode_id FROM orders_transactions ORDER BY transaction_id LIMIT 2'
     )
       .then(result => {
         let rows = result.res.rows;
         return [
-          rows.item(0).transaction_id,
-          rows.item(1).transaction_id
+          rows.item(0).barcode_id,
+          rows.item(1).barcode_id
         ];
       });
   }

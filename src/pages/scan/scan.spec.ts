@@ -219,12 +219,12 @@ describe('Pages: Scan', () => {
 
     beforeEach(done => {
       spyOn(MockDatabaseService.prototype, 'searchForTicket').and.callThrough();
-      spyOn(MockDatabaseService.prototype, 'searchForCredential').and.callThrough();
+      spyOn(MockDatabaseService.prototype, 'searchForCredentialById').and.callThrough();
       spyOn(MockDatabaseService.prototype, 'searchForRegistrant').and.callThrough();
 
       comp.scanResult = new ScanResult();
 
-      comp.searchForTicket('my-ticket-id')
+      comp.searchForTicket('barcode-id')
         .then(result => {
           searchTime = result;
           done();
@@ -233,15 +233,15 @@ describe('Pages: Scan', () => {
 
     it('should search for the ticket', () => {
       expect(MockDatabaseService.prototype.searchForTicket).toHaveBeenCalledTimes(1);
-      expect(MockDatabaseService.prototype.searchForTicket).toHaveBeenCalledWith('my-ticket-id');
+      expect(MockDatabaseService.prototype.searchForTicket).toHaveBeenCalledWith('barcode-id');
 
       expect(comp.scanResult.ticket).toBeTruthy();
-      expect(comp.scanResult.ticket.transactionId).toBe('my-ticket-id');
+      expect(comp.scanResult.ticket.barcodeId).toBe('barcode-id');
     });
 
     it('should search for the credential linked to the ticket', () => {
-      expect(MockDatabaseService.prototype.searchForCredential).toHaveBeenCalledTimes(1);
-      expect(MockDatabaseService.prototype.searchForCredential).toHaveBeenCalledWith('manifest-id');
+      expect(MockDatabaseService.prototype.searchForCredentialById).toHaveBeenCalledTimes(1);
+      expect(MockDatabaseService.prototype.searchForCredentialById).toHaveBeenCalledWith('manifest-id');
 
       expect(comp.scanResult.ticket).toBeTruthy();
       expect(comp.scanResult.ticket.manifestId).toBe('manifest-id');
@@ -272,7 +272,7 @@ describe('Pages: Scan', () => {
 
       comp.scanResult = new ScanResult();
 
-      comp.searchForCredential('my-credential-id')
+      comp.searchForCredential('scan-code')
         .then(result => {
           searchTime = result;
           done();
@@ -281,18 +281,18 @@ describe('Pages: Scan', () => {
 
     it('should search for the credential', () => {
       expect(MockDatabaseService.prototype.searchForCredential).toHaveBeenCalledTimes(1);
-      expect(MockDatabaseService.prototype.searchForCredential).toHaveBeenCalledWith('my-credential-id');
+      expect(MockDatabaseService.prototype.searchForCredential).toHaveBeenCalledWith('scan-code');
 
       expect(comp.scanResult.manifest).toBeTruthy();
-      expect(comp.scanResult.manifest.manifestId).toBe('my-credential-id');
+      expect(comp.scanResult.manifest.scanCode).toBe('scan-code');
     });
 
     it('should search for the ticket linked to the credential', () => {
       expect(MockDatabaseService.prototype.searchForTicketByManifestId).toHaveBeenCalledTimes(1);
-      expect(MockDatabaseService.prototype.searchForTicketByManifestId).toHaveBeenCalledWith('my-credential-id');
+      expect(MockDatabaseService.prototype.searchForTicketByManifestId).toHaveBeenCalledWith('manifest-id');
 
       expect(comp.scanResult.ticket).toBeTruthy();
-      expect(comp.scanResult.ticket.manifestId).toBe('my-credential-id');
+      expect(comp.scanResult.ticket.manifestId).toBe('manifest-id');
     });
 
     it('should search for the registrant linked to the credential', () => {

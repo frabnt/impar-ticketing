@@ -35,9 +35,9 @@ export class MockDatabaseService {
     return Promise.resolve({res: 'res'});
   }
 
-  searchForTicket(ticketId: string): Promise<OrderTransaction> {
+  searchForTicket(barcodeId: string): Promise<OrderTransaction> {
     let ticket: OrderTransaction = new OrderTransaction();
-    ticket.transactionId = ticketId;
+    ticket.barcodeId = barcodeId;
     ticket.manifestId = 'manifest-id';
     ticket.registrantId = 'registrant-id';
 
@@ -52,7 +52,15 @@ export class MockDatabaseService {
     return Promise.resolve(ticket);
   }
 
-  searchForCredential(credentialId: string): Promise<ManifestEntity> {
+  searchForCredential(scanCode: string): Promise<ManifestEntity> {
+    let credential: ManifestEntity = new ManifestEntity();
+    credential.scanCode = scanCode;
+    credential.manifestId = 'manifest-id';
+
+    return Promise.resolve(credential);
+  }
+
+  searchForCredentialById(credentialId: string): Promise<ManifestEntity> {
     let credential: ManifestEntity = new ManifestEntity();
     credential.manifestId = credentialId;
 
