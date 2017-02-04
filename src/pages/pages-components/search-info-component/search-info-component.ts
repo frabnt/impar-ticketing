@@ -9,7 +9,7 @@ import { NavParams } from "ionic-angular";
   template:
     `
       <ion-row>
-        <ion-col >
+        <ion-col class="header-font">
           Searched string
         </ion-col>
         <ion-col toggle-ellipsis>

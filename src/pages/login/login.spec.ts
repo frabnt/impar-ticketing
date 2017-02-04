@@ -89,10 +89,10 @@ describe('Pages: Login', () => {
     tick();
     fixture.detectChanges();
 
-    let de: DebugElement[] = fixture.debugElement.queryAll(By.css('ion-row > button:first-child'));
+    let de: DebugElement[] = fixture.debugElement.queryAll(By.css('ion-item-group > button'));
 
-    expect(de[0].nativeElement.textContent.trim()).toBe('Access Code 1');
-    expect(de[1].nativeElement.textContent.trim()).toBe('Access Code 2');
+    expect(de[0].nativeElement.textContent.trim()).toBe('code-1');
+    expect(de[1].nativeElement.textContent.trim()).toBe('code-2');
   }));
 
   describe('should perform the login', () => {
@@ -185,7 +185,7 @@ describe('Pages: Login', () => {
       it('should create and show an alert showing the error occurred', () => {
         expect(MockAlertController.prototype.create).toHaveBeenCalledTimes(1);
         expect(MockAlertController.prototype.create).toHaveBeenCalledWith({
-          title: 'Login error',
+          title: 'LOGIN ERROR',
           message: `Something goes wrong during login: login fails`,
           buttons: [
             {

@@ -110,7 +110,7 @@ describe('Pages: Scan', () => {
       tick();
 
       fixture.detectChanges();
-      let de: DebugElement[] = fixture.debugElement.queryAll(By.css('ion-row > button:first-child'));
+      let de: DebugElement[] = fixture.debugElement.queryAll(By.css('ion-item-group > button'));
 
       expect(de[0].nativeElement.textContent.trim()).toBe('Credential 1');
       expect(de[1].nativeElement.textContent.trim()).toBe('Credential 2');

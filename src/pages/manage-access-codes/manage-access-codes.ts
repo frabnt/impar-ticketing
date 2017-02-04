@@ -40,11 +40,11 @@ export class ModifyAccessCodePage {
    */
   showSavingConfirmation() {
     this.alertCtrl.create({
-      title: 'Save',
+      title: 'SAVE',
       message: "Do you want to save?",
       buttons: [
         {
-          text: 'SAVE',
+          text: 'Save',
           handler: () => {
             this.save();
           }

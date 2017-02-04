@@ -30,19 +30,26 @@
                  placeholder="Credential or ticket..."
                  formControlName="searchedDBString"></ion-input>
     </ion-item>
-    <button ion-button
-            class='margin-top mx-width-60'
-            outline color='secondary_custom'
-            [disabled]="!searchForm.controls['searchedDBString'].valid">
-      Search
-    </button>
+    <div class='margin-top align-center'>
+      <button type="button"
+              ion-button
+              icon-only
+              color='secondary_custom'>
+        <ion-icon name="ios-barcode-outline"></ion-icon>
+      </button>
+      <button ion-button
+              outline color='secondary_custom'
+              [disabled]="!searchForm.controls['searchedDBString'].valid">
+        Search
+      </button>
+      <button type="button"
+              ion-button
+              icon-only
+              color='secondary_custom'>
+        <ion-icon name="ios-radio-outline"></ion-icon>
+      </button>
+    </div>
   </form>
-
-  <hr>
-
-  <p *ngIf="randomCredentials.length">
-    Search using available <span class="italic">credentials</span>
-  </p>
 
   <ion-card *ngIf="!randomCredentials.length">
     <ion-card-content>
@@ -52,19 +59,20 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-row *ngFor = "let credential of randomCredentials; let i=index">
-    <button ion-button color='secondary_custom'
-            outline round class="mx-width-60"
+  <ion-item-group *ngIf="randomCredentials.length"
+                  style="margin-top: 20px">
+    <ion-item-divider color="light" class="header-font">
+      <ion-icon name="search"></ion-icon>
+      &nbsp;RANDOM CREDENTIALS
+    </ion-item-divider>
+    <button ion-item
+            *ngFor = "let credential of randomCredentials; let i=index"
             (click)='search(credential, "credential")'>
-      Credential {{i+1}}
+      Credential {{ i+1 }}
+      <ion-icon name="arrow-forward"
+                class="float-right"></ion-icon>
     </button>
-  </ion-row>
-
-  <hr>
-
-  <p *ngIf="randomTickets.length">
-    Search using available <span class="italic">tickets</span>
-  </p>
+  </ion-item-group>
 
   <ion-card *ngIf="!randomTickets.length">
     <ion-card-content>
@@ -74,11 +82,18 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-row *ngFor = "let ticket of randomTickets; let i=index">
-    <button ion-button color='secondary_custom'
-            round class="mx-width-60"
+  <ion-item-group *ngIf="randomTickets.length"
+                  class="margin-top">
+    <ion-item-divider color="light" class="header-font">
+      <ion-icon name="search"></ion-icon>
+      &nbsp;RANDOM TICKETS
+    </ion-item-divider>
+    <button ion-item
+            *ngFor = "let ticket of randomTickets; let i=index"
             (click)='search(ticket, "ticket")'>
-      Ticket {{i+1}}
+      Ticket {{ i+1 }}
+      <ion-icon name="arrow-forward"
+                class="float-right"></ion-icon>
     </button>
-  </ion-row>
+  </ion-item-group>
 </ion-content>
