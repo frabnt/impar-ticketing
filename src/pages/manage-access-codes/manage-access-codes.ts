@@ -129,9 +129,12 @@ export class ModifyAccessCodePage {
    * @param {string} newCode - code to be added
    */
   addCode(newCode: string) {
-    this.codeList.push(newCode);
-    this.numbers.push(this.numbers.length);
-    this.setModified();
+    if( !this.codeList
+        .find(el => el.toLowerCase() === newCode.toLowerCase()) ) {
+      this.codeList.push(newCode);
+      this.numbers.push(this.numbers.length);
+      this.setModified();
+    }
   }
 
 }
