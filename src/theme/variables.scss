@@ -87,5 +87,12 @@ $segment-button-wp-text-color-activated:        #006600;
 // The premium icon font for Ionic. For more info, please see:
 // http://ionicframework.com/docs/v2/ionicons/
 
-$ionicons-font-path: "../assets/fonts";
 @import "ionicons";
+
+// Fonts
+// --------------------------------------------------
+// Roboto font is used by default for Material Design. Noto sans
+// is used by default for Windows.
+
+@import "roboto";
+@import "noto-sans";
