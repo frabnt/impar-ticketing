@@ -19,12 +19,12 @@
   <search-info></search-info>
 
   <ion-row>
-    <ion-col>Time Spent</ion-col>
+    <ion-col>Time spent</ion-col>
     <ion-col>{{searchTime}} ms</ion-col>
   </ion-row>
 
   <img [src]='resultImgUrl' class="image_centered"/>
-  <figcaption class="figcaption">
+  <figcaption class="figcaption" [@bounce]="'bouncing'">
     {{searchResult ? 'SUCCESS' : 'FAILURE'}}
   </figcaption>
 </ion-content>

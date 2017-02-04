@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, trigger, state, style, transition, animate, keyframes } from '@angular/core';
 import { ExecTimeService } from "../../services/exec-time/exec-time-service";
 import { NavParams } from "ionic-angular";
 /*
@@ -10,7 +10,34 @@ import { NavParams } from "ionic-angular";
 
 @Component({
   selector: 'page-time-scan-result',
-  templateUrl: './time-scan-result.html'
+  templateUrl: './time-scan-result.html',
+  animations: [
+    trigger('bounce', [
+      state('bouncing', style({
+        transform: 'translate3d(0,0,0)',
+        opacity: 0.8
+      })),
+      transition('* => bouncing', [
+        animate('1000ms ease-in', keyframes([
+          style({transform: 'translate3d(0,-100%,0)', offset: 0, opacity: 0}),
+          style({transform: 'translate3d(0,-100%,0)', offset: 0.05, opacity: 0}),
+          //first bounce
+          style({transform: 'translate3d(0,0,0)', offset: 0.15, paddingBottom: '5px'}),
+          style({transform: 'translate3d(0,-50%,0)', offset: 0.30}),
+          //second bounce
+          style({transform: 'translate3d(0,-30%,0)', offset: 0.5}),
+          //continously bouncing until stop
+          style({transform: 'translate3d(0,0,0)', offset: 0.7, paddingBottom: '7px'}),
+          style({transform: 'translate3d(0,-15%,0)', offset: 0.8}),
+          style({transform: 'translate3d(0,0,0)', offset: 0.9, paddingBottom: '8px'}),
+          style({transform: 'translate3d(0,-7%,0)', offset: 0.95}),
+          style({transform: 'translate3d(0,0,0)', offset: 0.97, paddingBottom: '9px'}),
+          style({transform: 'translate3d(0,-3%,0)', offset: 0.99}),
+          style({transform: 'translate3d(0,0,0)', offset: 1, paddingBottom: '9px', opacity: 0.8})
+        ]))
+      ])
+    ])
+  ]
 })
 export class TimeScanResultPage {
   searchTime: number;
