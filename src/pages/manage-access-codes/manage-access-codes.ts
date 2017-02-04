@@ -44,7 +44,7 @@ export class ModifyAccessCodePage {
       message: "Do you want to save?",
       buttons: [
         {
-          text: 'Save',
+          text: 'SAVE',
           handler: () => {
             this.save();
           }
@@ -69,7 +69,7 @@ export class ModifyAccessCodePage {
       })
       .catch(err => {
         this.alertCtrl.create({
-          title: 'Error',
+          title: 'ERROR',
           message: 'Something goes wrong saving settings.',
           buttons: [
             {

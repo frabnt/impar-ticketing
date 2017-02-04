@@ -61,7 +61,7 @@ export class ScanPage implements OnInit {
       })
       .catch(err => {
         this.alertCtrl.create({
-          title: 'Error',
+          title: 'ERROR',
           message: `Something goes wrong retrieving random db strings: ${err}`,
           buttons: [
             {
@@ -98,7 +98,7 @@ export class ScanPage implements OnInit {
       .catch(err => {
         this.spinnerService.dismiss();
         this.alertCtrl.create({
-          title: 'Error',
+          title: 'ERROR',
           message: `Something goes wrong during the search: ${err}`,
           buttons: [
             {

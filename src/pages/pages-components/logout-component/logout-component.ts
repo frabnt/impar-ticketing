@@ -41,7 +41,7 @@ export class LogoutComponent {
    */
   showLogoutConfirmation() {
     this.alertCtrl.create({
-      title: 'Logout',
+      title: 'LOGOUT',
       message: 'Do you really want to log out?',
       buttons: [
         {
@@ -89,7 +89,7 @@ export class LogoutComponent {
         this.spinnerService.dismiss();
         // If logout goes wrong, an error message is displayed
         this.alertCtrl.create({
-          title: 'Logout error',
+          title: 'LOGOUT ERROR',
           message: `Something goes wrong during logout: ${err}`,
           buttons: [
             {

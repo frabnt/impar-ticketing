@@ -14,8 +14,7 @@ import { NavParams } from "ionic-angular";
   animations: [
     trigger('bounce', [
       state('bouncing', style({
-        transform: 'translate3d(0,0,0)',
-        opacity: 0.8
+        transform: 'translate3d(0,0,0)'
       })),
       transition('* => bouncing', [
         animate('1000ms ease-in', keyframes([
@@ -33,7 +32,7 @@ import { NavParams } from "ionic-angular";
           style({transform: 'translate3d(0,-7%,0)', offset: 0.95}),
           style({transform: 'translate3d(0,0,0)', offset: 0.97, paddingBottom: '9px'}),
           style({transform: 'translate3d(0,-3%,0)', offset: 0.99}),
-          style({transform: 'translate3d(0,0,0)', offset: 1, paddingBottom: '9px', opacity: 0.8})
+          style({transform: 'translate3d(0,0,0)', offset: 1, paddingBottom: '9px', opacity: 1})
         ]))
       ])
     ])

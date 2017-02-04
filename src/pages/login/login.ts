@@ -102,7 +102,7 @@ export class LoginPage implements OnInit {
         this.spinnerService.dismiss();
         // If login goes wrong, an error message is displayed
         this.alertCtrl.create({
-          title: 'Login error',
+          title: 'LOGIN ERROR',
           message: `Something goes wrong during login: ${err}`,
           buttons: [
             {
