@@ -4,6 +4,10 @@ page-report {
   .card-md {
     ion-card-content {
       font-size: 1.6rem;
+
+      ion-badge {
+        font-size: 1.5rem;
+      }
     }
   }
 }

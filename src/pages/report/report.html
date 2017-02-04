@@ -22,7 +22,9 @@
         <ion-row>
           <ion-col>Total entities</ion-col>
           <ion-col>
-            {{ (totalManifest + totalTickets) | number }}
+            <ion-badge color="secondary_custom">
+              {{ (totalManifest + totalTickets) | number }}
+            </ion-badge>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -52,7 +54,9 @@
         <ion-row>
           <ion-col>Total</ion-col>
           <ion-col>
-            {{ (ticketsTime + manifestTime) / 1000 }}
+            <ion-badge color="secondary_custom">
+              {{ (ticketsTime + manifestTime) / 1000 }}
+            </ion-badge>
           </ion-col>
         </ion-row>
         <ion-row>
