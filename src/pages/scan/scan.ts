@@ -268,9 +268,9 @@ export class ScanPage implements OnInit {
           let subscription = NFC.addTagDiscoveredListener()
             .subscribe(
               res => {
-                if(subscription) {
+                /*if(subscription) {
                   subscription.unsubscribe();
-                }
+                }*/
                 return resolve(res);
               },
               err => reject(err)
