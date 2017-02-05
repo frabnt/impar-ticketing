@@ -5,10 +5,10 @@ import { LogoutComponent } from "../pages-components/logout-component/logout-com
 
 import {
   App, Config, Keyboard, DomController, MenuController, Platform, AlertController,
-  IonicModule, Form
+  IonicModule, Form, ToastController
 } from "ionic-angular";
 
-import { MockPlatform, MockAlertController, MockLoading, MockNavController } from "../../mocks";
+import { MockPlatform, MockAlertController, MockLoading, MockNavController, MockToastController } from "../../mocks";
 import { ExecTimeService } from "../../services/exec-time/exec-time-service";
 import { MockExecTimeService } from "../../services/exec-time/mock-exec-time-service";
 import { SpinnerService } from "../../services/utils/spinner-service";
@@ -22,6 +22,8 @@ import { ScanResult } from "../../models/scan-result";
 import { ScanResultPage } from "../scan-result-tabs/scan-result-tabs";
 import { DebugElement } from "@angular/core";
 import { By } from "@angular/platform-browser";
+import { BarcodeScanner, NFC } from "ionic-native";
+import { Observable } from "rxjs";
 /**
  * Created by francesco on 21/12/2016.
  */
@@ -46,6 +48,7 @@ describe('Pages: Scan', () => {
       providers: [
         App, Config, Keyboard, FormBuilder,
         DomController, MenuController, Form,
+        { provide: ToastController, useClass: MockToastController },
         { provide: VfsApiService, useClass: MockVfsApiService },
         { provide: Platform, useClass: MockPlatform },
         { provide: ExecTimeService, useClass: MockExecTimeService },
@@ -123,7 +126,8 @@ describe('Pages: Scan', () => {
   describe('should perform a search and redirect to scan-result', () => {
 
     beforeEach(fakeAsync(() => {
-      spyOn(MockSpinnerService.prototype, 'createAndShow');
+      spyOn(MockSpinnerService.prototype, 'createAndShow')
+        .and.returnValue(Promise.resolve());
       spyOn(MockSpinnerService.prototype, 'dismiss');
       spyOn(MockExecTimeService.prototype, 'setTime');
 
@@ -213,7 +217,7 @@ describe('Pages: Scan', () => {
 
   });
 
-  describe('should perform a search using a ticket id', () => {
+  describe('should perform a search using a ticket barcode-id', () => {
 
     let searchTime: number;
 
@@ -261,7 +265,50 @@ describe('Pages: Scan', () => {
 
   });
 
-  describe('should perform a search using a credential id', () => {
+  describe('should scan barcode and perform a search for the related ticket', () => {
+
+    beforeEach(done => {
+      spyOn(MockPlatform.prototype, 'ready').and.callThrough();
+      spyOn(BarcodeScanner, 'scan')
+        .and.returnValue(Promise.resolve({text: 'decoded text'}));
+      spyOn(comp, 'search').and.returnValue(Promise.reject('error'));
+      spyOn(MockAlertController.prototype, 'create').and.callThrough();
+      spyOn(MockLoading.prototype, 'present');
+
+      comp.scanBarcode()
+        .then(() => done());
+    });
+
+    it('should wait for platform ready event', () => {
+      expect(MockPlatform.prototype.ready).toHaveBeenCalledTimes(1);
+    });
+
+    it('should scan the barcode and retrieve the decoded text', () => {
+      expect(BarcodeScanner.scan).toHaveBeenCalledTimes(1);
+    });
+
+    it('should search the ticket using the decoded barcode-id', () => {
+      expect(comp.search).toHaveBeenCalledTimes(1);
+      expect(comp.search).toHaveBeenCalledWith('decoded text', 'ticket');
+    });
+
+    it('should show an error message if something goes wrong', () => {
+      expect(MockAlertController.prototype.create).toHaveBeenCalledTimes(1);
+      expect(MockAlertController.prototype.create).toHaveBeenCalledWith({
+        title: 'ERROR',
+        message: 'Something goes wrong during barcode scan: error',
+        buttons: [
+          {
+            text: 'Ok'
+          }
+        ]
+      });
+      expect(MockLoading.prototype.present).toHaveBeenCalledTimes(1);
+    });
+
+  });
+
+  describe('should perform a search using a credential scan-code', () => {
 
     let searchTime: number;
 
@@ -305,6 +352,73 @@ describe('Pages: Scan', () => {
 
     it('should return the time to perform the search', () => {
       expect(searchTime).toBe(2000);
+    });
+
+  });
+
+  describe('should read rfid tag and perform a search for the related manifest', () => {
+    let rfidContent = {tag: {id: [10, -52, 12, 89]}, unsubscribe: () => {}};
+    let scanCode = 'AERF458K6';
+
+    beforeEach(done => {
+      spyOn(MockPlatform.prototype, 'ready').and.callThrough();
+      spyOn(MockToastController.prototype, 'create').and.callThrough();
+
+      spyOn(NFC, 'addTagDiscoveredListener')
+        .and.returnValue(
+          Observable.create(observer => {
+            observer.next(rfidContent);
+            observer.complete();
+          })
+      );
+      spyOn(NFC, 'bytesToHexString').and.returnValue(scanCode);
+      spyOn(comp, 'search').and.returnValue(Promise.reject('error'));
+
+      spyOn(MockAlertController.prototype, 'create').and.callThrough();
+      spyOn(MockLoading.prototype, 'present');
+
+      comp.scanRfid()
+        .then(() => {
+          fixture.detectChanges();
+          done();
+        });
+    });
+
+    it('should wait for platform ready event', () => {
+      expect(MockPlatform.prototype.ready).toHaveBeenCalledTimes(1);
+    });
+
+    it('should show a toast describing how to read rfid tags', () => {
+      expect(MockToastController.prototype.create).toHaveBeenCalledTimes(1);
+      expect(MockToastController.prototype.create).toHaveBeenCalledWith({
+        message: 'Get the phone close to the RFID tag',
+        duration: 2000
+      });
+    });
+
+    it('should read the rfid tag and retrieve the scan-code', () => {
+      expect(NFC.addTagDiscoveredListener).toHaveBeenCalledTimes(1);
+      expect(NFC.bytesToHexString).toHaveBeenCalledTimes(1);
+      expect(NFC.bytesToHexString).toHaveBeenCalledWith(rfidContent.tag.id.reverse());
+    });
+
+    it('should search the manifest using the decoded scan-code', () => {
+      expect(comp.search).toHaveBeenCalledTimes(1);
+      expect(comp.search).toHaveBeenCalledWith(scanCode, 'credential');
+    });
+
+    it('should show an error message if something goes wrong', () => {
+      expect(MockAlertController.prototype.create).toHaveBeenCalledTimes(1);
+      expect(MockAlertController.prototype.create).toHaveBeenCalledWith({
+        title: 'ERROR',
+        message: 'Something goes wrong reading rfid tag: error',
+        buttons: [
+          {
+            text: 'Ok'
+          }
+        ]
+      });
+      expect(MockLoading.prototype.present).toHaveBeenCalledTimes(2); //also called by toast
     });
 
   });

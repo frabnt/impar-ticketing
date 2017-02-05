@@ -37,9 +37,9 @@ export class SpinnerService {
    * @param {string} spinner: the name of the svg spinner for the loading indicator
    * @param {string} content: the html content for the loading spinner
    */
-  createAndShow(content: string, spinner: string = 'crescent') {
+  createAndShow(content: string, spinner: string = 'crescent'): Promise<any> {
     this.create(content, spinner);
-    this.present();
+    return this.present();
   }
 
   /**
@@ -74,18 +74,19 @@ export class SpinnerService {
    * Present the spinner
    * @param {NavOptions} navOptions - nav options to go with this transition
    */
-  present() {
+  present(): Promise<any> {
     if(this.spinner) {
-      this.spinner.present();
+      return this.spinner.present();
     }
+    return;
   }
 
   /**
    * Dismiss the spinner
    */
-  dismiss() {
+  dismiss(data?: any): Promise<any> {
     if(this.spinner) {
-      this.spinner.dismiss();
+      return this.spinner.dismiss(data);
     }
   }
 

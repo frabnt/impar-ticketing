@@ -182,6 +182,13 @@ export class MockAlertController {
   }
 }
 
+// ToastController
+export class MockToastController {
+  create(options: any): any {
+    return new MockLoading();
+  }
+}
+
 // LoadingController
 export class MockLoadingController {
   create(options = {}): any {

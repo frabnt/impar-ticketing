@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { App, AlertController } from "ionic-angular";
+import {App, AlertController, Platform, ToastController} from "ionic-angular";
 import { ScanResultPage } from "../scan-result-tabs/scan-result-tabs";
 import { DatabaseService } from "../../services/database/database-service";
 import { ManifestEntity } from "../../models/manifest-entity";
@@ -8,6 +8,8 @@ import { Registrant } from "../../models/registrant";
 import { ExecTimeService } from "../../services/exec-time/exec-time-service";
 import { SpinnerService } from "../../services/utils/spinner-service";
 import { ScanResult } from "../../models/scan-result";
+import { BarcodeScanner, NFC } from "ionic-native";
+
 /*
   Generated class for the Scan page.
 
@@ -24,6 +26,7 @@ export class ScanPage implements OnInit {
   randomTickets: string[] = [];
   searchForm: FormGroup;
   scanResult: ScanResult; // the result of tha scan operation
+  nfcReady: boolean = false;
 
   /**
    * @constructor
@@ -37,7 +40,9 @@ export class ScanPage implements OnInit {
               private database: DatabaseService,
               private builder: FormBuilder,
               private alertCtrl: AlertController,
+              private toastCtrl: ToastController,
               private spinnerService: SpinnerService,
+              private platform: Platform,
               private app: App) {
     this.searchForm = builder.group({
       'searchedDBString': ['', Validators.required]
@@ -81,19 +86,22 @@ export class ScanPage implements OnInit {
    *    - 'ticket': search for a ticket
    *    - other values/no value: search for both credentials and tickets
    */
-  search(dbString: string, type?: string) {
-    this.spinnerService.createAndShow(
-      'Wait for the DB search...'
-    );
-
+  search(dbString: string, type?: string): Promise<any> {
     this.scanResult = new ScanResult();
     this.scanResult.dbString = dbString;
 
-    this.resolveSearch(dbString, type)
+    return this.spinnerService.createAndShow(
+      'Wait for the DB search...'
+    )
+      .then(() => {
+        return this.resolveSearch(dbString, type);
+      })
       .then(time => {
         this.execTimeService.setTime('dbStringSearchTime', time);
         this.spinnerService.dismiss();
+
         this.goToScanResult();
+        return;
       })
       .catch(err => {
         this.spinnerService.dismiss();
@@ -178,6 +186,33 @@ export class ScanPage implements OnInit {
   }
 
   /**
+   * Read the barcode and search for a ticket
+   * using the decoded text (barcode-id)
+   * @returns {Promise<TResult|TResult>}
+   */
+  scanBarcode(): Promise<any> {
+    return this.platform.ready()
+      .then(() => BarcodeScanner.scan())
+      .then(data => {
+        if(data.text) {
+          return this.search(data.text, 'ticket');
+        }
+        return;
+      })
+      .catch(err => {
+        this.alertCtrl.create({
+          title: 'ERROR',
+          message: `Something goes wrong during barcode scan: ${err}`,
+          buttons: [
+            {
+              text: 'Ok'
+            }
+          ]
+        }).present();
+      });
+  }
+
+  /**
    * Search for a credential in the database. It also searches for
    * ticket and registrant linked to that credential
    * @param {string} scanCode - the scan code of the searched credential
@@ -211,6 +246,57 @@ export class ScanPage implements OnInit {
           this.scanResult.registrant = registrant;
         }
         return this.execTimeService.endCounting(time);
+      });
+  }
+
+  /**
+   * Read the RFID tag and search for a credential
+   * using the decoded text (scan-code)
+   * @returns {Promise<any>}
+   */
+  scanRfid(): Promise<any> {
+    return this.platform.ready()
+      .then(() => {
+        this.toastCtrl.create({
+          message: 'Get the phone close to the RFID tag',
+          duration: 2000
+        }).present();
+
+        return new Promise<any>((resolve, reject) => {
+          this.nfcReady = true;
+
+          let subscription = NFC.addTagDiscoveredListener()
+            .subscribe(
+              res => {
+                if(subscription) {
+                  subscription.unsubscribe();
+                }
+                return resolve(res);
+              },
+              err => reject(err)
+            )
+        });
+      })
+      .then(res => {
+        return this.search(
+          NFC.bytesToHexString(res.tag.id.reverse()),
+          'credential'
+        );
+      })
+      .then(() => {
+        this.nfcReady = false;
+        return;
+      })
+      .catch(err => {
+        this.alertCtrl.create({
+          title: 'ERROR',
+          message: `Something goes wrong reading rfid tag: ${err}`,
+          buttons: [
+            {
+              text: 'Ok'
+            }
+          ]
+        }).present();
       });
   }
 

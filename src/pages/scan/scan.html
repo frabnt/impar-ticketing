@@ -31,7 +31,8 @@
                  formControlName="searchedDBString"></ion-input>
     </ion-item>
     <div class='margin-top align-center'>
-      <button type="button"
+      <button type='button'
+              (click)='scanBarcode()'
               ion-button
               icon-only
               color='secondary_custom'>
@@ -43,9 +44,11 @@
         Search
       </button>
       <button type="button"
+              (click)="scanRfid()"
               ion-button
               icon-only
-              color='secondary_custom'>
+              color='secondary_custom'
+              [disabled]="nfcReady">
         <ion-icon name="ios-radio-outline"></ion-icon>
       </button>
     </div>
