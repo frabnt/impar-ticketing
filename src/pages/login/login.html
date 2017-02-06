@@ -46,16 +46,19 @@
 
   <form [formGroup]='loginForm'
         (ngSubmit)="login(loginForm.get('accessCode').value)" novalidate>
-    <ion-item>
+    <ion-item class="input-padding-right">
       <ion-label floating>Access code...</ion-label>
       <ion-input type='text'
                  formControlName='accessCode'></ion-input>
     </ion-item>
 
-    <button ion-button class="mx-width-60 margin-top"
-            outline color='secondary_custom'
-            [disabled]="!loginForm.controls['accessCode'].valid">
-      Sign in
-    </button>
+    <div class="margin-top align-center">
+      <button ion-button outline
+              class="btn-stretch-width-90"
+              color='secondary_custom'
+              [disabled]="!loginForm.controls['accessCode'].valid">
+        Sign in
+      </button>
+    </div>
   </form>
 </ion-content>

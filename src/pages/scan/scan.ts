@@ -265,14 +265,9 @@ export class ScanPage implements OnInit {
         return new Promise<any>((resolve, reject) => {
           this.nfcReady = true;
 
-          let subscription = NFC.addTagDiscoveredListener()
+          NFC.addTagDiscoveredListener()
             .subscribe(
-              res => {
-                /*if(subscription) {
-                  subscription.unsubscribe();
-                }*/
-                return resolve(res);
-              },
+              res => resolve(res),
               err => reject(err)
             )
         });

@@ -11,4 +11,12 @@ page-scan {
       bottom: 20px;
     }
   }
+
+  ion-item-group:not(:last-child) {
+    margin-top: 20px;
+  }
+
+  #btn-stretch-width {
+    width: 60%;
+  }
 }

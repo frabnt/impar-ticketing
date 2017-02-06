@@ -25,7 +25,7 @@
   <form [formGroup]="searchForm"
         (ngSubmit)="search(searchForm.get('searchedDBString').value)"
         novalidate>
-    <ion-item>
+    <ion-item class="input-padding-right">
       <ion-input type="text"
                  placeholder="Credential or ticket..."
                  formControlName="searchedDBString"></ion-input>
@@ -38,8 +38,9 @@
               color='secondary_custom'>
         <ion-icon name="ios-barcode-outline"></ion-icon>
       </button>
-      <button ion-button
-              outline color='secondary_custom'
+      <button ion-button outline
+              id="btn-stretch-width"
+              color='secondary_custom'
               [disabled]="!searchForm.controls['searchedDBString'].valid">
         Search
       </button>
@@ -62,8 +63,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-item-group *ngIf="randomCredentials.length"
-                  style="margin-top: 20px">
+  <ion-item-group *ngIf="randomCredentials.length">
     <ion-item-divider color="light" class="header-font">
       <ion-icon name="search"></ion-icon>
       &nbsp;RANDOM CREDENTIALS
