@@ -35,11 +35,12 @@
       <ion-icon name="log-in"></ion-icon>
       &nbsp;STORED CODES
     </ion-item-divider>
-    <button ion-item
+    <button ion-item detail-none
             *ngFor="let code of accessCodesList; let i=index"
             (click)="login(code)">
       {{ code }}
       <ion-icon name="arrow-forward"
+                color="primary"
                 class="float-right"></ion-icon>
     </button>
   </ion-item-group>
