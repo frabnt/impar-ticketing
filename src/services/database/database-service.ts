@@ -190,15 +190,14 @@ export class DatabaseService {
                           FOREIGN KEY(registrant_id) REFERENCES registrants(registrant_id)
                         )` ),
       this.query( creationTablePrx + `reports_contents (
-                          entry_id TEXT,
+                          entry_id TEXT PRIMARY KEY,
                           value TEXT,
                           report_id TEXT,
                           credential_type_id TEXT,
                           zone_id TEXT,
-                          PRIMARY KEY (
-                                  report_id,
-                                  credential_type_id,
-                                  zone_id )
+                          FOREIGN KEY(report_id) REFERENCES reports(report_id),
+                          FOREIGN KEY(credential_type_id) REFERENCES credentials_types(credential_type_id),
+                          FOREIGN KEY(zone_id) REFERENCES zones(zone_id)
                         )` ),
       this.query( creationTablePrx + `schedules_segments (
                           is_active INTEGER,
