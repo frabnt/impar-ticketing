@@ -68,7 +68,6 @@ import { TicketsPaginationService } from "../services/tickets-pagination/tickets
     ManifestScanResultPage,
     RegistrantScanResultPage,
     WelcomePage,
-    LogoutComponent,
     PopoverMenu
   ],
   providers: [
