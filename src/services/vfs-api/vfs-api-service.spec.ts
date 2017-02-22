@@ -17,6 +17,7 @@ import { MOCK_TICKETS } from './mock-data';
 import { Manifest } from "../../models/manifest";
 import { Tickets } from "../../models/tickets";
 import { DecoratorSerDesService } from "../ser-des/decorator-ser-des-service";
+import { APP_CONFIG, ImparConfig } from "../../app/app.config";
 /**
  * Created by francesco on 29/11/2016.
  */
@@ -54,6 +55,7 @@ describe('Services: Vfs-api-service', () => {
         VfsApiService,
         DecoratorSerDesService,
         { provide: Storage, useClass: MockStorage },
+        { provide: APP_CONFIG, useValue: ImparConfig },
         MockBackend,
         BaseRequestOptions,
         {

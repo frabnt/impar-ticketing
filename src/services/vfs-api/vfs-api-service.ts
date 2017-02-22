@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, Inject} from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
@@ -6,6 +6,7 @@ import { Tickets } from "../../models/tickets";
 import { Manifest } from "../../models/manifest";
 import { Storage } from "@ionic/storage";
 import { DecoratorSerDesService } from "../ser-des/decorator-ser-des-service";
+import { APP_CONFIG, AppConfig } from "../../app/app.config";
 /*
   Generated class for the VfsApiService provider.
 
@@ -15,12 +16,10 @@ import { DecoratorSerDesService } from "../ser-des/decorator-ser-des-service";
 
 @Injectable()
 export class VfsApiService {
-  // API URLs and device-ID
-  private static readonly API_BASE_URL = 'https://vfs.staging.vendini.com/api/v1';
-  private static readonly AUTH_BASE_URL: string = `${VfsApiService.API_BASE_URL}/auth/registration`;
-  private static readonly MANIFEST_BASE_URL: string = `${VfsApiService.API_BASE_URL}/scanning/sync`;
-  private static TICKETS_BASE_URL: string = `${VfsApiService.API_BASE_URL}/scanning/tickets?`;
-  private static readonly DEVICE_ID = '22229C46-8813-4494-B654-BCCA4C366CB1';
+  // API URLs
+  private static readonly AUTH_REL_URL: string = 'auth/registration';
+  private static readonly MANIFEST_REL_URL: string = 'scanning/sync';
+  private static TICKETS_REL_URL: string = 'scanning/tickets?';
 
   // API credentials
   private apiToken: string;
@@ -32,7 +31,8 @@ export class VfsApiService {
    */
   constructor(private http: Http,
               private serDesService: DecoratorSerDesService,
-              private storageService: Storage) { }
+              private storageService: Storage,
+              @Inject(APP_CONFIG) private appConfig: AppConfig) { }
 
   /**
    * Store API token and event ID returned by the server after a successful authentication.
@@ -98,7 +98,7 @@ export class VfsApiService {
    */
   doLogin(accessCode: string): Promise<any> {
     return this.http.post(
-      VfsApiService.AUTH_BASE_URL,
+      `${this.appConfig.apiBaseUrl}/${VfsApiService.AUTH_REL_URL}`,
       { access_code: accessCode },
       this.generateHeaders(
         {
@@ -106,7 +106,7 @@ export class VfsApiService {
           'Accept': 'application/json',
           'Accept-Language': 'en-US, en-us;q=0.8',
           'Vendini-App-Info': 'com.vendini.EntryScan//150606//iPhone Simulator//iPhone OS 8.3',
-          'X-VENDINI-DEVICE-ID': VfsApiService.DEVICE_ID
+          'X-VENDINI-DEVICE-ID': this.appConfig.apiDeviceId
         }
       )
     )
@@ -128,12 +128,12 @@ export class VfsApiService {
     return this.getCredentials()
       .then(results => {
         return this.http.delete(
-          VfsApiService.AUTH_BASE_URL,
+          `${this.appConfig.apiBaseUrl}/${VfsApiService.AUTH_REL_URL}`,
           this.generateHeaders(
             {
               'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
               'Vendini-App-Info': 'com.vendini.EntryScan//150606//iPhone Simulator//iPhone OS 8.3',
-              'X-VENDINI-DEVICE-ID': VfsApiService.DEVICE_ID,
+              'X-VENDINI-DEVICE-ID': this.appConfig.apiDeviceId,
               'X-VENDINI-EVENT-ID': results[1],
               'X-VENDINI-API-TOKEN': results[0]
             }
@@ -153,11 +153,11 @@ export class VfsApiService {
     return this.getCredentials()
       .then(results => {
         return this.http.get(
-          VfsApiService.MANIFEST_BASE_URL,
+          `${this.appConfig.apiBaseUrl}/${VfsApiService.MANIFEST_REL_URL}`,
           this.generateHeaders(
             {
               'Content-Type': 'application/json',
-              'X-VENDINI-DEVICE-ID': VfsApiService.DEVICE_ID,
+              'X-VENDINI-DEVICE-ID': this.appConfig.apiDeviceId,
               'X-VENDINI-API-TOKEN': results[0],
               'X-VENDINI-EVENT-ID': results[1]
             }
@@ -178,11 +178,11 @@ export class VfsApiService {
     return this.getCredentials()
       .then(results => {
         return this.http.get(
-          `${VfsApiService.TICKETS_BASE_URL}items=${items}&page=${page}`,
+          `${this.appConfig.apiBaseUrl}/${VfsApiService.TICKETS_REL_URL}items=${items}&page=${page}`,
           this.generateHeaders(
             {
               'Content-Type': 'application/json',
-              'X-VENDINI-DEVICE-ID': VfsApiService.DEVICE_ID,
+              'X-VENDINI-DEVICE-ID': this.appConfig.apiDeviceId,
               'X-VENDINI-API-TOKEN': results[0],
               'X-VENDINI-EVENT-ID': results[1]
             }

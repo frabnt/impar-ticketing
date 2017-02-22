@@ -29,6 +29,7 @@ import { Storage } from "@ionic/storage";
 import { DBMappingService } from "../services/db-mapping/db-mapping-service";
 import { DecoratorSerDesService } from "../services/ser-des/decorator-ser-des-service";
 import { TicketsPaginationService } from "../services/tickets-pagination/tickets-pagination-service";
+import { APP_CONFIG, ImparConfig } from "./app.config";
 
 @NgModule({
   declarations: [
@@ -84,7 +85,9 @@ import { TicketsPaginationService } from "../services/tickets-pagination/tickets
     TicketsPaginationService,
     // Tell Angular ErrorHandling class that it should
     // be using the IonicErrorHandler class for any errors
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    // app-config
+    { provide: APP_CONFIG, useValue: ImparConfig }
   ]
 })
 export class AppModule {}
