@@ -10,7 +10,7 @@ export interface AppConfig {
   apiDeviceId: string;
 }
 
-export const ImparConfig: AppConfig = {
+export const IMPAR_CONFIG: AppConfig = {
   apiBaseUrl: 'https://vfs.staging.vendini.com/api/v1',
   apiDeviceId: '22229C46-8813-4494-B654-BCCA4C366CB1'
 };

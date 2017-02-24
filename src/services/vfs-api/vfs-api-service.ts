@@ -16,7 +16,7 @@ import { APP_CONFIG, AppConfig } from "../../app/app.config";
 
 @Injectable()
 export class VfsApiService {
-  // API URLs
+  // API relative URLs
   private static readonly AUTH_REL_URL: string = 'auth/registration';
   private static readonly MANIFEST_REL_URL: string = 'scanning/sync';
   private static TICKETS_REL_URL: string = 'scanning/tickets?';

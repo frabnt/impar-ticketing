@@ -29,7 +29,7 @@ import { Storage } from "@ionic/storage";
 import { DBMappingService } from "../services/db-mapping/db-mapping-service";
 import { DecoratorSerDesService } from "../services/ser-des/decorator-ser-des-service";
 import { TicketsPaginationService } from "../services/tickets-pagination/tickets-pagination-service";
-import { APP_CONFIG, ImparConfig } from "./app.config";
+import { APP_CONFIG, IMPAR_CONFIG } from "./app.config";
 
 @NgModule({
   declarations: [
@@ -87,7 +87,7 @@ import { APP_CONFIG, ImparConfig } from "./app.config";
     // be using the IonicErrorHandler class for any errors
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     // app-config
-    { provide: APP_CONFIG, useValue: ImparConfig }
+    { provide: APP_CONFIG, useValue: IMPAR_CONFIG }
   ]
 })
 export class AppModule {}
