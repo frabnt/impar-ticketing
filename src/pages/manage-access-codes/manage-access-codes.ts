@@ -22,7 +22,7 @@ export class ModifyAccessCodePage {
    * @param {NavParams} navParams
    * @param {View} view
    * @param {AlertController} alertCtrl
-   * @param {LocalStorageService} localStorageService
+   * @param {Storage} storageService
    */
   constructor(private navParams: NavParams,
               private view: ViewController,

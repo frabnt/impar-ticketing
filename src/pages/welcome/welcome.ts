@@ -21,7 +21,8 @@ export class WelcomePage {
    * @constructor
    * @param {NavController} navCtrl
    * @param {Platform} platform
-   * @param {LocalStorageService} storageService
+   * @param {DatabaseService} databaseService
+   * @param {Storage} storageService
    */
   constructor(private navCtrl: NavController,
               private platform: Platform,

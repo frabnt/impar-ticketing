@@ -16,6 +16,7 @@ export class HomeTabs implements OnInit {
 
   /**
    * @constructor
+   * @param {NavParams} navParams
    */
   constructor(private navParams: NavParams) { }
 

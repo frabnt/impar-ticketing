@@ -12,6 +12,12 @@ export class TicketsPaginationService {
   // Keep track of last page from pagination info
   private lastPage: number;
 
+  /**
+   * @constructor
+   * @param {VfsApiService} vfsApiService
+   * @param {SpinnerService} spinnerService
+   * @param {DBMappingService} mappingService
+   */
   constructor(private vfsApiService: VfsApiService,
               private spinnerService: SpinnerService,
               private mappingService: DBMappingService) { }

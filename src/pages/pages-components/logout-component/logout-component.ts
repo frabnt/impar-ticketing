@@ -27,6 +27,7 @@ export class LogoutComponent {
    * @param {SpinnerService} spinnerService
    * @param {VfsApiService} vfsApiService
    * @param {DatabaseService} database
+   * @param {ExecTimeService} execTime
    */
   constructor(private app: App,
               private alertCtrl: AlertController,

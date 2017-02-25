@@ -18,7 +18,7 @@ export class TicketScanResultPage {
 
   /**
    * @constructor
-   * @param {ScanResultService} scanResultService
+   * @param {NavParams} navParams
    */
   constructor(private navParams: NavParams) {
     this.orderTransaction = navParams.get('ticket');

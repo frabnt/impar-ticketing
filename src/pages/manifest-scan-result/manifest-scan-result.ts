@@ -18,7 +18,7 @@ export class ManifestScanResultPage {
 
   /**
    * @constructor
-   * @param {ScanResultService} scanResultService
+   * @param {NavParams} navParams
    */
   constructor(private navParams: NavParams) {
     this.manifest = navParams.get('manifest');

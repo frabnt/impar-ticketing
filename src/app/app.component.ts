@@ -14,7 +14,6 @@ export class MyApp {
   /**
    * @constructor
    * @param platform
-   * @param settingsService
    */
   constructor(platform: Platform) {
     platform.ready().then(() => {

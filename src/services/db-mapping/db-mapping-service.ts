@@ -10,13 +10,18 @@ import { DatabaseService } from "../database/database-service";
 @Injectable()
 export class DBMappingService {
 
+  /**
+   * @constructor
+   * @param {ExecTimeService} execTimeService
+   * @param {DatabaseService} databaseService
+   */
   constructor(private execTimeService: ExecTimeService,
               private databaseService: DatabaseService) {}
 
   /**
    * Map manifest data in the database
    * @param manifest - the data need to be inserted
-   * @returns {Promise<TResult>} that resolves when all manifest data has been inserted
+   * @returns {Promise<any>} that resolves when all manifest data has been inserted
    */
   mapManifestData(manifest: Manifest): Promise<any> {
     let startManifest = this.execTimeService.startCounting();
@@ -102,8 +107,8 @@ export class DBMappingService {
 
   /**
    * Map tickets data in the database
-   * @param manifest - the data need to be inserted
-   * @returns {Promise<TResult>} that resolves when all tickets data has been inserted
+   * @param tickets - the data need to be inserted
+   * @returns {Promise<any>} that resolves when all tickets data has been inserted
    */
   mapTicketsData(tickets: Tickets): Promise<any> {
     let startTickets = this.execTimeService.startCounting();

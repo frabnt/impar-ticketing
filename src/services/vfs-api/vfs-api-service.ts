@@ -28,6 +28,9 @@ export class VfsApiService {
   /**
    * @constructor
    * @param {Http} http
+   * @param {DecoratorSerDesService} serDesService
+   * @param {Storage} storageService
+   * @param {AppConfig} appConfig
    */
   constructor(private http: Http,
               private serDesService: DecoratorSerDesService,

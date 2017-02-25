@@ -20,6 +20,9 @@ export class DatabaseService {
 
   /**
    * @constructor
+   * @param {MyDatabaseFactory} databaseFactory
+   * @param {DecoratorSerDesService} serDesService
+   * @param {Platform} platform
    */
   constructor(private databaseFactory: MyDatabaseFactory,
               private serDesService: DecoratorSerDesService,
@@ -35,6 +38,8 @@ export class DatabaseService {
 
   /**
    * Open the database
+   * @param dbName - the name of the database
+   * @returns {Promise<any>} that resolves once the database has been opened
    */
   openDatabase(dbName: string = DB_NAME): Promise<any> {
     return this.platform.ready()

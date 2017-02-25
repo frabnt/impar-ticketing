@@ -12,8 +12,7 @@ export class PopoverMenu {
 
   /**
    * @constructor
-   * @param {ScanResultService} scanResultService
-   * @param {View} view
+   * @param {ViewController} view
    * @param {App} app
    */
   constructor(private view: ViewController,

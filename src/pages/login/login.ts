@@ -30,12 +30,14 @@ export class LoginPage implements OnInit {
    * @param {NavController} navCtrl
    * @param {FormBuilder} builder
    * @param {ModalController} modalCtrl
-   * @param {LocalStorageService} storageService
+   * @param {Storage} storageService
    * @param {VfsApiService} vfsApiService
    * @param {SpinnerService} spinnerService
-   * @param {ExecTimeService} execTimeService
    * @param {AlertController} alertCtrl
    * @param {DatabaseService} database
+   * @param {DatabaseService} database
+   * @param {DBMappingService} mappingService
+   * @param {TicketsPaginationService} ticketsPagService
    */
   constructor(private navCtrl: NavController,
               private builder: FormBuilder,

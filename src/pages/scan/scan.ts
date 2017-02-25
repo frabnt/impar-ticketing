@@ -30,10 +30,13 @@ export class ScanPage implements OnInit {
 
   /**
    * @constructor
-   * @param {ScanResultService} scanResultService
    * @param {ExecTimeService} execTimeService
    * @param {DatabaseService} database
    * @param {FormBuilder} builder
+   * @param {AlertController} alertCtrl
+   * @param {ToastController} toastCtrl
+   * @param {SpinnerService} spinnerService
+   * @param {Platform} platform
    * @param {App} app
    */
   constructor(private execTimeService: ExecTimeService,
