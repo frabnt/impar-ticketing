@@ -1,5 +1,5 @@
 #ImPar Ticketing App
-
+[![Build Status](https://travis-ci.org/frabnt/impar-ticketing.svg?branch=master)](https://travis-ci.org/frabnt/impar-ticketing) [![codecov.io](https://codecov.io/gh/frabnt/impar-ticketing/coverage.svg?branch=master)](https://codecov.io/gh/frabnt/impar-ticketing?branch=master)
 A Ionic app implementing a parsing and importing algorithm with high performance. 
 
 #Requirements
